@@ -149,7 +149,7 @@
     private string email = string.Empty;
     private string preferredContactMethod = "Phone Call";
     private string selectedService = "Full Service Move (Truck + 2 Movers)";
-    private string? preferredStartDate;
+    private DateTime? preferredStartDate = null;
     private string message = string.Empty;
     private string botHoneypot = string.Empty;
 
@@ -171,7 +171,7 @@
             Email = email,
             PreferredContactMethod = preferredContactMethod,
             ServiceType = selectedService,
-            PreferredStartDate = preferredStartDate,
+            PreferredStartDate = preferredStartDate?.ToString("yyyy-MM-dd"),
             Message = message,
             Honeypot = botHoneypot
         };
@@ -203,6 +203,7 @@
         name = string.Empty;
         phoneNumber = string.Empty;
         email = string.Empty;
+        preferredStartDate = null;
         message = string.Empty;
         botHoneypot = string.Empty;
         isSubmitted = false;
