@@ -1,13 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Archivo+Black&display=swap');
 
 /* =========================================
    SQUARESPACE 1:1 REPLICATION THEME TOKENS
+   Exact Palette from Squarespace Site Assets:
+   --darkAccent-hsl: 0, 0%, 21.96% => #383838 (Charcoal Gray)
+   --lightAccent-hsl: 60, 4.35%, 95.49% => #f4f4f3 (Light Warm Gray)
+   --accent-hsl: 41, 100%, 50% => #f0523d / Brand Orange
+   --black-hsl: 0, 0%, 0% => #000000
    ========================================= */
 :root {
-    --brand-primary: #1f1f1f;
+    --brand-dark-accent: #383838; /* Exact shade of gray for dark-bold sections */
     --brand-accent: #f0523d;
-    --brand-surface: #2a2a2a;
-    --brand-bg: #121212;
+    --brand-light-fill: #f4f4f3;  /* Form input background fill */
     --font-heading: 'Archivo Black', sans-serif;
     --font-body: 'Archivo', sans-serif;
 }
@@ -33,8 +37,8 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     text-transform: uppercase;
     font-weight: 900;
-    letter-spacing: -0.01em;
-    line-height: 1.15;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 a {
@@ -48,15 +52,15 @@ a {
    ========================================= */
 .sqsp-header {
     background: #000000;
-    padding: 1.25rem 2.5rem;
+    padding: 1.25rem 3vw;
     position: sticky;
     top: 0;
     z-index: 999;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sqsp-header-inner {
-    max-width: 1350px;
+    max-width: 1500px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -68,7 +72,7 @@ a {
 }
 
 .sqsp-logo-img {
-    height: 58px;
+    height: 55px;
     width: auto;
     display: block;
 }
@@ -86,7 +90,7 @@ a {
     width: 24px;
     height: 24px;
     color: #ffffff;
-    opacity: 0.85;
+    opacity: 0.9;
     transition: opacity 0.2s, transform 0.2s;
 }
 
@@ -100,10 +104,10 @@ a {
     background: var(--brand-accent);
     color: #ffffff;
     text-transform: uppercase;
-    padding: 0.85rem 1.85rem;
-    font-size: 0.9rem;
+    padding: 0.9rem 2rem;
+    font-size: 0.95rem;
     font-weight: 900;
-    letter-spacing: 0.05em;
+    letter-spacing: -0.01em;
     border: 2px solid var(--brand-accent);
     cursor: pointer;
     display: inline-block;
@@ -121,10 +125,10 @@ a {
     background: transparent;
     color: #ffffff;
     text-transform: uppercase;
-    padding: 0.85rem 1.85rem;
-    font-size: 0.9rem;
+    padding: 0.9rem 2rem;
+    font-size: 0.95rem;
     font-weight: 900;
-    letter-spacing: 0.05em;
+    letter-spacing: -0.01em;
     border: 2px solid #ffffff;
     cursor: pointer;
     display: inline-block;
@@ -139,8 +143,8 @@ a {
 
 .sqsp-nav-link {
     font-family: var(--font-heading);
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
+    font-size: 0.95rem;
+    letter-spacing: -0.01em;
     text-transform: uppercase;
     color: #ffffff;
     padding: 0.5rem 0.25rem;
@@ -158,8 +162,8 @@ a {
     background: #000000;
     color: #ffffff;
     padding: 1.25rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     white-space: nowrap;
 }
 
@@ -170,9 +174,9 @@ a {
 
 .marquee-item {
     font-family: var(--font-heading);
-    font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+    font-size: clamp(1.2rem, 2.5vw, 1.85rem);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: -0.01em;
     padding-right: 2rem;
 }
 
@@ -182,104 +186,187 @@ a {
 }
 
 /* =========================================
-   SECTIONS & THEMES (SQUARESPACE FLUID LOOK)
+   SECTIONS & THEMES (SQUARESPACE 1:1 TOKENS)
    ========================================= */
+.container-wide {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding-left: clamp(1.5rem, 4vw, 4rem);
+    padding-right: clamp(1.5rem, 4vw, 4rem);
+}
+
+/* Section 1: Hero (Black theme) */
 .sec-hero {
     position: relative;
-    padding: 7rem 2rem 5rem;
+    padding: clamp(5rem, 10vw, 8rem) 1.5rem clamp(4rem, 8vw, 6rem);
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.85)), url('../images/forged-labor-moving-services.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), url('../images/forged-labor-moving-services.jpg') center 15%/cover no-repeat;
+    background-color: #000000;
     border-bottom: 4px solid var(--brand-accent);
 }
 
+/* Section 2 & 6: Dark-Bold (Charcoal Gray #383838) */
 .sec-dark-bold {
-    background-color: #1f1f1f;
+    background-color: var(--brand-dark-accent); /* #383838 shade of gray */
     color: #ffffff;
-    padding: 5rem 2rem;
+    padding: clamp(4rem, 6vw, 6rem) 0;
 }
 
+/* Section 3: White */
 .sec-white {
     background-color: #ffffff;
     color: #000000;
-    padding: 5rem 2rem;
+    padding: clamp(4rem, 6vw, 6rem) 0;
 }
 
+/* Section 4: Bright-Inverse (Orange) */
 .sec-bright-inverse {
     background-color: var(--brand-accent);
     color: #ffffff;
-    padding: 4.5rem 2rem;
+    padding: clamp(3.5rem, 5vw, 5rem) 1.5rem;
     text-align: center;
 }
 
+/* Section 5: Bright (Light gray #f4f4f3) */
 .sec-bright {
-    background-color: #f6f6f6;
-    color: #1a1a1a;
-    padding: 5rem 2rem;
+    background-color: #f4f4f3;
+    color: #111111;
+    padding: clamp(4rem, 6vw, 6rem) 0;
 }
 
+/* Section 7: Black-Bold (Footer) */
 .sec-black-bold {
     background-color: #000000;
     color: #ffffff;
-    padding: 4.5rem 2rem 2.5rem;
+    padding: 5rem 1.5rem 3rem;
     text-align: center;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.container-wide {
-    max-width: 1250px;
-    margin: 0 auto;
-}
-
+/* 2-Column Desktop Grid with Fluid Alignment */
 .grid-2col {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    grid-template-columns: repeat(24, 1fr);
+    gap: 1.5rem;
     align-items: center;
+}
+
+/* Section 2 Column Split (Image Left cols 1-11, Text Right cols 13-24) */
+.sec2-img-col {
+    grid-column: 1 / span 11;
+}
+
+.sec2-text-col {
+    grid-column: 13 / span 12;
+}
+
+/* Section 3 Column Split (Text Left cols 1-12, Image Right cols 14-24) */
+.sec3-text-col {
+    grid-column: 1 / span 12;
+}
+
+.sec3-img-col {
+    grid-column: 14 / span 11;
+}
+
+/* Section 6 Column Split (Image Left cols 2-11, Form/Heading Right cols 13-24) */
+.sec6-img-col {
+    grid-column: 2 / span 10;
+}
+
+.sec6-form-col {
+    grid-column: 13 / span 12;
 }
 
 @media (max-width: 900px) {
     .grid-2col {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 2.5rem;
     }
-    .sqsp-header {
-        padding: 1rem 1.5rem;
+    .sec2-img-col, .sec2-text-col,
+    .sec3-text-col, .sec3-img-col,
+    .sec6-img-col, .sec6-form-col {
+        width: 100%;
+        grid-column: auto;
     }
+    /* Mobile order matching Squarespace */
+    .sec2-mobile-reverse {
+        display: flex;
+        flex-direction: column;
+    }
+    .sec2-mobile-reverse .sec2-text-col {
+        order: 1;
+    }
+    .sec2-mobile-reverse .sec2-img-col {
+        order: 2;
+    }
+    .sec3-mobile-flow {
+        display: flex;
+        flex-direction: column;
+    }
+    .sec3-mobile-flow .sec3-img-col {
+        order: 1;
+    }
+    .sec3-mobile-flow .sec3-text-col {
+        order: 2;
+    }
+    .sec6-mobile-flow {
+        display: flex;
+        flex-direction: column;
+    }
+    .sec6-mobile-flow .sec6-form-col {
+        order: 1;
+    }
+    .sec6-mobile-flow .sec6-img-col {
+        order: 2;
+    }
+}
+
+/* Clean Unbordered Images matching Squarespace Fluid Engine */
+.sqsp-clean-img {
+    width: 100%;
+    height: auto;
+    max-height: 680px;
+    display: block;
+    object-fit: contain;
+    object-position: top center; /* NEVER cut off heads or faces */
+    border-radius: 0px;
+    box-shadow: none;
 }
 
 /* Accordion in Section 3 */
 .accordion-item {
-    border-top: 2px solid #000000;
+    border-top: 1px solid #000000;
     padding: 1.25rem 0;
 }
 
 .accordion-item:last-child {
-    border-bottom: 2px solid #000000;
+    border-bottom: 1px solid #000000;
 }
 
 .accordion-title {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     text-transform: uppercase;
+    letter-spacing: -0.01em;
     margin-bottom: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    color: #000000;
 }
 
 .accordion-desc {
     font-size: 1rem;
     line-height: 1.6;
-    color: #333333;
+    color: #222222;
 }
 
-/* Form Styling in Section 6 */
+/* Form Styling in Section 6 matching Squarespace dark-bold form */
 .sqsp-form-input {
     width: 100%;
     padding: 0.85rem 1rem;
-    background: #111111;
-    border: 1px solid #383838;
-    color: #ffffff;
+    background: var(--brand-light-fill); /* #f4f4f3 light fill */
+    border: 1px solid #000000;
+    color: #000000;
     font-family: var(--font-body);
     font-size: 1rem;
     margin-bottom: 1.1rem;
@@ -289,14 +376,35 @@ a {
 
 .sqsp-form-input:focus {
     border-color: var(--brand-accent);
+    outline: 2px solid var(--brand-accent);
 }
 
 .sqsp-form-label {
     display: block;
     font-family: var(--font-heading);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.35rem;
-    color: #e4e4e7;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+    color: #ffffff;
+}
+
+.sqsp-form-submit-btn {
+    font-family: var(--font-heading);
+    background: #000000;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+    border: 2px solid #000000;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 0px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sqsp-form-submit-btn:hover {
+    background: #ffffff;
+    color: #000000;
 }

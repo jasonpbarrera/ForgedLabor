@@ -11,3 +11,5 @@ local.settings.json
 .env.local
 
 __pycache__/
+api_output/
+publish_output/
