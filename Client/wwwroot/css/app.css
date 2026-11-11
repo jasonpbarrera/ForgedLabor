@@ -238,9 +238,51 @@ a {
 .sec-black-bold {
     background-color: #000000;
     color: #ffffff;
-    padding: 5rem 1.5rem 3rem;
-    text-align: center;
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Footer 24-Column Grid matching Squarespace Fluid Engine */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.footer-info-col {
+    grid-column: 2 / span 9;
+    text-align: left;
+}
+
+.footer-map-col {
+    grid-column: 11 / span 14;
+}
+
+.footer-logo-img {
+    max-height: 110px;
+    width: auto;
+    display: block;
+}
+
+.footer-social-row {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+}
+
+.footer-map-wrapper {
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    border-radius: 0;
+}
+
+.footer-map-wrapper iframe {
+    width: 100%;
+    height: 450px;
+    border: 0;
+    display: block;
 }
 
 /* 2-Column Desktop Grid with Fluid Alignment */
@@ -320,6 +362,29 @@ a {
     }
     .sec6-mobile-flow .sec6-img-col {
         order: 2;
+    }
+    /* Mobile Footer */
+    .footer-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+    .footer-info-col,
+    .footer-map-col {
+        width: 100%;
+        grid-column: auto;
+    }
+    .footer-info-col {
+        text-align: center;
+    }
+    .footer-logo-img {
+        margin: 0 auto;
+    }
+    .footer-social-row {
+        justify-content: center;
+    }
+    .footer-map-wrapper iframe {
+        height: 350px;
     }
 }
 
