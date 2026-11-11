@@ -1,0 +1,9 @@
+{
+  "platform": {
+    "apiRuntime": "dotnet-isolated:10.0"
+  },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/images/*", "/css/*", "/sitemap.xml", "/robots.txt", "/*.txt", "/*.ico", "/*.png", "/*.webmanifest"]
+  }
+}

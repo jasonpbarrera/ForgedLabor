@@ -1,0 +1,99 @@
+.services-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    color: var(--brand-primary);
+}
+
+.services-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+    .services-header h1 {
+        font-size: 2.5rem;
+        color: var(--brand-primary);
+        margin-bottom: 1rem;
+    }
+
+.lead-text {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.service-card {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid var(--brand-accent);
+    transition: transform 0.3s ease;
+}
+
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+
+.service-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.service-card h3 {
+    color: var(--brand-primary);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.community-section {
+    text-align: center;
+    background-color: var(--brand-surface);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 4rem;
+}
+
+    .community-section h2 {
+        font-size: 2rem;
+        color: var(--brand-primary);
+        margin-bottom: 1rem;
+    }
+
+.hiring-banner {
+    background-color: var(--white);
+    border: 2px dashed var(--brand-accent);
+    border-radius: 12px;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+    .hiring-banner h2 {
+        font-family: var(--font-heading);
+        color: var(--brand-accent);
+        font-size: 2.5rem;
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .hiring-banner p {
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto 2rem auto;
+    }
+
+.hiring-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}

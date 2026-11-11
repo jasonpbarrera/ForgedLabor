@@ -1,0 +1,21 @@
+{
+  "name": "Forged Labor",
+  "short_name": "Forged Labor",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#121214",
+  "theme_color": "#1c1c1e",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ]
+}

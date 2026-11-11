@@ -1,0 +1,274 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* =========================================
+   CSS VARIABLES (Semantic Brand Tokens)
+   Note: Overridden dynamically by ThemeSettings in appsettings.json via MainLayout.razor
+   ========================================= */
+:root {
+    --brand-primary: #5c3a46;
+    --brand-accent: #f28c9f;
+    --brand-surface: #fbebf0;
+    --brand-bg: #fffafb;
+    --white: #ffffff;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Lato', sans-serif;
+}
+
+/* =========================================
+   BASE STYLES
+   ========================================= */
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--brand-primary);
+    background-color: var(--brand-bg);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+a {
+    color: var(--brand-accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    a:hover {
+        color: var(--brand-primary);
+    }
+
+/* =========================================
+   LAYOUT STRUCTURE
+   ========================================= */
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: var(--brand-primary);
+    background-color: var(--brand-bg);
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER & NAVIGATION
+   ========================================= */
+.site-header {
+    background-color: var(--white);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-top-bar {
+    background-color: var(--brand-primary);
+    color: var(--brand-surface);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    padding: 0.4rem 2rem;
+    font-size: 0.85rem;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.brand-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.brand-name {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--brand-primary);
+    font-weight: 600;
+}
+
+.brand-tagline {
+    font-size: 0.85rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.main-navigation {
+    display: flex;
+    gap: 1.5rem;
+}
+
+    .main-navigation a {
+        color: var(--brand-primary);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        padding-bottom: 0.25rem;
+        border-bottom: 2px solid transparent;
+    }
+
+        .main-navigation a.active,
+        .main-navigation a:hover {
+            color: var(--brand-accent);
+            border-bottom: 2px solid var(--brand-accent);
+        }
+
+/* =========================================
+   GLOBAL BUTTONS
+   ========================================= */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--brand-accent);
+    color: var(--white);
+    border: 2px solid var(--brand-accent);
+}
+
+    .btn-primary:hover {
+        background-color: var(--brand-primary);
+        border-color: var(--brand-primary);
+        color: var(--white);
+    }
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--brand-primary);
+    border: 2px solid var(--brand-primary);
+}
+
+    .btn-secondary:hover {
+        background-color: var(--brand-primary);
+        color: var(--white);
+    }
+
+/* =========================================
+   FOOTER
+   ========================================= */
+.site-footer {
+    background-color: var(--brand-surface);
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 3rem 2rem 1rem 2rem;
+    margin-top: auto;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-brand h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.footer-contact p,
+.footer-contact a {
+    color: var(--brand-primary);
+    margin: 0.25rem 0;
+    display: block;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 1rem;
+    max-width: 1200px;
+    margin: 1rem auto 0 auto;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--brand-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* =========================================
+   RESPONSIVE MOBILE HEADER ADJUSTMENTS
+   ========================================= */
+@media (max-width: 768px) {
+    .header-top-bar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.25rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        gap: 0.75rem;
+    }
+
+    .brand-container {
+        align-items: center;
+        text-align: center;
+    }
+
+    .main-navigation {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+        .main-navigation a {
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+}

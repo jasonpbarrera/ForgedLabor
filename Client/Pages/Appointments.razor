@@ -1,0 +1,197 @@
+@page "/appointments"
+@inject IOptions<BusinessSettings> BusinessConfig
+@inject IOptions<ThemeSettings> ThemeConfig
+@inject HttpClient Http
+
+<PageTitle>Schedule a Consultation | @BusinessConfig.Value.CompanyName</PageTitle>
+
+<section class="appointments-hero" style="background: linear-gradient(135deg, #18181b 0%, #09090b 100%); color: #ffffff; padding: 4rem 1.5rem; border-bottom: 2px solid var(--brand-accent);">
+    <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+        <span style="display: inline-block; background: rgba(240, 82, 61, 0.15); color: var(--brand-accent); padding: 0.35rem 1rem; border-radius: 9999px; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; border: 1px solid rgba(240, 82, 61, 0.3);">
+            Cleveland, TN Moving Specialists
+        </span>
+        <h1 style="font-size: 2.75rem; font-weight: 800; line-height: 1.15; margin-bottom: 1rem; letter-spacing: -0.02em;">
+            Schedule a Consultation
+        </h1>
+        <p style="font-size: 1.15rem; color: #a1a1aa; max-width: 720px; margin: 0 auto 2rem; line-height: 1.6;">
+            A preliminary discussion enables our team to evaluate your move scope, identify any constraints, review heavy items, and propose a tailored relocation blueprint.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="tel:@BusinessConfig.Value.PhoneNumber" style="background: var(--brand-accent); color: #ffffff; padding: 0.85rem 1.75rem; border-radius: 6px; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 14px rgba(240, 82, 61, 0.4);">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+                <span>Call Ben Directly: @BusinessConfig.Value.PhoneNumber</span>
+            </a>
+            <a href="#quick-booking" style="background: #27272a; color: #f4f4f5; padding: 0.85rem 1.75rem; border-radius: 6px; font-weight: 600; text-decoration: none; border: 1px solid #3f3f46;">
+                Book Online Below ↓
+            </a>
+        </div>
+    </div>
+</section>
+
+<div style="max-width: 1100px; margin: 3rem auto; padding: 0 1.5rem;" id="quick-booking">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; align-items: start;">
+        
+        <!-- Booking & Intake Form -->
+        <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            <div style="border-bottom: 1px solid #27272a; padding-bottom: 1rem; margin-bottom: 1.5rem;">
+                <h2 style="color: #ffffff; font-size: 1.4rem; font-weight: 700; margin: 0 0 0.4rem;">Fast Consultation Request</h2>
+                <p style="color: #a1a1aa; font-size: 0.9rem; margin: 0;">Tell us about your upcoming move and preferred time window.</p>
+            </div>
+
+            @if (isSuccess)
+            {
+                <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; padding: 1.25rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <h4 style="margin: 0 0 0.5rem; font-weight: 700;">✓ Consultation Request Received!</h4>
+                    <p style="margin: 0; font-size: 0.95rem;">Thanks @request.Name! Ben Wiseman will contact you shortly to confirm the appointment.</p>
+                </div>
+            }
+            else
+            {
+                <EditForm Model="@request" OnValidSubmit="HandleSubmit">
+                    <!-- Honeypot -->
+                    <input type="text" @bind="request.Honeypot" style="display:none;" tabindex="-1" autocomplete="off" />
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; font-size: 0.9rem;">
+                            @errorMessage
+                        </div>
+                    }
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Your Full Name *</label>
+                        <input type="text" required @bind="request.Name" placeholder="e.g. John Smith" 
+                               style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+                        <div>
+                            <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Phone Number *</label>
+                            <input type="tel" required @bind="request.Phone" placeholder="(423) 000-0000" 
+                                   style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                        </div>
+                        <div>
+                            <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Email Address *</label>
+                            <input type="email" required @bind="request.Email" placeholder="you@domain.com" 
+                                   style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Service Needed</label>
+                        <select @bind="request.ServiceType" style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;">
+                            <option value="Free Consultation">Free 30-Minute Consultation</option>
+                            <option value="Full Service Move">Full Service Move (Truck + 2 Movers)</option>
+                            <option value="Labor-Only Movers">Labor-Only Movers (Load / Unload)</option>
+                            <option value="Store Pickup & Delivery">Store Pickup & Delivery</option>
+                            <option value="Heavy Fitness Equipment">Heavy Duty / Fitness Equipment</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Preferred Date</label>
+                        <input type="date" @bind="request.PreferredStartDate" 
+                               style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Move Details & Special Notes</label>
+                        <textarea rows="3" @bind="request.Message" placeholder="Approximate home size, stairs, heavy pieces (gym gear, safes), or special timing..." 
+                                  style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem; resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" disabled="@isSubmitting" 
+                            style="width: 100%; padding: 0.85rem; background: var(--brand-accent); color: #ffffff; font-weight: 700; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: opacity 0.2s;">
+                        @(isSubmitting ? "Submitting..." : "Request Consultation")
+                    </button>
+                </EditForm>
+            }
+        </div>
+
+        <!-- Right Side: Acuity Embed / Direct Calendar + Business Info -->
+        <div>
+            <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 700; margin-top: 0; margin-bottom: 0.75rem;">
+                    Instant Online Calendar
+                </h3>
+                <p style="color: #a1a1aa; font-size: 0.95rem; line-height: 1.5; margin-bottom: 1.25rem;">
+                    Prefer to pick an exact open slot on Ben's schedule directly? You can access our interactive booking calendar:
+                </p>
+                <a href="https://blueprintcatalogen.as.me/" target="_blank" rel="noopener" 
+                   style="display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 0.85rem; background: #27272a; color: #ffffff; border: 1px solid #3f3f46; border-radius: 6px; font-weight: 600; text-decoration: none; gap: 0.5rem;">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                    <span>Open Live Booking Calendar ↗</span>
+                </a>
+            </div>
+
+            <!-- Cleveland Location & Hours Card -->
+            <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 2rem;">
+                <h3 style="color: #ffffff; font-size: 1.25rem; font-weight: 700; margin-top: 0; margin-bottom: 1rem;">
+                    Headquarters & Service Area
+                </h3>
+                <div style="color: #d4d4d8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">
+                    <p style="margin: 0 0 0.5rem; display: flex; align-items: flex-start; gap: 0.5rem;">
+                        <svg width="18" height="18" fill="var(--brand-accent)" viewBox="0 0 24 24" style="flex-shrink:0; margin-top: 2px;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        <span><strong>Address:</strong> 126 Bernham Drive, Suite 4, Cleveland, TN 37312</span>
+                    </p>
+                    <p style="margin: 0 0 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="18" height="18" fill="var(--brand-accent)" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+                        <span><strong>Direct Phone:</strong> <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: var(--brand-accent); text-decoration: none;">@BusinessConfig.Value.PhoneNumber</a></span>
+                    </p>
+                    <p style="margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <svg width="18" height="18" fill="var(--brand-accent)" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h2v2h-2zm0-10h2v8h-2z"/></svg>
+                        <span><strong>Coverage:</strong> Cleveland, Chattanooga & Southeast Tennessee</span>
+                    </p>
+                </div>
+
+                <!-- Google Maps Embed -->
+                <div style="border-radius: 8px; overflow: hidden; margin-top: 1.25rem; border: 1px solid #27272a;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3259.7551307340777!2d-84.8754022120821!3d35.212567885306754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c57cdc5651611b%3A0xcf2155a126ec792f!2sForged%20Labor!5e0!3m2!1sen!2sus!4v1777345982915!5m2!1sen!2sus" 
+                            width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Forged Labor Google Map"></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@code {
+    private LeadSubmissionRequest request = new()
+    {
+        BusinessId = "forged-labor",
+        CompanyName = "Forged Labor",
+        PreferredContactMethod = "Phone Call",
+        ServiceType = "Free Consultation"
+    };
+
+    private bool isSubmitting = false;
+    private bool isSuccess = false;
+    private string? errorMessage;
+
+    private async Task HandleSubmit()
+    {
+        isSubmitting = true;
+        errorMessage = null;
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("/api/leads", request);
+            if (response.IsSuccessStatusCode)
+            {
+                isSuccess = true;
+            }
+            else
+            {
+                errorMessage = "We were unable to submit your request. Please call Ben at (423) 715-4254.";
+            }
+        }
+        catch (Exception)
+        {
+            errorMessage = "Unable to connect to the scheduling service. Please call (423) 715-4254 directly.";
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

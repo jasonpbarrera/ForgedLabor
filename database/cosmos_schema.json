@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "databaseName": "SmallBusinessPlatform",
+  "sharedThroughputRu": 1000,
+  "freeTierEnabled": true,
+  "containers": [
+    {
+      "name": "clients",
+      "partitionKey": "/businessId",
+      "description": "Master registry of small business clients, onboarding status, hosting/DNS links, billing plan tier, and full appsettings.json site configuration snapshot.",
+      "sampleDocument": {
+        "id": "acme-local-services",
+        "businessId": "acme-local-services",
+        "companyName": "Acme Local Services LLC",
+        "shortName": "Acme Services",
+        "ownerName": "Alex Morgan",
+        "ownerGmail": "owner@gmail.com",
+        "primaryEmail": "info@example-business.com",
+        "adminEmail": "admin@example-business.com",
+        "leadNotificationEmail": "info@example-business.com",
+        "phone": "(555) 234-5678",
+        "city": "Springfield",
+        "state": "TN",
+        "domain": "example-business.com",
+        "isActive": true,
+        "onboardingStatus": "live",
+        "infrastructure": {
+          "githubRepo": "jasonpbarrera/AcmeLocalServices",
+          "azureStaticWebAppName": "swa-acme-local-services",
+          "azureStaticWebAppHostname": "swa-acme-local-services.azurestaticapps.net",
+          "cloudflareZoneId": "",
+          "cloudflareEmailRoutingEnabled": true,
+          "brevoDomainVerified": true
+        },
+        "billingSummary": {
+          "planName": "Free Community Tier",
+          "monthlyRateUsd": 0.0,
+          "customWorkHourlyRateUsd": 75.0,
+          "domainRenewalResponsibility": "client"
+        },
+        "createdAt": "2026-11-08T00:00:00Z",
+        "updatedAt": "2026-11-08T00:00:00Z"
+      }
+    },
+    {
+      "name": "leads",
+      "partitionKey": "/businessId",
+      "description": "Multi-tenant customer inquiries submitted via POST /api/leads across all client websites.",
+      "sampleDocument": {
+        "id": "9f8c6d12-3b45-4c89-9123-abcdef012345",
+        "businessId": "acme-local-services",
+        "createdAt": "2026-11-08T18:15:00Z",
+        "name": "Jane Doe",
+        "email": "jane@example.com",
+        "phone": "(555) 555-0199",
+        "preferredContactMethod": "Phone Call",
+        "serviceType": "Standard Service",
+        "preferredStartDate": "2026-11-15",
+        "message": "Looking for a quote on seasonal property maintenance.",
+        "status": "new"
+      }
+    },
+    {
+      "name": "billing",
+      "partitionKey": "/businessId",
+      "description": "Tracks client service charges, custom development work, domain/hosting renewals, and invoice status for your Agency Portal.",
+      "sampleDocument": {
+        "id": "inv-2026-001",
+        "businessId": "acme-local-services",
+        "createdAt": "2026-11-08T18:15:00Z",
+        "type": "custom_work",
+        "title": "Initial Website Launch & Custom Domain Setup",
+        "description": "Configured Blazor PWA, custom branding, Cloudflare Email Routing, and Brevo SMTP.",
+        "hours": 1.0,
+        "amountUsd": 0.0,
+        "billingCycle": "one-time",
+        "status": "waived",
+        "dueDate": null,
+        "paidAt": "2026-11-08T18:15:00Z",
+        "notes": "Complimentary launch package."
+      }
+    }
+  ]
+}

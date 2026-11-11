@@ -1,0 +1,97 @@
+@page "/services"
+@inject IOptions<BusinessSettings> BusinessConfig
+@inject IOptions<ServicesPageSettings> ServicesConfig
+@inject IOptions<ThemeSettings> ThemeConfig
+
+<PageTitle>Services | @BusinessConfig.Value.ShortName</PageTitle>
+
+<section style="background: linear-gradient(135deg, #18181b 0%, #09090b 100%); color: #ffffff; padding: 4rem 1.5rem; border-bottom: 2px solid var(--brand-accent); text-align: center;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <span style="display: inline-block; background: rgba(240, 82, 61, 0.15); color: var(--brand-accent); padding: 0.35rem 1rem; border-radius: 9999px; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; border: 1px solid rgba(240, 82, 61, 0.3);">
+            Cleveland, TN Moving Capabilities
+        </span>
+        <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase; margin: 0 0 1rem;">
+            @ServicesConfig.Value.Heading
+        </h1>
+        <p style="font-size: 1.15rem; color: #a1a1aa; max-width: 720px; margin: 0 auto; line-height: 1.6;">
+            @ServicesConfig.Value.LeadText
+        </p>
+    </div>
+</section>
+
+<div style="max-width: 1200px; margin: 4rem auto; padding: 0 1.5rem;">
+    <!-- Core Services Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+        @foreach (var service in ServicesConfig.Value.Services)
+        {
+            <div style="background: #18181b; border: 1px solid #27272a; border-radius: 10px; padding: 2.25rem 2rem; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <div style="font-size: 2.5rem; margin-bottom: 1.25rem;">@service.Icon</div>
+                    <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin: 0 0 1rem; text-transform: uppercase;">
+                        @service.Title
+                    </h3>
+                    <p style="color: #a1a1aa; font-size: 0.95rem; line-height: 1.6; margin: 0 0 1.5rem;">
+                        @service.Description
+                    </p>
+                </div>
+                <div>
+                    <a href="/appointments" style="display: inline-flex; align-items: center; gap: 0.4rem; background: var(--brand-accent); color: #ffffff; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 700; font-size: 0.9rem; text-decoration: none;">
+                        <span>Schedule Service</span>
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/></svg>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Insurance & Equipment Spotlight Card -->
+    <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 2.5rem; margin-bottom: 4rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; align-items: center;">
+        <div>
+            <span style="color: var(--brand-accent); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.5rem;">
+                Peace of Mind Guarantee
+            </span>
+            <h2 style="color: #ffffff; font-size: 2rem; font-weight: 800; text-transform: uppercase; margin: 0 0 1rem;">
+                @ServicesConfig.Value.SpotlightHeading
+            </h2>
+            <p style="color: #a1a1aa; font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                @ServicesConfig.Value.SpotlightText
+            </p>
+            <ul style="color: #d4d4d8; font-size: 0.95rem; line-height: 1.8; padding-left: 1.25rem; margin: 0 0 1.5rem;">
+                <li>Commercial furniture blankets & custom wrapping</li>
+                <li>Heavy-duty ratchets, hand trucks, & four-wheel dollies</li>
+                <li>Tight truck loading technique to prevent shift during transit</li>
+                <li>No hidden fuel fees, surprise taxes, or extra stairs surcharges</li>
+            </ul>
+            <a href="/appointments" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--brand-accent); font-weight: 700; text-decoration: none;">
+                <span>Schedule a 30-Minute Consultation →</span>
+            </a>
+        </div>
+
+        <div>
+            <div style="border-radius: 10px; overflow: hidden; border: 2px solid #27272a;">
+                <img src="images/forged-labor-moving-services.jpg" alt="Forged Labor Equipment and Moving Truck" style="width: 100%; height: auto; display: block;" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Hiring Banner -->
+    @if (ServicesConfig.Value.ShowHiringBanner)
+    {
+        <div style="background: linear-gradient(135deg, #1f1f23 0%, #121214 100%); border: 1px solid #27272a; border-radius: 12px; padding: 2.5rem; text-align: center;">
+            <h2 style="color: #ffffff; font-size: 1.85rem; font-weight: 800; text-transform: uppercase; margin: 0 0 0.75rem;">
+                @ServicesConfig.Value.HiringHeading
+            </h2>
+            <p style="color: #a1a1aa; font-size: 1rem; max-width: 620px; margin: 0 auto 1.75rem; line-height: 1.6;">
+                @ServicesConfig.Value.HiringText
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="tel:@BusinessConfig.Value.PhoneNumber" style="background: var(--brand-accent); color: #ffffff; padding: 0.75rem 1.75rem; border-radius: 6px; font-weight: 700; text-decoration: none;">
+                    Call to Inquire: (423) 715-4254
+                </a>
+                <a href="mailto:@BusinessConfig.Value.AdminEmail" style="background: #27272a; color: #ffffff; padding: 0.75rem 1.75rem; border-radius: 6px; font-weight: 700; text-decoration: none; border: 1px solid #3f3f46;">
+                    Email Resume / Info
+                </a>
+            </div>
+        </div>
+    }
+</div>

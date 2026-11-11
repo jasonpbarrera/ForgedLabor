@@ -1,0 +1,211 @@
+@page "/contact"
+@inject IOptions<BusinessSettings> BusinessConfig
+@inject IOptions<ContactPageSettings> ContactConfig
+@inject HttpClient Http
+
+<PageTitle>Contact & Inquiries | @BusinessConfig.Value.ShortName</PageTitle>
+
+<section style="background: linear-gradient(135deg, #18181b 0%, #09090b 100%); color: #ffffff; padding: 4rem 1.5rem; border-bottom: 2px solid var(--brand-accent); text-align: center;">
+    <div style="max-width: 900px; margin: 0 auto;">
+        <span style="display: inline-block; background: rgba(240, 82, 61, 0.15); color: var(--brand-accent); padding: 0.35rem 1rem; border-radius: 9999px; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; border: 1px solid rgba(240, 82, 61, 0.3);">
+            Fast Response Moving Intake
+        </span>
+        <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; text-transform: uppercase; margin: 0 0 1rem;">
+            @ContactConfig.Value.Heading
+        </h1>
+        <p style="font-size: 1.15rem; color: #a1a1aa; max-width: 720px; margin: 0 auto; line-height: 1.6;">
+            @ContactConfig.Value.LeadText
+        </p>
+    </div>
+</section>
+
+<div style="max-width: 1150px; margin: 4rem auto; padding: 0 1.5rem;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; align-items: start;">
+        
+        <!-- Left Side: Contact Info & Cleveland Headquarters -->
+        <div>
+            <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="color: #ffffff; font-size: 1.35rem; font-weight: 800; margin-top: 0; margin-bottom: 1.25rem; text-transform: uppercase;">
+                    Get In Touch With Ben
+                </h3>
+                
+                <div style="margin-bottom: 1.25rem;">
+                    <strong style="color: #a1a1aa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.25rem;">Direct Phone</strong>
+                    <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: var(--brand-accent); font-size: 1.25rem; font-weight: 800; text-decoration: none;">
+                        @BusinessConfig.Value.PhoneNumber
+                    </a>
+                </div>
+
+                <div style="margin-bottom: 1.25rem;">
+                    <strong style="color: #a1a1aa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.25rem;">Email</strong>
+                    <a href="mailto:@BusinessConfig.Value.PrimaryEmail" style="color: #ffffff; font-size: 1rem; text-decoration: none;">
+                        @BusinessConfig.Value.PrimaryEmail
+                    </a>
+                </div>
+
+                <div style="margin-bottom: 1.25rem;">
+                    <strong style="color: #a1a1aa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.25rem;">Office & Warehouse</strong>
+                    <p style="color: #d4d4d8; margin: 0; font-size: 0.95rem; line-height: 1.5;">
+                        126 Bernham Drive, Suite 4<br />
+                        Cleveland, TN 37312
+                    </p>
+                </div>
+
+                <div>
+                    <strong style="color: #a1a1aa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 0.25rem;">Operating Hours</strong>
+                    <p style="color: #d4d4d8; margin: 0; font-size: 0.95rem;">
+                        Monday – Saturday: 7:00 AM – 7:00 PM<br />
+                        Sunday: By Appointment
+                    </p>
+                </div>
+            </div>
+
+            <!-- Google Map Embed -->
+            <div style="border-radius: 12px; overflow: hidden; border: 1px solid #27272a;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3259.7551307340777!2d-84.8754022120821!3d35.212567885306754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c57cdc5651611b%3A0xcf2155a126ec792f!2sForged%20Labor!5e0!3m2!1sen!2sus!4v1777345982915!5m2!1sen!2sus" 
+                        width="100%" height="260" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Forged Labor Headquarters"></iframe>
+            </div>
+        </div>
+
+        <!-- Right Side: Intake Form -->
+        <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 2.25rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+            @if (isSubmitted)
+            {
+                <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; padding: 1.5rem; border-radius: 8px;">
+                    <h3 style="margin-top: 0; font-weight: 800;">✓ Message Received!</h3>
+                    <p style="margin-bottom: 1.25rem; font-size: 0.95rem;">Thank you! Your inquiry was delivered directly to Ben Wiseman. We will contact you shortly.</p>
+                    <button @onclick="ResetForm" style="background: #27272a; color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 6px; border: 1px solid #3f3f46; cursor: pointer;">
+                        Send Another Inquiry
+                    </button>
+                </div>
+            }
+            else
+            {
+                <form @onsubmit="SubmitForm">
+                    <!-- Bot Protection Honeypot -->
+                    <input type="text" @bind="botHoneypot" style="display:none;" tabindex="-1" autocomplete="off" />
+
+                    @if (!string.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1.25rem; font-size: 0.9rem;">
+                            @errorMessage
+                        </div>
+                    }
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Full Name *</label>
+                        <input type="text" required @bind="name" placeholder="John Smith" 
+                               style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
+                        <div>
+                            <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Phone *</label>
+                            <input type="tel" required @bind="phoneNumber" placeholder="(423) 000-0000" 
+                                   style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                        </div>
+                        <div>
+                            <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Email *</label>
+                            <input type="email" required @bind="email" placeholder="you@example.com" 
+                                   style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Service Needed</label>
+                        <select @bind="selectedService" style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;">
+                            @foreach (var opt in ContactConfig.Value.ServiceOptions)
+                            {
+                                <option value="@opt">@opt</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Preferred Move Date</label>
+                        <input type="date" @bind="preferredStartDate" 
+                               style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem;" />
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; color: #e4e4e7; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Questions or Move Details</label>
+                        <textarea rows="4" @bind="message" placeholder="Details about origin, destination, heavy items, stairs, or timing..." 
+                                  style="width: 100%; padding: 0.75rem; background: #09090b; border: 1px solid #3f3f46; border-radius: 6px; color: #ffffff; font-size: 0.95rem; resize: vertical;"></textarea>
+                    </div>
+
+                    <button type="submit" disabled="@isSubmitting" 
+                            style="width: 100%; padding: 0.85rem; background: var(--brand-accent); color: #ffffff; font-weight: 700; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer;">
+                        @(isSubmitting ? "Sending..." : "Submit Inquiry")
+                    </button>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string name = string.Empty;
+    private string phoneNumber = string.Empty;
+    private string email = string.Empty;
+    private string preferredContactMethod = "Phone Call";
+    private string selectedService = "Full Service Move (Truck + 2 Movers)";
+    private string? preferredStartDate;
+    private string message = string.Empty;
+    private string botHoneypot = string.Empty;
+
+    private bool isSubmitting = false;
+    private bool isSubmitted = false;
+    private string? errorMessage;
+
+    private async Task SubmitForm()
+    {
+        isSubmitting = true;
+        errorMessage = null;
+
+        var leadRequest = new LeadSubmissionRequest
+        {
+            BusinessId = "forged-labor",
+            CompanyName = "Forged Labor",
+            Name = name,
+            Phone = phoneNumber,
+            Email = email,
+            PreferredContactMethod = preferredContactMethod,
+            ServiceType = selectedService,
+            PreferredStartDate = preferredStartDate,
+            Message = message,
+            Honeypot = botHoneypot
+        };
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("/api/leads", leadRequest);
+            if (response.IsSuccessStatusCode)
+            {
+                isSubmitted = true;
+            }
+            else
+            {
+                errorMessage = "We could not submit your request at this time. Please call (423) 715-4254 directly.";
+            }
+        }
+        catch (Exception)
+        {
+            errorMessage = "A connection error occurred. Please call (423) 715-4254 directly.";
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+
+    private void ResetForm()
+    {
+        name = string.Empty;
+        phoneNumber = string.Empty;
+        email = string.Empty;
+        message = string.Empty;
+        botHoneypot = string.Empty;
+        isSubmitted = false;
+        errorMessage = null;
+    }
+}

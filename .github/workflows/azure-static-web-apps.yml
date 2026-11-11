@@ -1,0 +1,105 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+      - master
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          lfs: false
+
+      # 1. Set up .NET 10 (for Blazor WASM Client and Azure SWA Managed Functions API)
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      # 2. Sync static SEO & PWA files (index.html, sitemap.xml, robots.txt, manifest.webmanifest) from appsettings.json
+      - name: Sync Static SEO & Manifest from appsettings.json
+        run: python3 scripts/sync-client-config.py
+
+      # 3. Verify Managed API builds cleanly on .NET 10
+      - name: Verify Azure Functions API Build
+        run: dotnet build Api/SmallBusinessSite.Api.csproj -c Release
+
+      # 4. Publish the Blazor WebAssembly Client into publish_output
+      - name: Publish Blazor Client
+        run: dotnet publish Client/SmallBusinessSite.Client.csproj -c Release -o publish_output
+
+      # 5. Deploy pre-built Client + Managed API to Azure Static Web Apps (runs automatically when AZURE_STATIC_WEB_APPS_API_TOKEN is configured on a client repo)
+      - name: Build And Deploy
+        id: builddeploy
+        if: env.SWA_TOKEN != ''
+        env:
+          SWA_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "publish_output/wwwroot"
+          api_location: "Api"
+          output_location: ""
+          skip_app_build: true
+
+      # 6. Automated Search Crawler Submission (Mandatory Project Rule: IndexNow)
+      - name: Submit URLs to Search Crawlers
+        if: github.event_name == 'push'
+        run: |
+          python3 -c '
+          import json, urllib.request
+          try:
+              cfg_file = "Client/wwwroot/appsettings.json"
+              domain = ""
+              try:
+                  with open(cfg_file) as f:
+                      cfg = json.load(f)
+                  domain = cfg.get("BusinessSettings", {}).get("Domain", "").strip().rstrip("/")
+              except Exception:
+                  pass
+              if domain and "example-business.com" not in domain:
+                  clean_domain = domain if domain.startswith("http") else f"https://{domain}"
+                  host = clean_domain.replace("https://", "").replace("http://", "").split("/")[0]
+                  urls = [f"{clean_domain}/", f"{clean_domain}/services", f"{clean_domain}/appointments", f"{clean_domain}/contact", f"{clean_domain}/about"]
+                  payload = json.dumps({
+                      "host": host,
+                      "key": "e3d29a08c8474f63bb9b7d8b5c9632f1",
+                      "keyLocation": f"{clean_domain}/e3d29a08c8474f63bb9b7d8b5c9632f1.txt",
+                      "urlList": urls
+                  }).encode("utf-8")
+                  for ep in ["https://api.indexnow.org/indexnow", "https://www.bing.com/indexnow"]:
+                      try:
+                          req = urllib.request.Request(ep, data=payload, headers={"Content-Type": "application/json; charset=utf-8", "User-Agent": "JBDigitalCI/1.0"})
+                          with urllib.request.urlopen(req, timeout=10) as resp:
+                              print(f"Submitted to {ep}: {resp.status}")
+                      except Exception as e:
+                          print(f"Crawler notice ({ep}): {e}")
+          except Exception as ex:
+              print(f"Crawler submission step notice: {ex}")
+          '
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "close"

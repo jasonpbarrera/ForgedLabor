@@ -1,0 +1,119 @@
+.about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    color: var(--brand-primary);
+}
+
+.intro-section {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.script-heading {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    color: var(--brand-accent);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+}
+
+.intro-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.lead-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.card {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid var(--brand-accent);
+}
+
+    .card h3 {
+        color: var(--brand-accent);
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+.who-i-am ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.who-i-am li {
+    margin-bottom: 1rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+    .who-i-am li::before {
+        content: '•';
+        color: var(--brand-accent);
+        position: absolute;
+        left: 0;
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+.why-i-started p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+}
+
+.closing-section {
+    text-align: center;
+    background-color: var(--brand-surface);
+    padding: 3rem 2rem;
+    border-radius: 12px;
+}
+
+.calling-text {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-style: italic;
+    color: var(--brand-primary);
+    margin-bottom: 1.5rem;
+}
+
+.closing-section h4 {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--brand-accent);
+}
+
+.core-values {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--brand-primary);
+}

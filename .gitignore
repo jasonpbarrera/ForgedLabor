@@ -1,0 +1,13 @@
+bin/
+obj/
+publish_output/
+.vs/
+.vscode/
+*.user
+*.suo
+local.settings.json
+.env
+.env.agency
+.env.local
+
+__pycache__/

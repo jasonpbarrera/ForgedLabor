@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "COSMOS_CONNECTION_STRING": "AccountEndpoint=https://your-cosmos-account.documents.azure.com:443/;AccountKey=your-primary-key;",
+    "COSMOS_DATABASE_NAME": "SmallBusinessPlatform",
+    "BREVO_API_KEY": "xkeysib-your-brevo-api-key",
+    "BREVO_SENDER_EMAIL": "info@your-client-domain.com",
+    "LEAD_NOTIFICATION_EMAIL": "info@your-client-domain.com"
+  }
+}
