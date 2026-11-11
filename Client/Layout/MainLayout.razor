@@ -1,116 +1,73 @@
 @inherits LayoutComponentBase
 @inject IOptions<BusinessSettings> BusinessConfig
-@inject IOptions<ThemeSettings> ThemeConfig
-@inject IOptions<AboutPageSettings> AboutConfig
 
-<div class="page" style="--brand-primary: @ThemeConfig.Value.PrimaryColor; --brand-accent: @ThemeConfig.Value.AccentColor; --brand-surface: @ThemeConfig.Value.SurfaceColor; --brand-bg: @ThemeConfig.Value.BackgroundColor;">
-    <!-- Top Utility Announcement Bar -->
-    <div style="background: #09090b; border-bottom: 1px solid #27272a; padding: 0.5rem 1rem; font-size: 0.85rem; color: #a1a1aa;">
-        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-            <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-                <span style="color: var(--brand-accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: inline-flex; align-items: center; gap: 0.35rem;">
-                    <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--brand-accent); display: inline-block;"></span>
-                    Cleveland, TN Premier Movers
-                </span>
-                <span style="color: #71717a;">•</span>
-                <span>Licensed & Fully Insured (Cargo & Liability)</span>
-            </div>
-            <div>
-                <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: #ffffff; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
-                    <svg width="14" height="14" fill="var(--brand-accent)" viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
-                    <span>CALL BEN: @BusinessConfig.Value.PhoneNumber</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Navigation Bar -->
-    <header class="site-header" style="background: rgba(18, 18, 20, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid #27272a; position: sticky; top: 0; z-index: 100;">
-        <div style="max-width: 1200px; margin: 0 auto; padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between;">
-            <a href="/" style="display: flex; align-items: center; gap: 0.85rem; text-decoration: none;">
-                <img src="@BusinessConfig.Value.LogoUrl" alt="Forged Labor" style="height: 52px; width: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--brand-accent);" />
-                <div>
-                    <span style="display: block; font-size: 1.35rem; font-weight: 900; color: #ffffff; letter-spacing: 0.04em; text-transform: uppercase;">FORGED LABOR</span>
-                    <span style="display: block; font-size: 0.75rem; color: #a1a1aa; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;">Moving Company • Cleveland, TN</span>
-                </div>
+<div class="site-wrapper">
+    <!-- Squarespace Header -->
+    <header class="sqsp-header">
+        <div class="sqsp-header-inner">
+            <a href="/" class="sqsp-logo-link">
+                <img src="images/logo.jpg" alt="Forged Labor" class="sqsp-logo-img" />
             </a>
 
-            <nav class="main-navigation" style="display: flex; align-items: center; gap: 1.5rem;">
-                <NavLink href="/" Match="NavLinkMatch.All" style="color: #e4e4e7; font-weight: 600; text-decoration: none; font-size: 0.95rem;">Home</NavLink>
-                <NavLink href="/services" style="color: #e4e4e7; font-weight: 600; text-decoration: none; font-size: 0.95rem;">Services</NavLink>
-                <NavLink href="/appointments" style="color: #e4e4e7; font-weight: 600; text-decoration: none; font-size: 0.95rem;">Scheduling</NavLink>
-                <NavLink href="/about" style="color: #e4e4e7; font-weight: 600; text-decoration: none; font-size: 0.95rem;">About Ben</NavLink>
-                <NavLink href="/contact" style="color: #e4e4e7; font-weight: 600; text-decoration: none; font-size: 0.95rem;">Contact</NavLink>
-            </nav>
+            <div class="sqsp-header-actions">
+                <a href="/appointments" class="sqsp-nav-link" style="margin-right: 0.5rem;">
+                    Scheduling
+                </a>
 
-            <div>
-                <a href="/appointments" style="background: var(--brand-accent); color: #ffffff; padding: 0.65rem 1.25rem; border-radius: 6px; font-weight: 700; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 4px 12px rgba(240, 82, 61, 0.35);">
-                    <span>Schedule Move</span>
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42L16.86 11H5v2z"/></svg>
+                <a href="https://www.facebook.com/Forgedlabor" target="_blank" rel="noopener" aria-label="Facebook" class="sqsp-social-icon">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+                </a>
+
+                <a href="https://www.instagram.com/forgedlabor" target="_blank" rel="noopener" aria-label="Instagram" class="sqsp-social-icon">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+
+                <a href="https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A" target="_blank" rel="noopener" aria-label="Google Maps Location" class="sqsp-social-icon">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                </a>
+
+                <a href="tel:@BusinessConfig.Value.PhoneNumber" class="sqsp-btn-primary">
+                    CALL NOW
                 </a>
             </div>
         </div>
     </header>
 
-    <main class="main-content" style="min-height: 80vh; background: var(--brand-bg); color: #f4f4f5;">
+    <main>
         @Body
     </main>
 
-    <!-- Professional Heavy-Duty Footer -->
-    <footer class="site-footer" style="background: #09090b; border-top: 1px solid #27272a; padding: 4rem 1.5rem 2rem; color: #a1a1aa;">
-        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 3rem; margin-bottom: 3rem;">
-            <div>
-                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-                    <img src="@BusinessConfig.Value.LogoUrl" alt="Forged Labor" style="height: 44px; width: 44px; border-radius: 50%;" />
-                    <div>
-                        <h4 style="color: #ffffff; margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: 0.04em;">FORGED LABOR</h4>
-                        <span style="color: var(--brand-accent); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Cleveland, TN</span>
-                    </div>
-                </div>
-                <p style="font-size: 0.9rem; line-height: 1.6; color: #71717a;">
-                    WE SHOW UP. IN SHAPE. ON TIME. READY TO ACCOMPLISH.<br />
-                    High-quality moving company forged through real experience and hard work. No dinged walls, no dragged furniture, no surprises.
-                </p>
+    <!-- Squarespace Section 7: Footer -->
+    <footer class="sec-black-bold">
+        <div class="container-wide" style="text-align: center;">
+            <div style="margin-bottom: 2rem;">
+                <img src="images/logo.jpg" alt="Forged Labor" style="max-height: 100px; width: auto; margin: 0 auto; display: block;" />
             </div>
 
-            <div>
-                <h4 style="color: #ffffff; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Moving Services</h4>
-                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem; line-height: 2;">
-                    <li><a href="/services" style="color: #a1a1aa; text-decoration: none;">Full Service Moves (Truck + 2 Movers)</a></li>
-                    <li><a href="/services" style="color: #a1a1aa; text-decoration: none;">Labor-Only Loading & Unloading</a></li>
-                    <li><a href="/services" style="color: #a1a1aa; text-decoration: none;">Store Pickup & White-Glove Delivery</a></li>
-                    <li><a href="/services" style="color: #a1a1aa; text-decoration: none;">Heavy Gym & Fitness Equipment Relocation</a></li>
-                </ul>
+            <p style="font-family: var(--font-heading); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">
+                126 Bernham Drive, Suite 4<br />
+                Cleveland, TN 37312
+            </p>
+
+            <p style="font-size: 1.15rem; margin-bottom: 2rem;">
+                Call <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: var(--brand-accent); font-weight: 700;">@BusinessConfig.Value.PhoneNumber</a> to schedule your next move.
+            </p>
+
+            <div style="display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem;">
+                <a href="https://www.facebook.com/Forgedlabor" target="_blank" rel="noopener" class="sqsp-social-icon" aria-label="Facebook">
+                    <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/forgedlabor" target="_blank" rel="noopener" class="sqsp-social-icon" aria-label="Instagram">
+                    <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A" target="_blank" rel="noopener" class="sqsp-social-icon" aria-label="Google Maps">
+                    <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                </a>
             </div>
 
-            <div>
-                <h4 style="color: #ffffff; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Quick Links</h4>
-                <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem; line-height: 2;">
-                    <li><a href="/appointments" style="color: #a1a1aa; text-decoration: none;">Schedule a Consultation</a></li>
-                    <li><a href="/about" style="color: #a1a1aa; text-decoration: none;">About Ben Wiseman</a></li>
-                    <li><a href="/contact" style="color: #a1a1aa; text-decoration: none;">Contact & Map</a></li>
-                    <li><a href="https://blueprintcatalogen.as.me/" target="_blank" rel="noopener" style="color: var(--brand-accent); text-decoration: none;">Live Booking Calendar ↗</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 style="color: #ffffff; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Contact & HQ</h4>
-                <p style="font-size: 0.9rem; margin-bottom: 0.5rem; color: #d4d4d8;">
-                    <strong>126 Bernham Drive, Suite 4</strong><br />
-                    Cleveland, TN 37312
-                </p>
-                <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
-                    Call / Text: <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: var(--brand-accent); text-decoration: none; font-weight: 700;">@BusinessConfig.Value.PhoneNumber</a>
-                </p>
-                <p style="font-size: 0.9rem;">
-                    Email: <a href="mailto:@BusinessConfig.Value.PrimaryEmail" style="color: #ffffff; text-decoration: none;">@BusinessConfig.Value.PrimaryEmail</a>
-                </p>
-            </div>
-        </div>
-
-        <div style="max-width: 1200px; margin: 0 auto; border-top: 1px solid #1f1f23; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: #71717a;">
-            <p style="margin: 0;">&copy; @DateTime.Now.Year Forged Labor. All rights reserved.</p>
-            <p style="margin: 0;">Cleveland, TN • Proudly Operated</p>
+            <p style="color: #666666; font-size: 0.85rem;">
+                &copy; @DateTime.Now.Year Forged Labor. All rights reserved.
+            </p>
         </div>
     </footer>
 </div>
