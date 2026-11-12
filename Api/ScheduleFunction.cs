@@ -607,6 +607,7 @@ namespace SmallBusinessSite.Api
                 JsonSerializer.Serialize(queryPayload, JsonOptions),
                 Encoding.UTF8,
                 "application/query+json");
+            request.Content.Headers.ContentType!.CharSet = null;
 
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
