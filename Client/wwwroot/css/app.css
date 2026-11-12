@@ -10,7 +10,8 @@
    ========================================= */
 :root {
     --brand-dark-accent: #383838; /* Exact shade of gray for dark-bold sections */
-    --brand-accent: #f0523d;
+    --brand-accent: #efb600;      /* Tennessee gold / yellow-orange */
+    --brand-accent-hover: #d9a500;
     --brand-light-fill: #f4f4f3;  /* Form input background fill */
     --font-heading: 'Archivo Black', sans-serif;
     --font-body: 'Archivo', sans-serif;
@@ -102,7 +103,7 @@ a {
 .sqsp-btn-primary {
     font-family: var(--font-heading);
     background: var(--brand-accent);
-    color: #ffffff;
+    color: #000000;
     text-transform: uppercase;
     padding: 0.9rem 2rem;
     font-size: 0.95rem;
@@ -118,6 +119,36 @@ a {
 .sqsp-btn-primary:hover {
     background: transparent;
     color: var(--brand-accent);
+}
+
+.sqsp-btn-pill-yellow {
+    font-family: var(--font-heading);
+    background: var(--brand-accent);
+    color: #000000 !important;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.95rem 2.5rem;
+    font-size: 1.05rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    display: inline-block;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.2s, transform 0.15s;
+    text-decoration: none;
+}
+
+.sqsp-btn-pill-yellow:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    color: #000000 !important;
+}
+
+.sqsp-header-call-btn {
+    padding: 0.65rem 1.65rem;
+    font-size: 0.85rem;
+    box-shadow: none;
 }
 
 .sqsp-btn-outline {
@@ -195,14 +226,66 @@ a {
     padding-right: clamp(1.5rem, 4vw, 4rem);
 }
 
-/* Section 1: Hero (Black theme) */
+/* Section 1: Hero (Black theme with Mover Background) */
 .sec-hero {
     position: relative;
-    padding: clamp(5rem, 10vw, 8rem) 1.5rem clamp(4rem, 8vw, 6rem);
-    text-align: center;
+    padding: clamp(5rem, 9vw, 8rem) 0 clamp(4rem, 8vw, 7rem);
     background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), url('../images/forged-labor-moving-services.jpg') center 15%/cover no-repeat;
     background-color: #000000;
     border-bottom: 4px solid var(--brand-accent);
+}
+
+.hero-content {
+    max-width: 580px;
+    text-align: left;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.hero-heading {
+    font-family: var(--font-heading);
+    font-size: clamp(2.1rem, 4.8vw, 3.5rem);
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    user-select: none;
+    -webkit-user-select: none;
+    outline: none;
+}
+
+.hero-heading:focus,
+.hero-heading:focus-visible {
+    outline: none !important;
+}
+
+.hero-underline {
+    border-bottom: 5px solid var(--brand-accent);
+    display: inline-block;
+    padding-bottom: 2px;
+}
+
+.hero-tagline {
+    font-family: var(--font-heading);
+    font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+    color: #ffffff;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    margin-bottom: 2.2rem;
+    text-transform: uppercase;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.text-gold {
+    color: var(--brand-accent);
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
 }
 
 /* Section 2 & 6: Dark-Bold (Charcoal Gray #383838) */
@@ -219,19 +302,46 @@ a {
     padding: clamp(4rem, 6vw, 6rem) 0;
 }
 
-/* Section 4: Bright-Inverse (Orange) */
-.sec-bright-inverse {
-    background-color: var(--brand-accent);
-    color: #ffffff;
-    padding: clamp(3.5rem, 5vw, 5rem) 1.5rem;
-    text-align: center;
+.accordion-box {
+    background: #f4f4f3;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-/* Section 5: Bright (Light gray #f4f4f3) */
-.sec-bright {
-    background-color: #f4f4f3;
-    color: #111111;
-    padding: clamp(4rem, 6vw, 6rem) 0;
+/* Section 4: We Move People (Black theme with downward chevron divider) */
+.sec-move-people {
+    background-color: #000000;
+    color: var(--brand-accent);
+    padding: clamp(4rem, 6vw, 6.5rem) 1.5rem clamp(5rem, 7vw, 7.5rem);
+    text-align: center;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 24px), 50% 100%, 0 calc(100% - 24px));
+    margin-bottom: -23px;
+    z-index: 2;
+}
+
+/* Section 5: Reviews (Tennessee Gold / Yellow theme) */
+.sec-gold-reviews {
+    background-color: var(--brand-accent);
+    color: #000000;
+    padding: clamp(5rem, 8vw, 7.5rem) 0 clamp(4rem, 6vw, 6rem);
+    position: relative;
+    z-index: 1;
+}
+
+.review-card-wrapper {
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.review-card-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
 }
 
 /* Section 7: Black-Bold (Footer) */
