@@ -9,8 +9,16 @@
                 <img src="images/logo.jpg" alt="Forged Labor" class="sqsp-logo-img" />
             </a>
 
-            <!-- Right Actions: Socials, Menu & Call Now Pill -->
+            <!-- Right Actions: Inline Desktop Nav, Socials, Mobile Hamburger & Call Now Pill -->
             <div class="sqsp-header-actions">
+                <nav class="sqsp-desktop-nav" aria-label="Main Navigation">
+                    <a href="/" class="sqsp-nav-link">Home</a>
+                    <a href="/about" class="sqsp-nav-link">About Us</a>
+                    <a href="/commercial" class="sqsp-nav-link">Commercial Fitness Installation</a>
+                    <a href="/gallery" class="sqsp-nav-link">Behind The Scenes</a>
+                    <a href="/appointments" class="sqsp-nav-link">Scheduling</a>
+                </nav>
+
                 <!-- Facebook -->
                 <a href="https://www.facebook.com/Forgedlabor" target="_blank" rel="noopener" aria-label="Facebook" class="sqsp-social-icon">
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/></svg>
@@ -31,7 +39,7 @@
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
                 </a>
 
-                <!-- Navigation Drawer Trigger -->
+                <!-- Responsive Hamburger Trigger (Hidden on Desktop, Shown on Smaller Viewports) -->
                 <button class="sqsp-menu-btn" @onclick="ToggleMenu" aria-label="Toggle Navigation Menu">
                     <span class="sqsp-menu-bar"></span>
                     <span class="sqsp-menu-bar"></span>
@@ -45,15 +53,15 @@
             </div>
         </div>
 
-        <!-- Slide-Down Nav Drawer (Accessible without cluttering desktop header bar) -->
+        <!-- Slide-Down Mobile/Tablet Nav Drawer -->
         @if (isMenuOpen)
         {
             <div class="sqsp-dropdown-menu">
                 <a href="/" class="sqsp-dropdown-item" @onclick="CloseMenu">Home</a>
                 <a href="/about" class="sqsp-dropdown-item" @onclick="CloseMenu">About Us</a>
-                <a href="/commercial" class="sqsp-dropdown-item" @onclick="CloseMenu">Commercial &amp; Fitness Installation</a>
-                <a href="/gallery" class="sqsp-dropdown-item" @onclick="CloseMenu">Behind The Scenes Gallery</a>
-                <a href="/appointments" class="sqsp-dropdown-item" @onclick="CloseMenu">Online Scheduling</a>
+                <a href="/commercial" class="sqsp-dropdown-item" @onclick="CloseMenu">Commercial Fitness Installation</a>
+                <a href="/gallery" class="sqsp-dropdown-item" @onclick="CloseMenu">Behind The Scenes</a>
+                <a href="/appointments" class="sqsp-dropdown-item" @onclick="CloseMenu">Scheduling</a>
                 <a href="/contact" class="sqsp-dropdown-item" @onclick="CloseMenu">Contact &amp; Intake</a>
             </div>
         }
