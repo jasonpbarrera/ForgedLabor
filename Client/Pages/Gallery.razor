@@ -1,0 +1,180 @@
+@page "/gallery"
+@page "/behind-the-scenes"
+@inject IOptions<BusinessSettings> BusinessConfig
+
+<PageTitle>Behind the Scenes &amp; Job Gallery | @BusinessConfig.Value.ShortName</PageTitle>
+
+<!-- Hero Section -->
+<section class="sec-gallery-hero">
+    <div class="container-wide">
+        <div class="gallery-hero-content">
+            <span class="badge-pill-accent">
+                📸 The Forged Labor Experience
+            </span>
+            <h1 class="hero-heading" style="margin-top: 1rem; margin-bottom: 1.25rem;">
+                BEHIND THE SCENES &amp; <span class="text-gold">JOB GALLERY</span>
+            </h1>
+            <p class="hero-tagline" style="max-width: 720px; font-size: 1.15rem; color: #d4d4d8; line-height: 1.6;">
+                Real moves. Real sweat. Real precision. Take a look at how Ben and the crew operate: tight wall-to-wall truck packs, heavy fitness equipment rigging, and the camaraderie that keeps our energy high on every move.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filter Navigation -->
+<section style="background: #121214; padding: 2rem 0; border-bottom: 1px solid #27272a; position: sticky; top: 78px; z-index: 90;">
+    <div class="container-wide">
+        <div class="gallery-filter-bar">
+            <button class="gallery-filter-btn @(currentFilter == "all" ? "active" : "")" @onclick='() => SetFilter("all")'>
+                ALL PHOTOS (@items.Count)
+            </button>
+            <button class="gallery-filter-btn @(currentFilter == "truck-packs" ? "active" : "")" @onclick='() => SetFilter("truck-packs")'>
+                🚚 TRUCK PACKS
+            </button>
+            <button class="gallery-filter-btn @(currentFilter == "fitness" ? "active" : "")" @onclick='() => SetFilter("fitness")'>
+                🏋️‍♂️ FITNESS &amp; RIGGING
+            </button>
+            <button class="gallery-filter-btn @(currentFilter == "crew" ? "active" : "")" @onclick='() => SetFilter("crew")'>
+                💪 CREW IN ACTION
+            </button>
+            <button class="gallery-filter-btn @(currentFilter == "bts" ? "active" : "")" @onclick='() => SetFilter("bts")'>
+                📸 BEHIND THE SCENES
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Grid Section -->
+<section style="background: #000000; padding: clamp(3rem, 5vw, 5rem) 0;">
+    <div class="container-wide">
+        <div class="gallery-grid">
+            @foreach (var item in FilteredItems)
+            {
+                <div class="gallery-card">
+                    <div class="gallery-card-img-wrapper">
+                        <img src="@item.ImageUrl" alt="@item.Title" loading="lazy" class="gallery-card-img" />
+                        <span class="gallery-category-badge">@item.CategoryBadge</span>
+                    </div>
+                    <div class="gallery-card-body">
+                        <h3 class="gallery-card-title">@item.Title</h3>
+                        <p class="gallery-card-desc">@item.Description</p>
+                        <div class="gallery-card-footer">
+                            <span class="gallery-tag">📍 @item.Location</span>
+                            <span class="gallery-tag">⚡ @item.Highlight</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Submit Photos / Call to action -->
+        <div class="gallery-cta-box">
+            <div style="max-width: 700px; margin: 0 auto; text-align: center;">
+                <span style="color: var(--brand-accent); font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;">
+                    Client Community
+                </span>
+                <h2 style="color: #ffffff; font-size: clamp(1.75rem, 3vw, 2.35rem); text-transform: uppercase; margin: 0.75rem 0 1rem;">
+                    HAVE PHOTOS FROM YOUR MOVE WITH FORGED LABOR?
+                </h2>
+                <p style="color: #a1a1aa; font-size: 1rem; line-height: 1.6; margin-bottom: 2rem;">
+                    We love seeing our customers settling into their new homes and facilities. Tag us on Instagram <a href="https://www.instagram.com/forgedlabor" target="_blank" rel="noopener" style="color: var(--brand-accent); font-weight: 700;">@@forgedlabor</a> or Facebook to be featured in our monthly crew showcase!
+                </p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/appointments" class="sqsp-btn-pill-yellow">
+                        BOOK YOUR MOVE TODAY
+                    </a>
+                    <a href="tel:@BusinessConfig.Value.PhoneNumber" class="sqsp-btn-outline" style="border-radius: 9999px;">
+                        CALL BEN (423) 715-4254
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private string currentFilter = "all";
+
+    private void SetFilter(string filter)
+    {
+        currentFilter = filter;
+    }
+
+    private IEnumerable<GalleryItem> FilteredItems =>
+        currentFilter == "all" ? items : items.Where(x => x.Category == currentFilter);
+
+    public class GalleryItem
+    {
+        public string Title { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public string CategoryBadge { get; set; } = string.Empty;
+        public string ImageUrl { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string Location { get; set; } = string.Empty;
+        public string Highlight { get; set; } = string.Empty;
+    }
+
+    private List<GalleryItem> items = new()
+    {
+        new GalleryItem
+        {
+            Title = "The Wall-to-Wall High-Density Truck Pack",
+            Category = "truck-packs",
+            CategoryBadge = "Truck Pack",
+            ImageUrl = "images/local-movers-cleveland-tn.jpg",
+            Description = "Zero dead space. Heavy items locked on the deck, uniform box tiers strapped and stacked to the ceiling so nothing shifts on Tennessee roads.",
+            Location = "Cleveland, TN",
+            Highlight = "Max Cargo Protection"
+        },
+        new GalleryItem
+        {
+            Title = "Disciplined Momentum on Moving Day",
+            Category = "crew",
+            CategoryBadge = "Crew in Action",
+            ImageUrl = "images/forged-labor-moving-services.jpg",
+            Description = "We don't pace around or stare at phones. From the minute the ramp drops, our crew maintains constant, high-efficiency movement.",
+            Location = "Bradley County, TN",
+            Highlight = "In Shape & Focused"
+        },
+        new GalleryItem
+        {
+            Title = "Pre-Move Briefing & Route Strategy",
+            Category = "crew",
+            CategoryBadge = "Crew in Action",
+            ImageUrl = "images/team.jpg",
+            Description = "Ben and the crew reviewing furniture protection strategies, doorframe clearances, and unloading order before touching a single box.",
+            Location = "Cleveland HQ",
+            Highlight = "Dialed-In Planning"
+        },
+        new GalleryItem
+        {
+            Title = "Commercial Rig & Multi-Stack Cable Teardown",
+            Category = "fitness",
+            CategoryBadge = "Fitness Rigging",
+            ImageUrl = "images/appointments-hero.png",
+            Description = "Disassembling, detensioning, labeling, and securely packing commercial selectorized weight stacks and functional trainers.",
+            Location = "Chattanooga, TN",
+            Highlight = "Zero Cable Damage"
+        },
+        new GalleryItem
+        {
+            Title = "Heavy Equipment & Safe Rigging",
+            Category = "fitness",
+            CategoryBadge = "Heavy Rigging",
+            ImageUrl = "images/local-movers-cleveland-tn.jpg",
+            Description = "Precision handling of commercial treadmills, power racks, and heavy steel plate machinery using heavy-duty dollies and ramps.",
+            Location = "Ooltewah, TN",
+            Highlight = "Flooring Protected"
+        },
+        new GalleryItem
+        {
+            Title = "Keeping Spirits High at Hour 8",
+            Category = "bts",
+            CategoryBadge = "Behind The Scenes",
+            ImageUrl = "images/team.jpg",
+            Description = "Heavy lifting is hard work, but having a tight-knit crew that genuinely enjoys working together makes all the difference for our customers.",
+            Location = "Southeast TN",
+            Highlight = "Great Energy Always"
+        }
+    };
+}

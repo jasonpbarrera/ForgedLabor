@@ -1,103 +1,283 @@
 @page "/about"
 @inject IOptions<BusinessSettings> BusinessConfig
 @inject IOptions<AboutPageSettings> AboutConfig
-@inject IOptions<ThemeSettings> ThemeConfig
 
-<PageTitle>@AboutConfig.Value.NavTitle | @BusinessConfig.Value.ShortName</PageTitle>
+<PageTitle>About Ben, Bre & The Crew | @BusinessConfig.Value.ShortName</PageTitle>
 
-<section style="background: linear-gradient(rgba(18, 18, 20, 0.85), rgba(18, 18, 20, 0.95)), url('images/team.jpg') center/cover no-repeat; padding: 5rem 1.5rem; border-bottom: 2px solid var(--brand-accent); text-align: center;">
-    <div style="max-width: 900px; margin: 0 auto;">
-        <span style="display: inline-block; background: rgba(240, 82, 61, 0.15); color: var(--brand-accent); padding: 0.35rem 1rem; border-radius: 9999px; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; border: 1px solid rgba(240, 82, 61, 0.3);">
-            Meet The Founder & Team
-        </span>
-        <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 900; color: #ffffff; text-transform: uppercase; margin: 0 0 1rem;">
-            @AboutConfig.Value.Heading
-        </h1>
-        <p style="font-size: 1.2rem; color: #d4d4d8; font-weight: 600; margin: 0 0 1rem;">
-            @AboutConfig.Value.Subheading
-        </p>
-        <p style="font-size: 1.05rem; color: #a1a1aa; max-width: 700px; margin: 0 auto; line-height: 1.6;">
-            @AboutConfig.Value.LeadText
-        </p>
+<!-- Hero Section -->
+<section class="sec-about-hero">
+    <div class="container-wide">
+        <div class="about-hero-content">
+            <span class="badge-pill-accent">
+                ⚡ Locally Owned &amp; Operated in Cleveland, TN
+            </span>
+            <h1 class="hero-heading" style="margin-top: 1rem; margin-bottom: 1.25rem;">
+                FORGED THROUGH <span class="text-gold">HARD WORK</span> &amp; REAL EXPERIENCE
+            </h1>
+            <p class="hero-tagline" style="max-width: 720px; font-size: 1.15rem; color: #d4d4d8; line-height: 1.6;">
+                Founded by Ben Wiseman, Forged Labor was established with an uncompromising standard: show up in shape, on time, and handle every customer's home, family, and belongings with dialed-in precision and respect.
+            </p>
+        </div>
     </div>
 </section>
 
-<div style="max-width: 1100px; margin: 4rem auto; padding: 0 1.5rem;">
-    <!-- Story Grid -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; align-items: center; margin-bottom: 4rem;">
-        <div>
-            <span style="color: var(--brand-accent); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 0.5rem;">
-                Why We Built Forged Labor
-            </span>
-            <h2 style="color: #ffffff; font-size: 2rem; font-weight: 800; text-transform: uppercase; margin: 0 0 1.25rem;">
-                @AboutConfig.Value.WhyStartedTitle
-            </h2>
-            @foreach (var p in AboutConfig.Value.WhyStartedParagraphs)
-            {
-                <p style="color: #a1a1aa; font-size: 1rem; line-height: 1.7; margin-bottom: 1rem;">
-                    @p
+<!-- Ben's Story Section -->
+<section style="background: #121214; padding: clamp(4rem, 6vw, 6rem) 0; border-bottom: 1px solid #27272a;">
+    <div class="container-wide">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3.5rem; align-items: center;">
+            <div>
+                <span style="color: var(--brand-accent); font-family: var(--font-heading); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 0.5rem;">
+                    The Forged Story
+                </span>
+                <h2 style="font-size: clamp(2rem, 3.5vw, 2.75rem); color: #ffffff; text-transform: uppercase; margin-bottom: 1.5rem;">
+                    WHY WE BUILT <span class="text-gold">FORGED LABOR</span>
+                </h2>
+                
+                <p style="color: #d4d4d8; font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                    Too many moving companies send sluggish, careless crews who treat your home like a burden. They take smoke breaks every 15 minutes, stare at their phones, ding walls, and surprise you with hidden fees when the invoice arrives.
                 </p>
-            }
-            <div style="background: #18181b; border-left: 4px solid var(--brand-accent); padding: 1rem 1.25rem; border-radius: 0 6px 6px 0; margin-top: 1.5rem;">
-                <p style="color: #f4f4f5; font-weight: 700; margin: 0; font-size: 0.95rem;">
-                    "We don't need a break every 10 minutes. We don't disrespect your time by checking phones constantly. When you hire Forged Labor, you get focused professionals from start to finish."
-                </p>
-            </div>
-        </div>
 
-        <div>
-            <div style="border-radius: 12px; overflow: hidden; border: 2px solid #27272a; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-                <img src="images/team.jpg" alt="Forged Labor Team Cleveland TN" style="width: 100%; height: auto; display: block;" />
+                <p style="color: #a1a1aa; font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                    Forged Labor was built to be the antidote. Like steel forged by fire, we are shaped through real-world labor and life experience. We recruit disciplined, athletic movers who take personal pride in their stamina, care, and hustle. When you hire us, you get polite professionals who maintain momentum from the first box to the final placement.
+                </p>
+
+                <div class="quote-callout">
+                    <p style="color: #f4f4f5; font-weight: 700; margin: 0; font-size: 1.05rem; font-style: italic;">
+                        "We show up. In shape. On time. Ready to accomplish. We don't need a break every 10 minutes. When you hire Forged Labor, you're hiring dialed-in care and focused execution."
+                    </p>
+                    <span style="display: block; color: var(--brand-accent); font-size: 0.85rem; font-weight: 900; text-transform: uppercase; margin-top: 0.75rem; letter-spacing: 0.05em;">
+                        — Ben Wiseman, Founder
+                    </span>
+                </div>
+            </div>
+
+            <div>
+                <div style="border-radius: 12px; overflow: hidden; border: 2px solid var(--brand-accent); box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+                    <img src="images/team.jpg" alt="Ben Wiseman and Forged Labor Moving Crew Cleveland TN" style="width: 100%; height: auto; display: block;" />
+                </div>
+                <p style="color: #71717a; font-size: 0.85rem; text-align: center; margin-top: 0.75rem;">
+                    The Forged Labor Crew — Built on discipline, fitness, and honest hard work.
+                </p>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- The Forged Standard Grid -->
-    <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 3rem 2rem; margin-bottom: 4rem;">
-        <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem;">
-            <h2 style="color: #ffffff; font-size: 1.85rem; font-weight: 800; text-transform: uppercase; margin: 0 0 0.5rem;">
-                @AboutConfig.Value.WhoIAmTitle
+<!-- Meet The Team Section -->
+<section style="background: #000000; padding: clamp(4rem, 6vw, 6rem) 0; border-bottom: 1px solid #27272a;">
+    <div class="container-wide">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 3.5rem;">
+            <span style="color: var(--brand-accent); font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;">
+                Leadership &amp; Movers
+            </span>
+            <h2 style="font-size: clamp(2rem, 3.5vw, 2.75rem); color: #ffffff; text-transform: uppercase; margin-top: 0.5rem;">
+                MEET THE PEOPLE WHO MOVE YOU
             </h2>
-            <p style="color: #a1a1aa; font-size: 0.95rem; margin: 0;">
-                Four non-negotiable principles that set our crew apart from typical moving companies.
+            <p style="color: #a1a1aa; font-size: 1.05rem; margin-top: 0.75rem;">
+                From the voice on the phone to the crew carrying your heaviest furniture up the stairs, meet the dedicated team powering Forged Labor every day.
             </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
-            @foreach (var bullet in AboutConfig.Value.WhoIAmBullets)
-            {
-                var parts = bullet.Split(':', 2);
-                <div style="background: #111113; border: 1px solid #27272a; border-radius: 8px; padding: 1.5rem;">
-                    <span style="color: var(--brand-accent); font-size: 1.2rem; display: block; margin-bottom: 0.5rem;">⚡</span>
-                    @if (parts.Length == 2)
-                    {
-                        <strong style="color: #ffffff; display: block; font-size: 1rem; margin-bottom: 0.35rem;">@parts[0]</strong>
-                        <span style="color: #a1a1aa; font-size: 0.9rem; line-height: 1.5;">@parts[1]</span>
-                    }
-                    else
-                    {
-                        <span style="color: #d4d4d8; font-size: 0.95rem;">@bullet</span>
-                    }
+        <!-- Team Members Grid -->
+        <div class="team-grid">
+            <!-- Ben Wiseman -->
+            <div class="team-card">
+                <div class="team-avatar-box">
+                    <div class="team-avatar-initials">BW</div>
+                    <span class="team-badge">FOUNDER &amp; LEAD MOVER</span>
                 </div>
-            }
-        </div>
-    </div>
+                <div class="team-body">
+                    <h3 class="team-name">Ben Wiseman</h3>
+                    <span class="team-role">Founder &amp; On-Site Operations Lead</span>
+                    <p class="team-bio">
+                        Ben leads from the front line on moves. Shaped by discipline and athletic conditioning, he founded Forged Labor to prove moving can be efficient, respectful, and completely stress-free for local families and businesses.
+                    </p>
+                    <div class="team-tags">
+                        <span>⚡ Heavy Rigging</span>
+                        <span>🚚 Master Loading</span>
+                        <span>📍 Cleveland Native</span>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Call to action card -->
-    <div style="background: linear-gradient(135deg, #1c1c1f 0%, #141416 100%); border: 1px solid #27272a; border-radius: 12px; padding: 3rem 2rem; text-align: center;">
-        <h3 style="color: #ffffff; font-size: 1.75rem; font-weight: 800; text-transform: uppercase; margin: 0 0 1rem;">
-            Ready to Experience the Forged Labor Standard?
-        </h3>
-        <p style="color: #a1a1aa; font-size: 1rem; max-width: 600px; margin: 0 auto 2rem; line-height: 1.6;">
-            @AboutConfig.Value.ClosingText
-        </p>
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-            <a href="/appointments" style="background: var(--brand-accent); color: #ffffff; padding: 0.85rem 2rem; border-radius: 6px; font-weight: 700; text-decoration: none;">
-                Schedule a Consultation
-            </a>
-            <a href="tel:@BusinessConfig.Value.PhoneNumber" style="background: #27272a; color: #ffffff; padding: 0.85rem 2rem; border-radius: 6px; font-weight: 700; text-decoration: none; border: 1px solid #3f3f46;">
-                Call (423) 715-4254
-            </a>
+            <!-- Bre Wiseman -->
+            <div class="team-card">
+                <div class="team-avatar-box">
+                    <div class="team-avatar-initials">BR</div>
+                    <span class="team-badge">OPERATIONS &amp; LOGISTICS</span>
+                </div>
+                <div class="team-body">
+                    <h3 class="team-name">Bre Wiseman</h3>
+                    <span class="team-role">Client Experience &amp; Dispatch Coordinator</span>
+                    <p class="team-bio">
+                        The organizational heartbeat of Forged Labor. Bre ensures every customer has accurate arrival windows, clear expectations, and seamless communication from your first phone call to the moment the job is wrapped.
+                    </p>
+                    <div class="team-tags">
+                        <span>📅 Scheduling</span>
+                        <span>💬 Client Relations</span>
+                        <span>📋 Logistics</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secretary / Office Manager -->
+            <div class="team-card">
+                <div class="team-avatar-box">
+                    <div class="team-avatar-initials">OM</div>
+                    <span class="team-badge">OFFICE &amp; INTAKE</span>
+                </div>
+                <div class="team-body">
+                    <h3 class="team-name">Office Coordinator</h3>
+                    <span class="team-role">Front Desk &amp; Booking Management</span>
+                    <p class="team-bio">
+                        Managing our phone lines, fast customer quotes, calendar bookings, and independent reservation requests. Always ready to get you on the schedule with honest, transparent pricing.
+                    </p>
+                    <div class="team-tags">
+                        <span>📞 Phone Intake</span>
+                        <span>⏱️ Quick Quotes</span>
+                        <span>⭐ Client Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lead Mover -->
+            <div class="team-card">
+                <div class="team-avatar-box">
+                    <div class="team-avatar-initials">LM</div>
+                    <span class="team-badge">CREW LEAD</span>
+                </div>
+                <div class="team-body">
+                    <h3 class="team-name">Lead Mover &amp; Rigging Specialist</h3>
+                    <span class="team-role">Senior Field Mover</span>
+                    <p class="team-bio">
+                        Specialized in high-value antiques, delicate glass tops, heavy commercial fitness equipment, and master truck wall stacking so no cargo shifts during transit.
+                    </p>
+                    <div class="team-tags">
+                        <span>🏋️ Fitness Assembly</span>
+                        <span>📦 Cargo Stacking</span>
+                        <span>🛡️ Floor Protection</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regular Movers -->
+            <div class="team-card">
+                <div class="team-avatar-box">
+                    <div class="team-avatar-initials">FL</div>
+                    <span class="team-badge">THE CREW</span>
+                </div>
+                <div class="team-body">
+                    <h3 class="team-name">The Forged Moving Crew</h3>
+                    <span class="team-role">Athletic Field Specialists</span>
+                    <p class="team-bio">
+                        Background-checked, drug-tested, and physically conditioned movers who hustle. We treat your property with extreme care and bring positive energy to moving day.
+                    </p>
+                    <div class="team-tags">
+                        <span>💪 All-Day Stamina</span>
+                        <span>🚫 No Smoke Breaks</span>
+                        <span>✓ Polite &amp; Insured</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2.5rem;">
+            <p style="color: #71717a; font-size: 0.9rem;">
+                * Profile photos and expanded bios for individual crew members will be updated as Ben provides new team headshots!
+            </p>
         </div>
     </div>
-</div>
+</section>
+
+<!-- The Forged Standards Grid -->
+<section style="background: #121214; padding: clamp(4rem, 6vw, 6rem) 0; border-bottom: 2px solid var(--brand-accent);">
+    <div class="container-wide">
+        <div style="text-align: center; max-width: 750px; margin: 0 auto 3.5rem;">
+            <span style="color: var(--brand-accent); font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;">
+                Core Principles
+            </span>
+            <h2 style="font-size: clamp(2rem, 3.5vw, 2.75rem); color: #ffffff; text-transform: uppercase; margin-top: 0.5rem;">
+                FOUR NON-NEGOTIABLE STANDARDS
+            </h2>
+        </div>
+
+        <div class="standards-grid">
+            <div class="standard-box">
+                <div class="standard-number">01</div>
+                <h3 class="standard-title">IN SHAPE &amp; PREPARED</h3>
+                <p class="standard-desc">
+                    Moving requires athletic endurance. Our crew stays physically conditioned so we maintain steady, high-efficiency momentum all day long without fading.
+                </p>
+            </div>
+
+            <div class="standard-box">
+                <div class="standard-number">02</div>
+                <h3 class="standard-title">DIALED-IN CARE</h3>
+                <p class="standard-desc">
+                    Door jambs, walls, banisters, and floors are thoroughly protected. Every piece of wooden furniture or leather upholstery is fully padded and shrink-wrapped.
+                </p>
+            </div>
+
+            <div class="standard-box">
+                <div class="standard-number">03</div>
+                <h3 class="standard-title">ZERO HIDDEN FEES</h3>
+                <p class="standard-desc">
+                    No surprise stairs charges. No fuel gouging. What we quote upfront is what you pay. Transparent, honest billing every single time.
+                </p>
+            </div>
+
+            <div class="standard-box">
+                <div class="standard-number">04</div>
+                <h3 class="standard-title">INSURED PROTECTION</h3>
+                <p class="standard-desc">
+                    We maintain comprehensive commercial general liability and cargo insurance coverage, giving you total peace of mind throughout your move.
+                </p>
+            </div>
+        </div>
+
+        <!-- Verified Badges Row -->
+        <div class="about-badges-row">
+            <a href="https://www.uhaul.com/MovingHelp/Cleveland-TN-37312/1/Forged-Labor/?id=220C1EA5C52A41" target="_blank" rel="noopener" class="partner-badge-card">
+                <span class="badge-icon">⭐</span>
+                <div>
+                    <strong>U-HAUL MOVINGHELPER®</strong>
+                    <span style="display:block; font-size: 0.85rem; color: #a1a1aa;">Verified 5-Star Partner Provider</span>
+                </div>
+            </a>
+
+            <a href="https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A" target="_blank" rel="noopener" class="partner-badge-card">
+                <span class="badge-icon">📍</span>
+                <div>
+                    <strong>OVER 100 5-STAR REVIEWS</strong>
+                    <span style="display:block; font-size: 0.85rem; color: #a1a1aa;">Top-Rated on Google Maps</span>
+                </div>
+            </a>
+
+            <div class="partner-badge-card">
+                <span class="badge-icon">🛡️</span>
+                <div>
+                    <strong>FULLY INSURED &amp; BONDED</strong>
+                    <span style="display:block; font-size: 0.85rem; color: #a1a1aa;">Full Cargo &amp; Liability Protection</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to action card -->
+        <div style="background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: clamp(2.5rem, 5vw, 4rem) 2rem; text-align: center; margin-top: 4rem;">
+            <h3 style="color: #ffffff; font-size: clamp(1.85rem, 3.5vw, 2.5rem); font-weight: 900; text-transform: uppercase; margin-bottom: 1rem;">
+                READY TO EXPERIENCE THE FORGED LABOR STANDARD?
+            </h3>
+            <p style="color: #a1a1aa; font-size: 1.05rem; max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.6;">
+                Whether you need a full-service moving truck, labor-only loading/unloading for your POD, or commercial gym equipment relocation, Ben and the crew are ready.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/appointments" class="sqsp-btn-pill-yellow">
+                    SCHEDULE A CONSULTATION
+                </a>
+                <a href="tel:@BusinessConfig.Value.PhoneNumber" class="sqsp-btn-outline" style="border-radius: 9999px;">
+                    CALL (423) 715-4254
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
