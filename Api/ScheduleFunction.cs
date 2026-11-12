@@ -301,7 +301,7 @@ namespace SmallBusinessSite.Api
         // 4. Admin: List All Bookings & Manual Blocks
         [Function("AdminGetSchedule")]
         public async Task<HttpResponseData> AdminGetSchedule(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "admin/schedule")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "dispatch/schedule")] HttpRequestData req)
         {
             if (!IsAdminAuthorized(req))
             {
@@ -328,7 +328,7 @@ namespace SmallBusinessSite.Api
         // 5. Admin: Block Date/Time Slot for Independent Bookings (Phone, MovingHelper, Personal)
         [Function("AdminBlockSlot")]
         public async Task<HttpResponseData> AdminBlockSlot(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "admin/schedule/block")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "dispatch/schedule/block")] HttpRequestData req)
         {
             if (!IsAdminAuthorized(req))
             {
@@ -389,7 +389,7 @@ namespace SmallBusinessSite.Api
         // 6. Admin: Cancel / Release a Booking or Block
         [Function("AdminCancelSlot")]
         public async Task<HttpResponseData> AdminCancelSlot(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "admin/schedule/cancel")] HttpRequestData req)
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "dispatch/schedule/cancel")] HttpRequestData req)
         {
             if (!IsAdminAuthorized(req))
             {

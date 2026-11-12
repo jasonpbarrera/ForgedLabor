@@ -628,13 +628,34 @@ a {
     max-width: 680px;
 }
 
-/* Header Slide-Down Menu & Trigger */
+/* Header Inline Desktop Nav & Responsive Hamburger */
+.sqsp-desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-right: 0.5rem;
+}
+
+.sqsp-nav-link {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.sqsp-nav-link:hover {
+    color: var(--brand-accent);
+}
+
 .sqsp-menu-btn {
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0.4rem;
-    display: inline-flex;
+    display: none;
     flex-direction: column;
     gap: 4px;
     align-items: center;
@@ -646,6 +667,25 @@ a {
     height: 2px;
     background: #ffffff;
     border-radius: 1px;
+}
+
+@media (max-width: 1180px) {
+    .sqsp-desktop-nav {
+        display: none;
+    }
+    .sqsp-menu-btn {
+        display: inline-flex;
+    }
+}
+
+@media (max-width: 600px) {
+    .sqsp-header-actions {
+        gap: 0.85rem;
+    }
+    .sqsp-header-call-btn {
+        padding: 0.55rem 1rem;
+        font-size: 0.78rem;
+    }
 }
 
 .sqsp-dropdown-menu {

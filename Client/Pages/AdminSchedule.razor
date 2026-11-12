@@ -237,7 +237,7 @@
 
     private async Task LoadAdminScheduleAsync()
     {
-        using var req = new HttpRequestMessage(HttpMethod.Get, "/api/admin/schedule?businessId=forged-labor");
+        using var req = new HttpRequestMessage(HttpMethod.Get, "/api/dispatch/schedule?businessId=forged-labor");
         req.Headers.Add("X-Admin-Pin", pinInput);
 
         var resp = await Http.SendAsync(req);
@@ -267,7 +267,7 @@
 
         try
         {
-            using var req = new HttpRequestMessage(HttpMethod.Post, "/api/admin/schedule/block");
+            using var req = new HttpRequestMessage(HttpMethod.Post, "/api/dispatch/schedule/block");
             req.Headers.Add("X-Admin-Pin", pinInput);
             req.Content = JsonContent.Create(new
             {
@@ -304,7 +304,7 @@
         actionMessage = null;
         actionError = null;
 
-        using var req = new HttpRequestMessage(HttpMethod.Post, "/api/admin/schedule/cancel");
+        using var req = new HttpRequestMessage(HttpMethod.Post, "/api/dispatch/schedule/cancel");
         req.Headers.Add("X-Admin-Pin", pinInput);
         req.Content = JsonContent.Create(new
         {
