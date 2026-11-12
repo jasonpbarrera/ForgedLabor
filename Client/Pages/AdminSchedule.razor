@@ -1,0 +1,326 @@
+@page "/admin/schedule"
+@inject HttpClient Http
+
+<PageTitle>Crew Dispatch &amp; Schedule Manager | Forged Labor</PageTitle>
+
+<section class="sec-subpage-header">
+    <div class="subpage-header-content">
+        <h1 class="subpage-heading">DISPATCH &amp; SCHEDULE MANAGER</h1>
+        <p class="subpage-subheading">INTERNAL TEAM PORTAL &bull; SYNC INDEPENDENT BOOKINGS</p>
+        <p class="subpage-lead">
+            Block dates for phone calls, MovingHelper jobs, or personal days off so the public website calendar always stays accurate.
+        </p>
+    </div>
+</section>
+
+<section class="sec-white" style="padding: 4rem 2rem;">
+    <div class="container-wide" style="max-width: 1050px; margin: 0 auto;">
+
+        @if (!isAuthenticated)
+        {
+            <div style="max-width: 440px; margin: 0 auto; background: var(--brand-dark-accent); color: #ffffff; padding: 2.5rem; border: 2px solid #000000;">
+                <h2 style="color: #ffffff; font-size: 1.5rem; margin-bottom: 0.5rem;">TEAM LOGIN</h2>
+                <p style="color: #d4d4d8; font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Enter your Forged Labor dispatch PIN to manage bookings and block off dates.
+                </p>
+
+                @if (!string.IsNullOrEmpty(authError))
+                {
+                    <div style="background: #991b1b; color: #ffffff; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem;">
+                        @authError
+                    </div>
+                }
+
+                <form @onsubmit="HandleLogin">
+                    <label class="sqsp-form-label">Dispatch PIN</label>
+                    <input type="password" required @bind="pinInput" placeholder="Enter PIN" class="sqsp-form-input" />
+                    <button type="submit" disabled="@isLoading" class="sqsp-btn-pill-yellow" style="width: 100%; border: none; cursor: pointer; margin-top: 0.5rem;">
+                        @(isLoading ? "VERIFYING..." : "UNLOCK SCHEDULE")
+                    </button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;">
+                <div>
+                    <h2 style="font-size: 1.75rem; color: #000000; margin: 0;">LIVE DISPATCH BOARD</h2>
+                    <p style="color: #383838; margin: 0.25rem 0 0;">Changes here update the public <a href="/appointments" style="color: #000000; font-weight: 700; text-decoration: underline;">/appointments</a> calendar immediately.</p>
+                </div>
+                <button type="button" class="sqsp-btn-outline" style="color: #000000; border-color: #000000;" @onclick="LoadAdminScheduleAsync">
+                    REFRESH BOARD
+                </button>
+            </div>
+
+            <!-- Add Independent Booking / Block Form -->
+            <div style="background: var(--brand-dark-accent); color: #ffffff; padding: 2rem; border: 2px solid #000000; margin-bottom: 3rem;">
+                <h3 style="color: var(--brand-accent); font-size: 1.25rem; margin-bottom: 1.25rem;">+ BLOCK DATE / ADD INDEPENDENT BOOKING</h3>
+
+                @if (!string.IsNullOrEmpty(actionMessage))
+                {
+                    <div style="background: #14532d; border: 1px solid #4ade80; color: #ffffff; padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
+                        @actionMessage
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(actionError))
+                {
+                    <div style="background: #991b1b; border: 1px solid #f87171; color: #ffffff; padding: 0.85rem 1rem; margin-bottom: 1.25rem;">
+                        @actionError
+                    </div>
+                }
+
+                <form @onsubmit="HandleAddBlock">
+                    <div class="booking-form-grid">
+                        <div>
+                            <label class="sqsp-form-label">Date *</label>
+                            <input type="date" required @bind="blockDate" class="sqsp-form-input" />
+                        </div>
+                        <div>
+                            <label class="sqsp-form-label">Time Window *</label>
+                            <select @bind="blockTimeSlot" class="sqsp-form-input" style="height: 48px;">
+                                <option value="Morning (8:00 AM)">Morning (8:00 AM)</option>
+                                <option value="Afternoon (1:00 PM)">Afternoon (1:00 PM)</option>
+                                <option value="Full Day">Full Day</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="booking-form-grid">
+                        <div>
+                            <label class="sqsp-form-label">Booking Source</label>
+                            <select @bind="blockSource" class="sqsp-form-input" style="height: 48px;">
+                                <option value="Phone Booking">Phone Booking</option>
+                                <option value="MovingHelper (U-Haul)">MovingHelper (U-Haul)</option>
+                                <option value="Repeat Client">Repeat Client</option>
+                                <option value="Crew Unavailable / Off">Crew Unavailable / Off</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="sqsp-form-label">Crew Size</label>
+                            <select @bind="blockCrewSize" class="sqsp-form-input" style="height: 48px;">
+                                <option value="2">2 Movers</option>
+                                <option value="3">3 Movers</option>
+                                <option value="4">4 Movers</option>
+                                <option value="5">5 Movers</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="booking-form-grid">
+                        <div>
+                            <label class="sqsp-form-label">Customer / Job Name</label>
+                            <input type="text" @bind="blockCustomerName" placeholder="e.g. Smith Move or Blocked" class="sqsp-form-input" />
+                        </div>
+                        <div>
+                            <label class="sqsp-form-label">Dispatch Notes</label>
+                            <input type="text" @bind="blockNotes" placeholder="Location, truck needed, etc." class="sqsp-form-input" />
+                        </div>
+                    </div>
+
+                    <button type="submit" disabled="@isSavingBlock" class="sqsp-btn-pill-yellow" style="border: none; cursor: pointer;">
+                        @(isSavingBlock ? "SAVING..." : "BLOCK SLOT ON WEBSITE CALENDAR")
+                    </button>
+                </form>
+            </div>
+
+            <!-- Active Schedule Items -->
+            <h3 style="font-size: 1.35rem; color: #000000; margin-bottom: 1rem;">UPCOMING BOOKINGS &amp; BLOCKS</h3>
+
+            @if (!activeItems.Any())
+            {
+                <div class="accordion-box" style="padding: 2rem; text-align: center;">
+                    <p style="margin: 0; font-weight: 700; color: #383838;">No active bookings or blocked dates found.</p>
+                </div>
+            }
+            else
+            {
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    @foreach (var item in activeItems)
+                    {
+                        <div class="accordion-box" style="padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+                                    <span style="background: #000000; color: var(--brand-accent); font-family: var(--font-heading); font-size: 0.85rem; padding: 0.2rem 0.6rem;">
+                                        @item.Date
+                                    </span>
+                                    <span style="font-weight: 800; color: #000000;">@item.TimeSlot</span>
+                                    <span style="background: var(--brand-accent); color: #000000; font-size: 0.75rem; font-weight: 800; padding: 0.15rem 0.5rem; text-transform: uppercase;">
+                                        @item.Source
+                                    </span>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #383838; text-transform: uppercase;">
+                                        [@item.Status]
+                                    </span>
+                                </div>
+                                <div style="font-weight: 700; color: #000000; font-size: 1.05rem;">
+                                    @item.Name — @item.ServiceType @(item.CrewSize > 0 ? $"({item.CrewSize} Movers)" : "")
+                                </div>
+                                @if (!string.IsNullOrWhiteSpace(item.Phone) || !string.IsNullOrWhiteSpace(item.OriginAddress))
+                                {
+                                    <div style="font-size: 0.9rem; color: #383838; margin-top: 0.2rem;">
+                                        @item.Phone @(!string.IsNullOrWhiteSpace(item.Email) ? $"• {item.Email}" : "")
+                                        @(!string.IsNullOrWhiteSpace(item.OriginAddress) ? $"• {item.OriginAddress} → {item.DestinationAddress}" : "")
+                                    </div>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(item.Notes))
+                                {
+                                    <div style="font-size: 0.85rem; color: #52525b; margin-top: 0.2rem;">Notes: @item.Notes</div>
+                                }
+                            </div>
+                            <div>
+                                <button type="button"
+                                        class="sqsp-btn-outline"
+                                        style="color: #991b1b; border-color: #991b1b; padding: 0.5rem 1rem; font-size: 0.8rem;"
+                                        @onclick="() => CancelSlotAsync(item.Id)">
+                                    RELEASE / CANCEL
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</section>
+
+@code {
+    private class AdminScheduleItem
+    {
+        public string Id { get; set; } = "";
+        public string Date { get; set; } = "";
+        public string TimeSlot { get; set; } = "";
+        public string ServiceType { get; set; } = "";
+        public int CrewSize { get; set; }
+        public string Name { get; set; } = "";
+        public string Phone { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string OriginAddress { get; set; } = "";
+        public string DestinationAddress { get; set; } = "";
+        public string Notes { get; set; } = "";
+        public string Source { get; set; } = "";
+        public string Status { get; set; } = "";
+    }
+
+    private string pinInput = "";
+    private bool isAuthenticated = false;
+    private bool isLoading = false;
+    private string? authError;
+
+    private List<AdminScheduleItem> allItems = new();
+    private List<AdminScheduleItem> activeItems => allItems
+        .Where(i => !string.Equals(i.Status, "cancelled", StringComparison.OrdinalIgnoreCase))
+        .OrderBy(i => i.Date)
+        .ToList();
+
+    private DateTime blockDate = DateTime.Today.AddDays(1);
+    private string blockTimeSlot = "Morning (8:00 AM)";
+    private string blockSource = "Phone Booking";
+    private int blockCrewSize = 2;
+    private string blockCustomerName = "";
+    private string blockNotes = "";
+    private bool isSavingBlock = false;
+    private string? actionMessage;
+    private string? actionError;
+
+    private async Task HandleLogin()
+    {
+        authError = null;
+        isLoading = true;
+        try
+        {
+            await LoadAdminScheduleAsync();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadAdminScheduleAsync()
+    {
+        using var req = new HttpRequestMessage(HttpMethod.Get, "/api/admin/schedule?businessId=forged-labor");
+        req.Headers.Add("X-Admin-Pin", pinInput);
+
+        var resp = await Http.SendAsync(req);
+        if (resp.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+        {
+            isAuthenticated = false;
+            authError = "Invalid dispatch PIN. Please try again.";
+            return;
+        }
+
+        if (resp.IsSuccessStatusCode)
+        {
+            isAuthenticated = true;
+            allItems = await resp.Content.ReadFromJsonAsync<List<AdminScheduleItem>>() ?? new();
+        }
+        else
+        {
+            authError = "Unable to connect to schedule service.";
+        }
+    }
+
+    private async Task HandleAddBlock()
+    {
+        actionMessage = null;
+        actionError = null;
+        isSavingBlock = true;
+
+        try
+        {
+            using var req = new HttpRequestMessage(HttpMethod.Post, "/api/admin/schedule/block");
+            req.Headers.Add("X-Admin-Pin", pinInput);
+            req.Content = JsonContent.Create(new
+            {
+                businessId = "forged-labor",
+                date = blockDate.ToString("yyyy-MM-dd"),
+                timeSlot = blockTimeSlot,
+                crewSize = blockCrewSize,
+                source = blockSource,
+                customerName = blockCustomerName,
+                notes = blockNotes
+            });
+
+            var resp = await Http.SendAsync(req);
+            if (resp.IsSuccessStatusCode)
+            {
+                actionMessage = $"Blocked {blockDate:MMM d, yyyy} ({blockTimeSlot}) on the public website calendar.";
+                blockCustomerName = "";
+                blockNotes = "";
+                await LoadAdminScheduleAsync();
+            }
+            else
+            {
+                actionError = "Could not save block. Please check your connection and try again.";
+            }
+        }
+        finally
+        {
+            isSavingBlock = false;
+        }
+    }
+
+    private async Task CancelSlotAsync(string id)
+    {
+        actionMessage = null;
+        actionError = null;
+
+        using var req = new HttpRequestMessage(HttpMethod.Post, "/api/admin/schedule/cancel");
+        req.Headers.Add("X-Admin-Pin", pinInput);
+        req.Content = JsonContent.Create(new
+        {
+            businessId = "forged-labor",
+            id
+        });
+
+        var resp = await Http.SendAsync(req);
+        if (resp.IsSuccessStatusCode)
+        {
+            actionMessage = "Slot released and reopened on the public calendar.";
+            await LoadAdminScheduleAsync();
+        }
+        else
+        {
+            actionError = "Failed to release slot.";
+        }
+    }
+}

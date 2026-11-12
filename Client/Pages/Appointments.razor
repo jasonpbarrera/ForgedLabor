@@ -1,82 +1,223 @@
 @page "/appointments"
 @inject IOptions<BusinessSettings> BusinessConfig
 @inject HttpClient Http
+@inject NavigationManager Nav
 
-<PageTitle>Schedule a Consultation | Forged Labor</PageTitle>
+<PageTitle>Schedule &amp; Book Your Move | Forged Labor</PageTitle>
 
-<section class="sec-dark-bold" style="padding: 5rem 2rem 3rem; text-align: center; border-bottom: 2px solid var(--brand-accent);">
-    <div class="container-wide" style="max-width: 900px; margin: 0 auto;">
-        <h1 style="font-size: clamp(2.4rem, 5vw, 3.8rem); color: #ffffff; text-transform: uppercase; margin-bottom: 1.25rem;">
-            Schedule a Consultation
-        </h1>
-        <p style="font-size: 1.15rem; color: #d1d5db; line-height: 1.7; margin-bottom: 2rem;">
-            A preliminary discussion enables the team to evaluate scope, identify constraints, and propose a tailored relocation blueprint.
+<!-- Subpage Header -->
+<section class="sec-subpage-header">
+    <div class="subpage-header-content">
+        <h1 class="subpage-heading">BOOK YOUR MOVE</h1>
+        <p class="subpage-subheading">LIVE AVAILABILITY &bull; CHOOSE YOUR CREW &bull; LOCK IN YOUR SPOT</p>
+        <p class="subpage-lead">
+            Select your service, pick a crew of 2 to 5 movers, choose an open date on our live calendar, and lock in your spot. Deposits are applied 100% toward your final move invoice.
         </p>
-
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
             <a href="tel:@BusinessConfig.Value.PhoneNumber" class="sqsp-btn-pill-yellow">
-                CALL 423-715-4254
-            </a>
-            <a href="#booking-form" class="sqsp-btn-outline">
-                QUICK INTAKE FORM ↓
+                CALL @BusinessConfig.Value.PhoneNumber
             </a>
         </div>
     </div>
 </section>
 
-<!-- Direct Acuity / Squarespace Scheduling Embed (Exact 1:1 Experience) -->
-<section class="sec-white" style="padding: 4rem 2rem;">
-    <div class="container-wide" style="max-width: 1000px; margin: 0 auto;">
-        <div style="background: #ffffff; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 3.5rem;">
-            <div style="padding: 1.5rem 2rem; background: #111111; color: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <div>
-                    <h3 style="margin: 0; font-size: 1.15rem; color: #ffffff;">Live Calendar Scheduler</h3>
-                    <span style="font-size: 0.85rem; color: #a1a1aa;">Select an appointment date and consultation slot directly with Ben Wiseman</span>
-                </div>
-                <a href="https://blueprintcatalogen.as.me/" target="_blank" rel="noopener" class="sqsp-btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.8rem;">
-                    Full Screen ↗
-                </a>
+<!-- Native Interactive Scheduler -->
+<section class="sec-white" style="padding: 4.5rem 2rem;">
+    <div class="container-wide" style="max-width: 1050px; margin: 0 auto;">
+
+        @if (isVerifyingPayment)
+        {
+            <div class="booking-status-box">
+                <h3>VERIFYING YOUR DEPOSIT PAYMENT...</h3>
+                <p>Please wait a moment while we confirm your reservation with Stripe.</p>
             </div>
-
-            <!-- Embedded Scheduler Iframe -->
-            <iframe src="https://blueprintcatalogen.as.me/?template=weekly" 
-                    title="Schedule Appointment with Forged Labor" 
-                    width="100%" 
-                    height="750" 
-                    frameBorder="0" 
-                    allow="payment" 
-                    style="border: 0; width: 100%; min-height: 750px; display: block;"></iframe>
-        </div>
-
-        <!-- Fast Fallback Intake & Scheduling Form -->
-        <div id="booking-form" style="background: var(--brand-dark-accent); color: #ffffff; padding: 3rem 2.5rem;">
-            <h2 style="font-size: 1.85rem; color: #ffffff; margin-bottom: 0.5rem; text-transform: uppercase;">
-                Or Request A Consultation Below
-            </h2>
-            <p style="color: #a1a1aa; font-size: 1rem; margin-bottom: 2rem;">
-                Prefer us to reach out to you? Enter your details and Ben will contact you to confirm a time that works best.
-            </p>
-
-            @if (isSuccess)
+        }
+        else if (bookingConfirmed)
+        {
+            <div class="booking-confirmed-box">
+                <span class="booking-confirmed-badge">RESERVATION LOCKED IN</span>
+                <h2>YOU'RE ON THE FORGED LABOR SCHEDULE!</h2>
+                <p>
+                    Thank you, <strong>@(confirmedName)</strong>. Your slot has been reserved on our live calendar and our dispatch team has been notified.
+                </p>
+                <div class="booking-summary-grid">
+                    <div>
+                        <span class="summary-label">DATE</span>
+                        <span class="summary-val">@confirmedDate</span>
+                    </div>
+                    <div>
+                        <span class="summary-label">ARRIVAL WINDOW</span>
+                        <span class="summary-val">@confirmedSlot</span>
+                    </div>
+                    <div>
+                        <span class="summary-label">SERVICE</span>
+                        <span class="summary-val">@confirmedService</span>
+                    </div>
+                    <div>
+                        <span class="summary-label">CREW SIZE</span>
+                        <span class="summary-val">@(confirmedCrew > 0 ? $"{confirmedCrew} Movers" : "Consultation")</span>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(confirmedDepositNote))
+                {
+                    <p style="margin-top: 1.5rem; font-size: 0.95rem; color: #383838;">
+                        @confirmedDepositNote
+                    </p>
+                }
+                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button type="button" class="sqsp-btn-primary" @onclick="ResetBooking">BOOK ANOTHER DATE</button>
+                    <a href="/" class="sqsp-btn-outline" style="color: #000000; border-color: #000000;">RETURN HOME</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            @if (paymentCancelledNotice)
             {
-                <div style="background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); color: #4ade80; padding: 1.5rem; margin-bottom: 1.5rem;">
-                    <h4 style="margin-bottom: 0.5rem;">✓ Request Received!</h4>
-                    <p style="margin: 0;">Thanks @name! Ben Wiseman has received your request and will follow up promptly.</p>
+                <div style="background: #fef3c7; border: 2px solid #efb600; color: #000000; padding: 1rem 1.25rem; margin-bottom: 2rem; font-weight: 600;">
+                    Checkout was cancelled before payment completed. Your slot is not yet confirmed — feel free to review your details and try again.
                 </div>
             }
-            else
-            {
-                <form @onsubmit="HandleSubmit">
+
+            <!-- STEP 1: SERVICE & CREW SIZE -->
+            <div class="scheduler-step-block">
+                <div class="scheduler-step-header">
+                    <span class="step-num">STEP 1</span>
+                    <h2>SELECT SERVICE &amp; CREW SIZE</h2>
+                </div>
+
+                <div class="service-pill-grid">
+                    @foreach (var svc in ServiceOptions)
+                    {
+                        <button type="button"
+                                class="service-select-card @(selectedService == svc.Name ? "active" : "")"
+                                @onclick="() => SelectService(svc)">
+                            <span class="service-card-title">@svc.Name</span>
+                            <span class="service-card-sub">@svc.Subtitle</span>
+                        </button>
+                    }
+                </div>
+
+                @if (!IsConsultation)
+                {
+                    <div style="margin-top: 2rem;">
+                        <label class="scheduler-label">CHOOSE YOUR CREW (2 TO 5 MOVERS)</label>
+                        <div class="crew-selector-grid">
+                            @for (int c = 2; c <= 5; c++)
+                            {
+                                int crewCount = c;
+                                int deposit = crewCount >= 4 ? 250 : 150;
+                                <button type="button"
+                                        class="crew-card @(crewSize == crewCount ? "active" : "")"
+                                        @onclick="() => crewSize = crewCount">
+                                    <span class="crew-count">@crewCount MOVERS</span>
+                                    <span class="crew-desc">@GetCrewDescription(crewCount)</span>
+                                    <span class="crew-deposit">$@deposit Deposit</span>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- STEP 2: LIVE CALENDAR & TIME WINDOW -->
+            <div class="scheduler-step-block">
+                <div class="scheduler-step-header">
+                    <span class="step-num">STEP 2</span>
+                    <h2>PICK AN OPEN DATE &amp; WINDOW</h2>
+                </div>
+
+                <div class="calendar-wrapper">
+                    <div class="calendar-nav">
+                        <button type="button" class="cal-nav-btn" @onclick="PrevMonth" disabled="@(!CanGoPrevMonth)">&larr; PREV</button>
+                        <h3 class="cal-month-title">@currentMonth.ToString("MMMM yyyy").ToUpper()</h3>
+                        <button type="button" class="cal-nav-btn" @onclick="NextMonth">NEXT &rarr;</button>
+                    </div>
+
+                    @if (isLoadingSchedule)
+                    {
+                        <p style="text-align: center; padding: 2rem; color: #383838; font-weight: 700;">LOADING LIVE AVAILABILITY...</p>
+                    }
+                    else
+                    {
+                        <div class="cal-weekdays">
+                            <span>SUN</span><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span>
+                        </div>
+                        <div class="cal-days-grid">
+                            @for (int i = 0; i < FirstDayOffset; i++)
+                            {
+                                <div class="cal-day empty"></div>
+                            }
+                            @for (int day = 1; day <= DaysInMonth; day++)
+                            {
+                                var dateObj = new DateTime(currentMonth.Year, currentMonth.Month, day);
+                                string dateStr = dateObj.ToString("yyyy-MM-dd");
+                                bool isPast = dateObj.Date < DateTime.Today;
+                                bool isFull = IsDateFullyBooked(dateStr);
+                                bool isSelected = selectedDate == dateStr;
+                                bool hasPartial = HasAnyBookingOnDate(dateStr) && !isFull;
+
+                                <button type="button"
+                                        disabled="@(isPast || isFull)"
+                                        class="cal-day @(isPast ? "past" : "") @(isFull ? "full" : "") @(isSelected ? "selected" : "")"
+                                        @onclick="() => SelectDate(dateStr)">
+                                    <span class="cal-day-num">@day</span>
+                                    @if (isFull && !isPast)
+                                    {
+                                        <span class="cal-day-tag">FULL</span>
+                                    }
+                                    else if (hasPartial && !isPast)
+                                    {
+                                        <span class="cal-day-tag partial">LIMITED</span>
+                                    }
+                                </button>
+                            }
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(selectedDate))
+                    {
+                        <div class="timeslot-panel">
+                            <label class="scheduler-label">AVAILABLE WINDOWS FOR @DateTime.Parse(selectedDate).ToString("dddd, MMM d, yyyy").ToUpper()</label>
+                            <div class="timeslot-grid">
+                                @foreach (var slot in TimeSlotOptions)
+                                {
+                                    bool taken = IsSlotTaken(selectedDate, slot);
+                                    <button type="button"
+                                            disabled="@taken"
+                                            class="timeslot-btn @(selectedTimeSlot == slot ? "active" : "") @(taken ? "taken" : "")"
+                                            @onclick="() => selectedTimeSlot = slot">
+                                        <span>@slot</span>
+                                        @if (taken)
+                                        {
+                                            <span class="slot-status-tag">BOOKED</span>
+                                        }
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- STEP 3: CUSTOMER DETAILS & DEPOSIT -->
+            <div class="scheduler-step-block" style="background: var(--brand-dark-accent); color: #ffffff; padding: 2.5rem; border: 2px solid #000000;">
+                <div class="scheduler-step-header" style="border-bottom-color: rgba(255,255,255,0.2);">
+                    <span class="step-num">STEP 3</span>
+                    <h2 style="color: #ffffff;">YOUR DETAILS &amp; CONFIRMATION</h2>
+                </div>
+
+                <form @onsubmit="HandleBookingSubmit">
                     <input type="text" @bind="botHoneypot" style="display:none;" tabindex="-1" autocomplete="off" />
 
                     @if (!string.IsNullOrEmpty(errorMessage))
                     {
-                        <div style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5); color: #f87171; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.9rem;">
+                        <div style="background: #991b1b; border: 1px solid #f87171; color: #ffffff; padding: 1rem; margin-bottom: 1.5rem; font-weight: 600;">
                             @errorMessage
                         </div>
                     }
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="booking-form-grid">
                         <div>
                             <label class="sqsp-form-label">Full Name *</label>
                             <input type="text" required @bind="name" placeholder="John Smith" class="sqsp-form-input" />
@@ -87,89 +228,386 @@
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="booking-form-grid">
                         <div>
                             <label class="sqsp-form-label">Email Address *</label>
                             <input type="email" required @bind="email" placeholder="you@domain.com" class="sqsp-form-input" />
                         </div>
                         <div>
-                            <label class="sqsp-form-label">Service Type</label>
-                            <select @bind="selectedService" class="sqsp-form-input" style="height: 48px;">
-                                <option value="Free Consultation">Free 30-Minute Consultation</option>
-                                <option value="Full Service Move">Full Service Move (Truck + 2 Movers)</option>
-                                <option value="Labor-Only Movers">Labor-Only Movers (Load / Unload)</option>
-                                <option value="Pickup & Delivery">Pickup & Delivery</option>
-                                <option value="Heavy Fitness Equipment">Heavy Duty / Fitness Equipment</option>
-                            </select>
+                            <label class="sqsp-form-label">Origin City / Address</label>
+                            <input type="text" @bind="originAddress" placeholder="e.g. Cleveland, TN" class="sqsp-form-input" />
                         </div>
                     </div>
 
-                    <label class="sqsp-form-label">Preferred Date</label>
-                    <input type="date" @bind="preferredStartDate" class="sqsp-form-input" />
+                    <label class="sqsp-form-label">Destination City / Address (if applicable)</label>
+                    <input type="text" @bind="destinationAddress" placeholder="e.g. Chattanooga, TN" class="sqsp-form-input" />
 
-                    <label class="sqsp-form-label">Move Details & Notes *</label>
-                    <textarea rows="4" required @bind="message" placeholder="Details about origin, destination, heavy items, or preferred consultation timing..." class="sqsp-form-input" style="resize: vertical;"></textarea>
+                    <label class="sqsp-form-label">Move Inventory &amp; Heavy Items Notes</label>
+                    <textarea rows="3" @bind="notes" placeholder="Stairs, heavy safes, gym racks, truck size, or special instructions..." class="sqsp-form-input" style="resize: vertical;"></textarea>
 
-                    <button type="submit" disabled="@isSubmitting" class="sqsp-btn-primary" style="padding: 1.1rem 2.5rem; font-size: 1rem;">
-                        @(isSubmitting ? "SUBMITTING..." : "REQUEST CONSULTATION")
+                    <!-- Summary Bar -->
+                    <div class="booking-checkout-bar">
+                        <div>
+                            <div style="font-size: 0.8rem; color: #efb600; font-weight: 700; letter-spacing: 0.05em;">RESERVATION SUMMARY</div>
+                            <div style="font-size: 1.05rem; font-weight: 700; margin-top: 0.2rem;">
+                                @selectedService @(IsConsultation ? "" : $"— {crewSize} Movers")
+                            </div>
+                            <div style="font-size: 0.9rem; color: #d4d4d8;">
+                                @(string.IsNullOrEmpty(selectedDate) ? "Select a date above" : $"{DateTime.Parse(selectedDate):ddd, MMM d, yyyy}")
+                                @(string.IsNullOrEmpty(selectedTimeSlot) ? "" : $" • {selectedTimeSlot}")
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.8rem; color: #d4d4d8; text-transform: uppercase;">Deposit Due Today</div>
+                            <div style="font-family: var(--font-heading); font-size: 1.8rem; color: var(--brand-accent); line-height: 1.1;">
+                                $@CurrentDepositDollars
+                            </div>
+                            <div style="font-size: 0.75rem; color: #a1a1aa;">100% applied to final invoice</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" disabled="@isSubmitting" class="sqsp-btn-pill-yellow" style="width: 100%; text-align: center; padding: 1.15rem 2rem; font-size: 1.05rem; margin-top: 1.5rem; border: none; cursor: pointer;">
+                        @if (isSubmitting)
+                        {
+                            <span>PROCESSING RESERVATION...</span>
+                        }
+                        else if (IsConsultation)
+                        {
+                            <span>CONFIRM FREE CONSULTATION &rarr;</span>
+                        }
+                        else if (stripeConfigured)
+                        {
+                            <span>LOCK IN SPOT &amp; PAY $@CurrentDepositDollars DEPOSIT &rarr;</span>
+                        }
+                        else
+                        {
+                            <span>LOCK IN SPOT ($@CurrentDepositDollars DEPOSIT) &rarr;</span>
+                        }
                     </button>
                 </form>
-            }
-        </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- Direct Phone Call Band -->
+<section class="sec-dark-bold" style="padding: 4rem 2rem; text-align: center; border-top: 2px solid #000000;">
+    <div style="max-width: 750px; margin: 0 auto;">
+        <h2 style="font-size: 2rem; color: #ffffff; margin-bottom: 0.75rem;">NEED A CUSTOM MULTI-DAY OR COMMERCIAL QUOTE?</h2>
+        <p style="color: #d4d4d8; margin-bottom: 1.75rem;">
+            Call Ben Wiseman directly at @BusinessConfig.Value.PhoneNumber and our team will build a custom crew plan for your move.
+        </p>
+        <a href="tel:@BusinessConfig.Value.PhoneNumber" class="sqsp-btn-pill-yellow">CALL @BusinessConfig.Value.PhoneNumber</a>
     </div>
 </section>
 
 @code {
-    private string name = string.Empty;
-    private string phoneNumber = string.Empty;
-    private string email = string.Empty;
-    private string selectedService = "Free Consultation";
-    private DateTime? preferredStartDate = null;
-    private string message = string.Empty;
-    private string botHoneypot = string.Empty;
+    private record ServiceOption(string Name, string Subtitle);
+    private class PublicSlotItem
+    {
+        public string Date { get; set; } = "";
+        public string TimeSlot { get; set; } = "";
+        public string Status { get; set; } = "";
+        public int CrewSize { get; set; }
+    }
+
+    private class ScheduleResponse
+    {
+        public bool Configured { get; set; }
+        public bool StripeConfigured { get; set; }
+        public List<PublicSlotItem> BookedSlots { get; set; } = new();
+    }
+
+    private class BookingResponse
+    {
+        public string Status { get; set; } = "";
+        public string BookingId { get; set; } = "";
+        public string? CheckoutUrl { get; set; }
+        public decimal DepositAmount { get; set; }
+        public bool StripeConfigured { get; set; }
+        public string? Error { get; set; }
+    }
+
+    private class VerifyResponse
+    {
+        public bool Verified { get; set; }
+        public string Status { get; set; } = "";
+        public string Date { get; set; } = "";
+        public string TimeSlot { get; set; } = "";
+        public int CrewSize { get; set; }
+        public string ServiceType { get; set; } = "";
+    }
+
+    private static readonly List<ServiceOption> ServiceOptions = new()
+    {
+        new("Full Service Move", "Truck + Crew + Pads + Insurance"),
+        new("Labor-Only Movers", "Load / Unload Your Truck or POD"),
+        new("Pickup & Delivery", "Store Pickup + Placement + Assembly"),
+        new("Heavy Fitness Equipment", "Gym Racks, Cardio & Commercial Gear"),
+        new("Free Consultation", "30-Min Scope & Estimate Call ($0)")
+    };
+
+    private static readonly List<string> TimeSlotOptions = new()
+    {
+        "Morning (8:00 AM)",
+        "Afternoon (1:00 PM)",
+        "Full Day"
+    };
+
+    private string selectedService = "Full Service Move";
+    private int crewSize = 2;
+    private DateTime currentMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+    private string selectedDate = "";
+    private string selectedTimeSlot = "";
+
+    private string name = "";
+    private string phoneNumber = "";
+    private string email = "";
+    private string originAddress = "";
+    private string destinationAddress = "";
+    private string notes = "";
+    private string botHoneypot = "";
+
+    private bool isLoadingSchedule = true;
+    private bool stripeConfigured = false;
+    private List<PublicSlotItem> bookedSlots = new();
 
     private bool isSubmitting = false;
-    private bool isSuccess = false;
     private string? errorMessage;
 
-    private async Task HandleSubmit()
+    private bool isVerifyingPayment = false;
+    private bool paymentCancelledNotice = false;
+    private bool bookingConfirmed = false;
+    private string confirmedName = "";
+    private string confirmedDate = "";
+    private string confirmedSlot = "";
+    private string confirmedService = "";
+    private int confirmedCrew = 0;
+    private string confirmedDepositNote = "";
+
+    private bool IsConsultation => selectedService.Contains("Consultation", StringComparison.OrdinalIgnoreCase);
+    private int CurrentDepositDollars => IsConsultation ? 0 : (crewSize >= 4 ? 250 : 150);
+
+    private int DaysInMonth => DateTime.DaysInMonth(currentMonth.Year, currentMonth.Month);
+    private int FirstDayOffset => (int)currentMonth.DayOfWeek;
+    private bool CanGoPrevMonth => currentMonth > new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+
+    protected override async Task OnInitializedAsync()
     {
-        isSubmitting = true;
-        errorMessage = null;
+        var uri = Nav.ToAbsoluteUri(Nav.Uri);
+        var query = ParseQueryString(uri.Query);
 
-        var leadRequest = new LeadSubmissionRequest
+        if (query.TryGetValue("payment", out var paymentState))
         {
-            BusinessId = "forged-labor",
-            CompanyName = "Forged Labor",
-            Name = name,
-            Phone = phoneNumber,
-            Email = email,
-            PreferredContactMethod = "Phone Call",
-            ServiceType = selectedService,
-            PreferredStartDate = preferredStartDate?.ToString("yyyy-MM-dd"),
-            Message = message,
-            Honeypot = botHoneypot
-        };
-
-        try
-        {
-            var response = await Http.PostAsJsonAsync("/api/leads", leadRequest);
-            if (response.IsSuccessStatusCode)
+            if (paymentState == "cancelled")
             {
-                isSuccess = true;
+                paymentCancelledNotice = true;
             }
-            else
+            else if (paymentState == "success" &&
+                     query.TryGetValue("bookingId", out var bId) &&
+                     query.TryGetValue("session_id", out var sId))
             {
-                errorMessage = "Unable to submit. Please call (423) 715-4254 directly.";
+                isVerifyingPayment = true;
+                await VerifyStripeReturnAsync(bId, sId);
+                isVerifyingPayment = false;
+                return;
             }
         }
-        catch (Exception)
+
+        await LoadPublicScheduleAsync();
+    }
+
+    private async Task LoadPublicScheduleAsync()
+    {
+        isLoadingSchedule = true;
+        try
         {
-            errorMessage = "Unable to connect. Please call (423) 715-4254 directly.";
+            var resp = await Http.GetFromJsonAsync<ScheduleResponse>("/api/schedule?businessId=forged-labor");
+            if (resp != null)
+            {
+                bookedSlots = resp.BookedSlots ?? new();
+                stripeConfigured = resp.StripeConfigured;
+            }
+        }
+        catch
+        {
+            // Graceful fallback if API is offline in local static preview
+            bookedSlots = new();
+        }
+        finally
+        {
+            isLoadingSchedule = false;
+        }
+    }
+
+    private async Task VerifyStripeReturnAsync(string bookingId, string sessionId)
+    {
+        try
+        {
+            var resp = await Http.PostAsJsonAsync("/api/bookings/verify", new
+            {
+                businessId = "forged-labor",
+                bookingId,
+                sessionId
+            });
+            if (resp.IsSuccessStatusCode)
+            {
+                var data = await resp.Content.ReadFromJsonAsync<VerifyResponse>();
+                if (data?.Verified == true)
+                {
+                    bookingConfirmed = true;
+                    confirmedName = "Valued Customer";
+                    confirmedDate = data.Date;
+                    confirmedSlot = data.TimeSlot;
+                    confirmedService = data.ServiceType;
+                    confirmedCrew = data.CrewSize;
+                    confirmedDepositNote = "Your deposit payment has been verified via Stripe and applied toward your final move invoice.";
+                    return;
+                }
+            }
+        }
+        catch { }
+
+        errorMessage = "We received your return from checkout, but could not automatically verify the session. Please call (423) 715-4254 to confirm.";
+        await LoadPublicScheduleAsync();
+    }
+
+    private void SelectService(ServiceOption svc)
+    {
+        selectedService = svc.Name;
+    }
+
+    private static string GetCrewDescription(int count) => count switch
+    {
+        2 => "Apartments & 1–2 BR",
+        3 => "2–3 BR Homes",
+        4 => "3–4 BR / Heavy Gear",
+        5 => "Large Estates & Commercial",
+        _ => ""
+    };
+
+    private void PrevMonth()
+    {
+        if (CanGoPrevMonth) currentMonth = currentMonth.AddMonths(-1);
+    }
+
+    private void NextMonth()
+    {
+        currentMonth = currentMonth.AddMonths(1);
+    }
+
+    private bool HasAnyBookingOnDate(string dateStr) =>
+        bookedSlots.Any(s => string.Equals(s.Date, dateStr, StringComparison.OrdinalIgnoreCase));
+
+    private bool IsSlotTaken(string dateStr, string slot)
+    {
+        var daySlots = bookedSlots.Where(s => string.Equals(s.Date, dateStr, StringComparison.OrdinalIgnoreCase)).ToList();
+        if (!daySlots.Any()) return false;
+        if (daySlots.Any(s => string.Equals(s.TimeSlot, "Full Day", StringComparison.OrdinalIgnoreCase))) return true;
+        if (string.Equals(slot, "Full Day", StringComparison.OrdinalIgnoreCase)) return daySlots.Any();
+        return daySlots.Any(s => string.Equals(s.TimeSlot, slot, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private bool IsDateFullyBooked(string dateStr) =>
+        IsSlotTaken(dateStr, "Morning (8:00 AM)") && IsSlotTaken(dateStr, "Afternoon (1:00 PM)");
+
+    private void SelectDate(string dateStr)
+    {
+        selectedDate = dateStr;
+        selectedTimeSlot = TimeSlotOptions.FirstOrDefault(t => !IsSlotTaken(dateStr, t)) ?? "";
+    }
+
+    private async Task HandleBookingSubmit()
+    {
+        errorMessage = null;
+
+        if (string.IsNullOrWhiteSpace(selectedDate) || string.IsNullOrWhiteSpace(selectedTimeSlot))
+        {
+            errorMessage = "Please select an open date and arrival window on the calendar above before submitting.";
+            return;
+        }
+
+        isSubmitting = true;
+        try
+        {
+            string returnBase = Nav.ToAbsoluteUri("/appointments").ToString();
+            var payload = new
+            {
+                businessId = "forged-labor",
+                serviceType = selectedService,
+                crewSize = IsConsultation ? 0 : crewSize,
+                date = selectedDate,
+                timeSlot = selectedTimeSlot,
+                name,
+                phone = phoneNumber,
+                email,
+                originAddress,
+                destinationAddress,
+                notes,
+                returnUrlBase = returnBase,
+                honeypot = botHoneypot
+            };
+
+            var response = await Http.PostAsJsonAsync("/api/bookings", payload);
+            if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                errorMessage = "That date and time window was just reserved. Please pick another open slot.";
+                await LoadPublicScheduleAsync();
+                return;
+            }
+
+            if (!response.IsSuccessStatusCode)
+            {
+                errorMessage = $"Unable to complete booking right now. Please call {BusinessConfig.Value.PhoneNumber} directly.";
+                return;
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<BookingResponse>();
+            if (result != null && result.Status == "checkout_required" && !string.IsNullOrWhiteSpace(result.CheckoutUrl))
+            {
+                Nav.NavigateTo(result.CheckoutUrl, forceLoad: true);
+                return;
+            }
+
+            bookingConfirmed = true;
+            confirmedName = name;
+            confirmedDate = DateTime.Parse(selectedDate).ToString("dddd, MMM d, yyyy");
+            confirmedSlot = selectedTimeSlot;
+            confirmedService = selectedService;
+            confirmedCrew = IsConsultation ? 0 : crewSize;
+            confirmedDepositNote = IsConsultation
+                ? "No deposit required for a free 30-minute consultation."
+                : $"Your ${CurrentDepositDollars} deposit reservation has been logged. Our dispatch team will reach out shortly to finalize payment and confirm your crew.";
+        }
+        catch
+        {
+            errorMessage = $"Connection error. Please call {BusinessConfig.Value.PhoneNumber} directly.";
         }
         finally
         {
             isSubmitting = false;
         }
+    }
+
+    private async Task ResetBooking()
+    {
+        bookingConfirmed = false;
+        paymentCancelledNotice = false;
+        selectedDate = "";
+        selectedTimeSlot = "";
+        await LoadPublicScheduleAsync();
+    }
+
+    private static Dictionary<string, string> ParseQueryString(string query)
+    {
+        var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        if (string.IsNullOrWhiteSpace(query)) return dict;
+        foreach (var pair in query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var parts = pair.Split('=', 2);
+            if (parts.Length == 2)
+                dict[Uri.UnescapeDataString(parts[0])] = Uri.UnescapeDataString(parts[1]);
+        }
+        return dict;
     }
 }

@@ -7,6 +7,8 @@
     "COSMOS_DATABASE_NAME": "SmallBusinessPlatform",
     "BREVO_API_KEY": "xkeysib-your-brevo-api-key",
     "BREVO_SENDER_EMAIL": "info@your-client-domain.com",
-    "LEAD_NOTIFICATION_EMAIL": "info@your-client-domain.com"
+    "LEAD_NOTIFICATION_EMAIL": "info@your-client-domain.com",
+    "STRIPE_SECRET_KEY": "sk_test_your_stripe_secret_key",
+    "ADMIN_SCHEDULE_PIN": "4254"
   }
 }
