@@ -158,6 +158,7 @@ namespace SmallBusinessSite.Api
                 Email = input.Email.Trim(),
                 OriginAddress = input.OriginAddress?.Trim() ?? "",
                 DestinationAddress = input.DestinationAddress?.Trim() ?? "",
+                RequestedMovers = input.RequestedMovers?.Trim() ?? "Any Available Crew",
                 Notes = input.Notes?.Trim() ?? "",
                 Source = "Website",
                 DepositCents = depositCents,
@@ -174,8 +175,8 @@ namespace SmallBusinessSite.Api
                 return req.CreateResponse(HttpStatusCode.BadGateway);
             }
 
-            // Send instant Brevo notification
-            await TrySendBookingNotificationAsync(bookingDoc);
+            // Send instant Brevo notification (env vars or Cosmos clients container fallback)
+            await TrySendBookingNotificationAsync(bookingDoc, endpoint, key, databaseId);
 
             // If deposit required and Stripe is configured, create a Stripe Checkout Session
             string? stripeSecretKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
@@ -503,11 +504,33 @@ namespace SmallBusinessSite.Api
             return (!string.IsNullOrWhiteSpace(url), url, id);
         }
 
-        private async Task TrySendBookingNotificationAsync(CosmosScheduleDocument booking)
+        private async Task TrySendBookingNotificationAsync(
+            CosmosScheduleDocument booking,
+            string cosmosEndpoint,
+            string cosmosKey,
+            string databaseId)
         {
             string? brevoApiKey = Environment.GetEnvironmentVariable("BREVO_API_KEY");
             string? recipientEmail = Environment.GetEnvironmentVariable("LEAD_NOTIFICATION_EMAIL");
-            string? senderEmail = Environment.GetEnvironmentVariable("BREVO_SENDER_EMAIL") ?? "info@jbdigitalservices.net";
+            string? senderEmail = Environment.GetEnvironmentVariable("BREVO_SENDER_EMAIL");
+
+            if (string.IsNullOrWhiteSpace(brevoApiKey) || string.IsNullOrWhiteSpace(recipientEmail) || string.IsNullOrWhiteSpace(senderEmail))
+            {
+                var clientDoc = await GetCosmosDocumentAsync<CosmosClientRecord>(
+                    cosmosEndpoint, cosmosKey, databaseId, "clients", booking.BusinessId, booking.BusinessId);
+                if (clientDoc != null && clientDoc.IsActive)
+                {
+                    if (string.IsNullOrWhiteSpace(brevoApiKey))
+                        brevoApiKey = clientDoc.BrevoApiKey;
+                    if (string.IsNullOrWhiteSpace(recipientEmail))
+                        recipientEmail = !string.IsNullOrWhiteSpace(clientDoc.LeadNotificationEmail) ? clientDoc.LeadNotificationEmail : clientDoc.PrimaryEmail;
+                    if (string.IsNullOrWhiteSpace(senderEmail))
+                        senderEmail = clientDoc.BrevoSenderEmail;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(senderEmail))
+                senderEmail = "info@jbdigitalservices.net";
 
             if (string.IsNullOrWhiteSpace(brevoApiKey) || string.IsNullOrWhiteSpace(recipientEmail))
             {
@@ -527,6 +550,7 @@ namespace SmallBusinessSite.Api
                         <tr><td style='padding:6px 12px;font-weight:bold;'>Time Slot:</td><td style='padding:6px 12px;'>{WebUtility.HtmlEncode(booking.TimeSlot)}</td></tr>
                         <tr><td style='padding:6px 12px;font-weight:bold;'>Service:</td><td style='padding:6px 12px;'>{WebUtility.HtmlEncode(booking.ServiceType)}</td></tr>
                         <tr><td style='padding:6px 12px;font-weight:bold;'>Crew Size:</td><td style='padding:6px 12px;'>{(booking.CrewSize > 0 ? $"{booking.CrewSize} Movers" : "N/A (Consultation)")}</td></tr>
+                        <tr><td style='padding:6px 12px;font-weight:bold;'>Requested Movers:</td><td style='padding:6px 12px;'>{WebUtility.HtmlEncode(booking.RequestedMovers)}</td></tr>
                         <tr><td style='padding:6px 12px;font-weight:bold;'>Deposit:</td><td style='padding:6px 12px;'>{WebUtility.HtmlEncode(depositStr)}</td></tr>
                         <tr><td style='padding:6px 12px;font-weight:bold;'>Customer:</td><td style='padding:6px 12px;'>{WebUtility.HtmlEncode(booking.Name)}</td></tr>
                         <tr><td style='padding:6px 12px;font-weight:bold;'>Phone:</td><td style='padding:6px 12px;'>{WebUtility.HtmlEncode(booking.Phone)}</td></tr>
@@ -717,6 +741,7 @@ namespace SmallBusinessSite.Api
         public string Email { get; set; } = string.Empty;
         public string? OriginAddress { get; set; }
         public string? DestinationAddress { get; set; }
+        public string? RequestedMovers { get; set; }
         public string? Notes { get; set; }
         public string? ReturnUrlBase { get; set; }
         public string Honeypot { get; set; } = string.Empty;
@@ -786,6 +811,9 @@ namespace SmallBusinessSite.Api
 
         [JsonPropertyName("destinationAddress")]
         public string DestinationAddress { get; set; } = string.Empty;
+
+        [JsonPropertyName("requestedMovers")]
+        public string RequestedMovers { get; set; } = "Any Available Crew";
 
         [JsonPropertyName("notes")]
         public string Notes { get; set; } = string.Empty;

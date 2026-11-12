@@ -354,8 +354,17 @@
         "Full Day"
     };
 
+    private static readonly List<string> MoverOptions = new()
+    {
+        "Any Available Forged Crew",
+        "Ben Wiseman (Owner / Lead)",
+        "Senior Rigging Specialist",
+        "Heavy Fitness Equipment Crew"
+    };
+
     private string selectedService = "Full Service Move";
     private int crewSize = 2;
+    private HashSet<string> selectedMovers = new() { "Any Available Forged Crew" };
     private DateTime currentMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
     private string selectedDate = "";
     private string selectedTimeSlot = "";
@@ -477,6 +486,34 @@
         selectedService = svc.Name;
     }
 
+    private void SelectCrewSize(int count)
+    {
+        crewSize = count;
+    }
+
+    private void ToggleMover(string mover)
+    {
+        if (mover == "Any Available Forged Crew")
+        {
+            selectedMovers.Clear();
+            selectedMovers.Add(mover);
+            return;
+        }
+
+        selectedMovers.Remove("Any Available Forged Crew");
+        if (!selectedMovers.Remove(mover))
+        {
+            if (selectedMovers.Count < crewSize)
+            {
+                selectedMovers.Add(mover);
+            }
+        }
+        if (!selectedMovers.Any())
+        {
+            selectedMovers.Add("Any Available Forged Crew");
+        }
+    }
+
     private static string GetCrewDescription(int count) => count switch
     {
         2 => "Apartments & 1–2 BR",
@@ -543,6 +580,7 @@
                 email,
                 originAddress,
                 destinationAddress,
+                requestedMovers = selectedMovers.Any() ? string.Join(", ", selectedMovers) : "Any Available Forged Crew",
                 notes,
                 returnUrlBase = returnBase,
                 honeypot = botHoneypot
