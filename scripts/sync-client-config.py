@@ -78,9 +78,19 @@ def main() -> None:
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>{html.escape(domain)}/services</loc>
+    <loc>{html.escape(domain)}/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>{html.escape(domain)}/commercial</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>{html.escape(domain)}/gallery</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>{html.escape(domain)}/appointments</loc>
@@ -88,12 +98,12 @@ def main() -> None:
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>{html.escape(domain)}/contact</loc>
+    <loc>{html.escape(domain)}/services</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>{html.escape(domain)}/about</loc>
+    <loc>{html.escape(domain)}/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -131,17 +141,82 @@ Sitemap: {domain}/sitemap.xml
     # 6. Generate Client/wwwroot/index.html
     json_ld = {
         "@context": "https://schema.org",
-        "@type": "LocalBusiness",
+        "@type": "MovingCompany",
         "name": company_name,
+        "legalName": f"{company_name} LLC",
         "image": full_logo_url,
         "@id": domain,
         "url": domain,
         "telephone": phone,
+        "priceRange": "$$",
         "address": {
             "@type": "PostalAddress",
+            "streetAddress": "126 Bernham Drive, Suite 4",
             "addressLocality": city,
             "addressRegion": state,
+            "postalCode": "37312",
             "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 35.212568,
+            "longitude": -84.875402
+        },
+        "sameAs": [
+            "https://www.facebook.com/Forgedlabor",
+            "https://www.instagram.com/forgedlabor",
+            "https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A",
+            "https://www.uhaul.com/MovingHelp/Cleveland-TN-37312/1/Forged-Labor/?id=220C1EA5C52A41"
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5.0",
+            "reviewCount": "119",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "areaServed": [
+            "Cleveland, TN",
+            "Chattanooga, TN",
+            "Bradley County, TN",
+            "Hamilton County, TN",
+            "Ooltewah, TN",
+            "Athens, TN",
+            "Southeast Tennessee"
+        ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Moving & Labor Services",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Full Service Residential Moving"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Commercial Moving & Fitness Equipment Installation"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Labor-Only Loading and Unloading"
+                    }
+                },
+                {
+                    "@type": "Offer",
+                    "itemOffered": {
+                        "@type": "Service",
+                        "name": "Store Pickup and Furniture Delivery"
+                    }
+                }
+            ]
         },
         "openingHoursSpecification": {
             "@type": "OpeningHoursSpecification",
