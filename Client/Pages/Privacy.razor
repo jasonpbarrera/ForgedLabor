@@ -1,0 +1,108 @@
+@page "/privacy"
+@inject IOptions<BusinessSettings> BusinessConfig
+
+<PageTitle>Privacy Policy | Forged Labor</PageTitle>
+
+<section class="sec-subpage-header">
+    <div class="container-wide">
+        <div class="subpage-header-content">
+            <h1 class="subpage-heading">PRIVACY POLICY</h1>
+            <h4 class="subpage-subheading">FORGED LABOR LLC &bull; CLEVELAND, TENNESSEE</h4>
+            <p class="subpage-lead">
+                Effective Date: November 13, 2026 &mdash; How we collect, use, protect, and safeguard your personal and payment information.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="sec-white" style="padding: 4.5rem 2rem;">
+    <div class="container-wide" style="max-width: 900px; margin: 0 auto;">
+        <div class="accordion-box" style="padding: 2.5rem; display: flex; flex-direction: column; gap: 2rem;">
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    1. Who We Are
+                </h2>
+                <p class="accordion-desc">
+                    This Privacy Policy describes how <strong>Forged Labor</strong> (&ldquo;Forged Labor LLC,&rdquo; &ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;) collects, uses, and protects information obtained through <strong>https://forgedlabor.com</strong> and our scheduling, intake, and payment services.
+                </p>
+                <p class="accordion-desc" style="margin-top: 0.5rem;">
+                    <strong>Business Address:</strong> 126 Bernham Drive, Suite 4, Cleveland, TN 37312<br />
+                    <strong>Phone:</strong> @BusinessConfig.Value.PhoneNumber<br />
+                    <strong>Email:</strong> @BusinessConfig.Value.PrimaryEmail
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    2. Information We Collect
+                </h2>
+                <p class="accordion-desc">
+                    When you request a quote, schedule a move, or submit a deposit through our website, we collect only the information necessary to provide your moving or installation service:
+                </p>
+                <ul class="accordion-desc" style="margin-top: 0.5rem; padding-left: 1.25rem; line-height: 1.7;">
+                    <li><strong>Contact Information:</strong> Full name, phone number, and email address.</li>
+                    <li><strong>Service &amp; Logistics Details:</strong> Origin and destination addresses, preferred dates and arrival windows, crew size selection, equipment or inventory notes, and special access instructions.</li>
+                    <li><strong>Transaction Metadata:</strong> Deposit amount, payment confirmation status, and processor reference IDs (never your full card number).</li>
+                    <li><strong>Technical Data:</strong> Standard browser and security logs (such as IP address and device type) used strictly to maintain site reliability and prevent spam or unauthorized access.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    3. Payment Security &amp; PCI-DSS Compliance
+                </h2>
+                <p class="accordion-desc">
+                    All online card payments and booking deposits are processed through PCI-DSS Level 1 compliant payment processing partners (including <strong>Commerce360 / Worldpay</strong> and authorized encrypted payment gateways) over HTTPS/TLS connections.
+                </p>
+                <p class="accordion-desc" style="margin-top: 0.5rem;">
+                    <strong>Forged Labor does not store, process, or retain full credit card numbers, debit card numbers, or CVV security codes on our web servers or database.</strong>
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    4. How We Use Your Information
+                </h2>
+                <ul class="accordion-desc" style="padding-left: 1.25rem; line-height: 1.7;">
+                    <li>To schedule, dispatch, and complete your residential move, labor-only service, or commercial fitness equipment installation.</li>
+                    <li>To send booking confirmations, arrival window updates, invoices, and receipts.</li>
+                    <li>To process deposits, final payments, and any applicable refunds or adjustments.</li>
+                    <li>To respond to customer inquiries, support requests, and insurance or claims documentation.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    5. No Sale or Unauthorized Sharing of Data
+                </h2>
+                <p class="accordion-desc">
+                    <strong>We never sell, rent, or trade your personal information, email address, or phone number to third-party marketers.</strong> We share information only with trusted infrastructure and payment partners (such as our cloud hosting, transactional email, and payment processing providers) strictly as needed to operate our website and fulfill your requested service, or when required by law.
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    6. Cookies &amp; Local Storage
+                </h2>
+                <p class="accordion-desc">
+                    Our website uses essential browser storage and service-worker caching solely to ensure fast loading and reliable scheduling functionality. We do not use intrusive third-party advertising trackers.
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    7. Data Retention &amp; Your Rights
+                </h2>
+                <p class="accordion-desc">
+                    We retain booking and invoice records only as long as necessary to provide services, resolve disputes, and comply with tax, insurance, and accounting obligations. You may request access to, correction of, or deletion of your personal contact details at any time by emailing <a href="mailto:@BusinessConfig.Value.PrimaryEmail" style="color: #000000; font-weight: 700; text-decoration: underline;">@BusinessConfig.Value.PrimaryEmail</a> or calling <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: #000000; font-weight: 700; text-decoration: underline;">@BusinessConfig.Value.PhoneNumber</a>.
+                </p>
+            </div>
+
+            <div style="border-top: 2px solid #000000; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <a href="/terms" style="color: #000000; font-weight: 800; text-decoration: underline;">VIEW TERMS OF SERVICE &rarr;</a>
+                <a href="/appointments" class="sqsp-btn-pill-yellow">SCHEDULE YOUR MOVE</a>
+            </div>
+        </div>
+    </div>
+</section>

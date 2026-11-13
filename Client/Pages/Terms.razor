@@ -1,0 +1,101 @@
+@page "/terms"
+@inject IOptions<BusinessSettings> BusinessConfig
+
+<PageTitle>Terms of Service &amp; Refund Policy | Forged Labor</PageTitle>
+
+<section class="sec-subpage-header">
+    <div class="container-wide">
+        <div class="subpage-header-content">
+            <h1 class="subpage-heading">TERMS OF SERVICE</h1>
+            <h4 class="subpage-subheading">FORGED LABOR LLC &bull; CLEVELAND, TENNESSEE</h4>
+            <p class="subpage-lead">
+                Effective Date: November 13, 2026 &mdash; Booking terms, deposit &amp; refund policy, service scope, and customer responsibilities.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="sec-white" style="padding: 4.5rem 2rem;">
+    <div class="container-wide" style="max-width: 900px; margin: 0 auto;">
+        <div class="accordion-box" style="padding: 2.5rem; display: flex; flex-direction: column; gap: 2rem;">
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    1. Acceptance of Terms &amp; Merchant Identity
+                </h2>
+                <p class="accordion-desc">
+                    By accessing <strong>https://forgedlabor.com</strong>, requesting an estimate, or booking a move with <strong>Forged Labor</strong> (&ldquo;Forged Labor LLC&rdquo;), you agree to these Terms of Service. All services are operated from <strong>126 Bernham Drive, Suite 4, Cleveland, TN 37312</strong>. Questions may be directed to <a href="mailto:@BusinessConfig.Value.PrimaryEmail" style="color: #000000; font-weight: 700; text-decoration: underline;">@BusinessConfig.Value.PrimaryEmail</a> or <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: #000000; font-weight: 700; text-decoration: underline;">@BusinessConfig.Value.PhoneNumber</a>.
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    2. Scope of Services
+                </h2>
+                <p class="accordion-desc">
+                    Forged Labor provides professional residential and commercial moving services in Cleveland, Chattanooga, and surrounding Southeast Tennessee areas, including Full Service Moves, Labor-Only Loading/Unloading, Store Pickup &amp; Delivery, and Commercial &amp; Home Fitness Equipment Installation.
+                </p>
+                <p class="accordion-desc" style="margin-top: 0.5rem;">
+                    <strong>Excluded Items:</strong> We do not move upright/grand pianos, hot tubs, hazardous materials, or illegal/flammable substances. Customers must disclose oversized safes, commercial gym rigs, or multi-flight stair carries prior to booking.
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    3. Pricing, Currency &amp; Booking Deposits
+                </h2>
+                <p class="accordion-desc">
+                    All quotes, deposits, and invoices are billed in <strong>United States Dollars (USD)</strong>. When booking online through our scheduler, a reservation deposit ($150 USD for 2&ndash;3 movers; $250 USD for 4&ndash;5 movers) is collected to lock in your crew and arrival window.
+                </p>
+                <p class="accordion-desc" style="margin-top: 0.5rem;">
+                    <strong>100% of your booking deposit is credited directly toward your final move invoice</strong> upon completion of the job. Remaining balances are due upon completion of service via approved payment methods processed securely through our payment partner (Commerce360 / Worldpay or authorized gateway).
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    4. Cancellation, Rescheduling &amp; Refund Policy
+                </h2>
+                <ul class="accordion-desc" style="padding-left: 1.25rem; line-height: 1.75;">
+                    <li><strong>48+ Hours Notice:</strong> Cancellations or reschedule requests made at least <strong>48 hours</strong> prior to your scheduled arrival window receive a <strong>100% full refund</strong> of the deposit or a free one-time reschedule.</li>
+                    <li><strong>24 to 48 Hours Notice:</strong> Cancellations made between 24 and 48 hours before your arrival window are eligible for a <strong>free reschedule</strong> or a <strong>50% deposit refund</strong>.</li>
+                    <li><strong>Less Than 24 Hours / No-Show:</strong> Cancellations with less than 24 hours&rsquo; notice or failure to provide access at the scheduled time may result in forfeiture of the deposit to compensate reserved crew members.</li>
+                    <li><strong>Company-Initiated Reschedule:</strong> If Forged Labor must cancel or reschedule due to severe weather or unforeseen operational reasons and an alternate date cannot be accommodated, you will receive a <strong>100% full refund</strong>.</li>
+                    <li><strong>Refund Processing Time:</strong> Approved refunds are issued back to the original payment method within <strong>5&ndash;10 business days</strong>.</li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    5. Customer Responsibilities &amp; Access
+                </h2>
+                <p class="accordion-desc">
+                    Customers are responsible for ensuring clear walkways, legal truck parking/loading access, disconnecting appliances or electronics prior to crew arrival, and securing pets and valuables (such as cash, jewelry, and important documents).
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    6. Insurance, Liability &amp; Claims
+                </h2>
+                <p class="accordion-desc">
+                    Forged Labor carries commercial general liability and cargo protection coverage for active moves performed by our crew. Any property or item concern must be brought to the lead mover&rsquo;s attention before crew departure or reported in writing to <a href="mailto:@BusinessConfig.Value.PrimaryEmail" style="color: #000000; font-weight: 700; text-decoration: underline;">@BusinessConfig.Value.PrimaryEmail</a> within 48 hours of move completion. Forged Labor is not liable for pre-existing structural damage, improperly packed customer boxes, or customer-supplied rental trucks/equipment failures during labor-only moves.
+                </p>
+            </div>
+
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 1.35rem; color: #000000; margin-bottom: 0.65rem; text-transform: uppercase;">
+                    7. Governing Law &amp; Disputes
+                </h2>
+                <p class="accordion-desc">
+                    These Terms of Service are governed by the laws of the <strong>State of Tennessee</strong>. If you have any billing or service question, please contact us directly at <a href="tel:@BusinessConfig.Value.PhoneNumber" style="color: #000000; font-weight: 700; text-decoration: underline;">@BusinessConfig.Value.PhoneNumber</a> or <a href="mailto:@BusinessConfig.Value.PrimaryEmail" style="color: #000000; font-weight: 700; text-decoration: underline;">@BusinessConfig.Value.PrimaryEmail</a> so we can resolve it promptly.
+                </p>
+            </div>
+
+            <div style="border-top: 2px solid #000000; padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <a href="/privacy" style="color: #000000; font-weight: 800; text-decoration: underline;">VIEW PRIVACY POLICY &rarr;</a>
+                <a href="/appointments" class="sqsp-btn-pill-yellow">BOOK YOUR MOVE</a>
+            </div>
+        </div>
+    </div>
+</section>

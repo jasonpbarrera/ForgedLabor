@@ -107,6 +107,16 @@ def main() -> None:
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>{html.escape(domain)}/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>{html.escape(domain)}/terms</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
+  </url>
 </urlset>
 """
     (WWWROOT / "sitemap.xml").write_text(sitemap_xml, encoding="utf-8")
