@@ -249,9 +249,12 @@ Sitemap: {domain}/sitemap.xml
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{html.escape(page_title)}</title>
     <meta name="description" content="{html.escape(seo_description, quote=True)}" />
+    <link rel="canonical" href="{html.escape(domain, quote=True)}/" />
 
     <!-- Developer & Copyright Attribution -->
-    <meta name="author" content="Jason Barrera" />
+    <meta name="author" content="Jason Barrera, JB Digital Technologies" />
+    <meta name="creator" content="JB Digital Technologies" />
+    <meta name="publisher" content="JB Digital Technologies" />
     <meta name="developer" content="Jason Barrera" />
     <meta name="contact" content="{html.escape(primary_email, quote=True)}" />
     <meta name="copyright" content="Copyright © {year} {html.escape(company_name, quote=True)}" />
@@ -262,6 +265,12 @@ Sitemap: {domain}/sitemap.xml
     <meta property="og:image" content="{html.escape(full_logo_url, quote=True)}" />
     <meta property="og:url" content="{html.escape(domain, quote=True)}" />
     <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{html.escape(company_name, quote=True)}" />
+    <meta name="twitter:description" content="{html.escape(seo_description, quote=True)}" />
+    <meta name="twitter:image" content="{html.escape(full_logo_url, quote=True)}" />
 
     <base href="/" />
     <link rel="preconnect" href="https://fonts.googleapis.com">

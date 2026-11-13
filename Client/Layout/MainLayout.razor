@@ -1,4 +1,5 @@
 @inherits LayoutComponentBase
+@using System.Reflection
 @inject IOptions<BusinessSettings> BusinessConfig
 
 <div class="site-wrapper">
@@ -137,11 +138,25 @@
                     </div>
                 </div>
             </div>
+            <div class="footer-bottom" style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:0.5rem 1rem; margin-top:2rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.12); font-size:0.8rem;">
+                <span>&copy; @DateTime.Now.Year @BusinessConfig.Value.CompanyName. All rights reserved.</span>
+                <span class="jb-footer-credit">
+                    v@(AppVersion) &middot; @BuildDate &middot; Powered by <a href="https://jbdigitaltechnologies.net" target="_blank" rel="noopener noreferrer">JB Digital Technologies</a>
+                </span>
+            </div>
         </div>
     </footer>
 </div>
 
 @code {
+    private static readonly string AppVersion =
+        typeof(MainLayout).Assembly.GetName().Version?.ToString(3) ?? "1.0.0";
+    private static readonly string BuildDate =
+        typeof(MainLayout).Assembly
+            .GetCustomAttributes<AssemblyMetadataAttribute>()
+            .FirstOrDefault(a => a.Key == "BuildTimestamp")?.Value
+        ?? DateTime.UtcNow.ToString("MMM d, yyyy");
+
     private bool isMenuOpen = false;
 
     private void ToggleMenu()
