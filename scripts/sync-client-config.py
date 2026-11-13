@@ -234,7 +234,7 @@ Sitemap: {domain}/sitemap.xml
         },
         "creator": {
             "@type": "Organization",
-            "name": "JB Digital Technologies",
+            "name": "JB Digital Services",
             "url": "https://jbdigitalservices.net",
             "founder": {
                 "@type": "Person",
@@ -261,9 +261,9 @@ Sitemap: {domain}/sitemap.xml
     <link rel="canonical" href="{html.escape(domain, quote=True)}/" />
 
     <!-- Developer & Copyright Attribution -->
-    <meta name="author" content="Jason Barrera, JB Digital Technologies" />
-    <meta name="creator" content="JB Digital Technologies" />
-    <meta name="publisher" content="JB Digital Technologies" />
+    <meta name="author" content="Jason Barrera, JB Digital Services" />
+    <meta name="creator" content="JB Digital Services" />
+    <meta name="publisher" content="JB Digital Services" />
     <meta name="developer" content="Jason Barrera" />
     <meta name="contact" content="{html.escape(primary_email, quote=True)}" />
     <meta name="copyright" content="Copyright © {year} {html.escape(company_name, quote=True)}" />
