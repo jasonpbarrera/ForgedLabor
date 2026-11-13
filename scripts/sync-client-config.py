@@ -231,6 +231,15 @@ Sitemap: {domain}/sitemap.xml
             ],
             "opens": "00:00",
             "closes": "23:59"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "JB Digital Technologies",
+            "url": "https://jbdigitalservices.net",
+            "founder": {
+                "@type": "Person",
+                "name": "Jason Barrera"
+            }
         }
     }
     json_ld_str = json.dumps(json_ld, indent=10)
