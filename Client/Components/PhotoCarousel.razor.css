@@ -1,25 +1,38 @@
 .forged-carousel {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
     border: 2px solid #000000;
     background: #ffffff;
     box-shadow: 6px 6px 0 #000000;
+    overflow: hidden;
+}
+
+.forged-carousel * {
+    box-sizing: border-box;
 }
 
 .forged-carousel-viewport {
     position: relative;
     overflow: hidden;
     width: 100%;
+    max-width: 100%;
     background: #000000;
 }
 
 .forged-carousel-track {
     display: flex;
+    width: 100%;
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform;
 }
 
 .forged-carousel-slide {
+    flex: 0 0 100%;
+    width: 100%;
     min-width: 100%;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     background: #ffffff;
@@ -27,7 +40,7 @@
 
 .forged-carousel-img-wrap {
     width: 100%;
-    height: clamp(280px, 52vw, 560px);
+    height: clamp(240px, 52vw, 540px);
     background: #111111;
     overflow: hidden;
 }
@@ -63,7 +76,7 @@
 
 .forged-carousel-arrow {
     position: absolute;
-    top: calc(clamp(280px, 52vw, 560px) / 2);
+    top: calc(clamp(240px, 52vw, 540px) / 2);
     transform: translateY(-50%);
     background: rgba(0, 0, 0, 0.78);
     color: var(--brand-accent);
@@ -127,11 +140,14 @@
 
 .forged-carousel-thumbs {
     display: flex;
+    width: 100%;
+    max-width: 100%;
     gap: 0.65rem;
     padding: 0.85rem 1rem;
     background: #111111;
     border-top: 2px solid #000000;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     scroll-snap-type: x proximity;
 }
 
@@ -163,4 +179,51 @@
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+@media (max-width: 640px) {
+    .forged-carousel {
+        box-shadow: 4px 4px 0 #000000;
+    }
+
+    .forged-carousel-img-wrap {
+        height: 250px;
+    }
+
+    .forged-carousel-arrow {
+        top: 125px;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+
+    .forged-carousel-arrow.prev {
+        left: 8px;
+    }
+
+    .forged-carousel-arrow.next {
+        right: 8px;
+    }
+
+    .forged-carousel-caption {
+        padding: 1rem;
+    }
+
+    .forged-carousel-title {
+        font-size: 1.05rem;
+    }
+
+    .forged-carousel-desc {
+        font-size: 0.88rem;
+    }
+
+    .forged-carousel-thumbs {
+        padding: 0.65rem 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .forged-carousel-thumb {
+        flex: 0 0 68px;
+        height: 50px;
+    }
 }
