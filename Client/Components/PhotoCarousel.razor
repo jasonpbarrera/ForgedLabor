@@ -1,4 +1,5 @@
-@implements IDisposable
+@inject IJSRuntime JS
+@implements IAsyncDisposable
 
 @if (Photos.Count > 0)
 {
@@ -13,8 +14,7 @@
                         <div class="forged-carousel-img-wrap" @onclick="OpenLightbox" title="Click to view full size">
                             <img src="@photo.Src"
                                  alt="@photo.Alt"
-                                 loading="lazy"
-                                 style="object-position: @photo.ObjectPosition;" />
+                                 loading="lazy" />
                             <span class="forged-carousel-zoom-hint">&#x26F6; FULL SIZE</span>
                         </div>
                         <div class="forged-carousel-caption">
@@ -69,7 +69,7 @@
 @if (isLightboxOpen && Photos.Count > 0)
 {
     var active = Photos[currentIndex];
-    <div class="forged-lightbox-backdrop" @onclick="CloseLightbox" role="dialog" aria-modal="true" aria-label="@active.Title">
+    <div class="forged-lightbox-backdrop" @ref="lightboxRef" tabindex="-1" @onclick="CloseLightbox" role="dialog" aria-modal="true" aria-label="@active.Title">
         <div class="forged-lightbox-shell" @onclick:stopPropagation="true">
             <button type="button" class="forged-lightbox-close" @onclick="CloseLightbox" aria-label="Close full-size image">
                 &#10005; CLOSE
@@ -111,8 +111,14 @@
     private int currentIndex = 0;
     private bool isPaused = false;
     private bool isLightboxOpen = false;
+    private bool shouldFocusLightbox = false;
+    private ElementReference lightboxRef;
     private System.Threading.Timer? autoTimer;
     private bool isDisposed = false;
+
+    private IJSObjectReference? jsModule;
+    private IJSObjectReference? jsKeyHandle;
+    private DotNetObjectReference<PhotoCarousel>? dotNetRef;
 
     protected override void OnParametersSet()
     {
@@ -121,6 +127,58 @@
             currentIndex = 0;
         }
         SyncTimer();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                dotNetRef = DotNetObjectReference.Create(this);
+                jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./Components/PhotoCarousel.razor.js");
+                jsKeyHandle = await jsModule.InvokeAsync<IJSObjectReference>("registerKeyHandler", dotNetRef);
+            }
+            catch
+            {
+                // Ignore JS interop failures during prerender/teardown
+            }
+        }
+
+        if (shouldFocusLightbox && isLightboxOpen)
+        {
+            shouldFocusLightbox = false;
+            try
+            {
+                await lightboxRef.FocusAsync();
+            }
+            catch
+            {
+                // Ignore focus errors if element is not yet mounted
+            }
+        }
+    }
+
+    [JSInvokable]
+    public void OnWindowKeyDown(string key)
+    {
+        if (!isLightboxOpen || isDisposed) return;
+
+        if (key == "Escape")
+        {
+            CloseLightbox();
+            StateHasChanged();
+        }
+        else if (key == "ArrowRight")
+        {
+            Next();
+            StateHasChanged();
+        }
+        else if (key == "ArrowLeft")
+        {
+            Prev();
+            StateHasChanged();
+        }
     }
 
     private void SyncTimer()
@@ -148,12 +206,14 @@
     private void OpenLightbox()
     {
         isLightboxOpen = true;
+        shouldFocusLightbox = true;
         SyncTimer();
     }
 
     private void CloseLightbox()
     {
         isLightboxOpen = false;
+        shouldFocusLightbox = false;
         SyncTimer();
     }
 
@@ -183,10 +243,31 @@
         SyncTimer();
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         isDisposed = true;
         autoTimer?.Dispose();
         autoTimer = null;
+
+        if (jsKeyHandle is not null)
+        {
+            try
+            {
+                await jsKeyHandle.InvokeVoidAsync("dispose");
+                await jsKeyHandle.DisposeAsync();
+            }
+            catch { }
+        }
+
+        if (jsModule is not null)
+        {
+            try
+            {
+                await jsModule.DisposeAsync();
+            }
+            catch { }
+        }
+
+        dotNetRef?.Dispose();
     }
 }

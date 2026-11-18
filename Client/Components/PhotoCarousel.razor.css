@@ -51,11 +51,12 @@
 }
 
 .forged-carousel-img-wrap img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    object-position: center center !important;
     display: block;
 }
 
@@ -217,6 +218,10 @@
     padding: 0.75rem;
     box-sizing: border-box;
     overflow: hidden;
+}
+
+.forged-lightbox-backdrop:focus {
+    outline: none;
 }
 
 .forged-lightbox-shell {
