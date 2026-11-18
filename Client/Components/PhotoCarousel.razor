@@ -2,9 +2,7 @@
 
 @if (Photos.Count > 0)
 {
-    <div class="forged-carousel"
-         @onmouseenter="() => isHovered = true"
-         @onmouseleave="() => isHovered = false">
+    <div class="forged-carousel">
 
         <!-- Main Viewport -->
         <div class="forged-carousel-viewport">
@@ -15,7 +13,8 @@
                         <div class="forged-carousel-img-wrap" @onclick="OpenLightbox" title="Click to view full size">
                             <img src="@photo.Src"
                                  alt="@photo.Alt"
-                                 loading="lazy" />
+                                 loading="lazy"
+                                 style="object-position: @photo.ObjectPosition;" />
                             <span class="forged-carousel-zoom-hint">&#x26F6; FULL SIZE</span>
                         </div>
                         <div class="forged-carousel-caption">
@@ -111,73 +110,83 @@
 
     private int currentIndex = 0;
     private bool isPaused = false;
-    private bool isHovered = false;
     private bool isLightboxOpen = false;
-    private CancellationTokenSource? cts;
+    private System.Threading.Timer? autoTimer;
+    private bool isDisposed = false;
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        if (Photos.Count > 1 && IntervalMs > 0)
+        if (currentIndex >= Photos.Count)
         {
-            cts = new CancellationTokenSource();
-            _ = RunAutoScrollAsync(cts.Token);
+            currentIndex = 0;
         }
+        SyncTimer();
     }
 
-    private async Task RunAutoScrollAsync(CancellationToken token)
+    private void SyncTimer()
     {
-        using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(IntervalMs));
-        try
+        if (isDisposed) return;
+
+        autoTimer?.Dispose();
+        autoTimer = null;
+
+        if (Photos.Count > 1 && IntervalMs > 0 && !isPaused && !isLightboxOpen)
         {
-            while (await timer.WaitForNextTickAsync(token))
+            autoTimer = new System.Threading.Timer(_ =>
             {
-                if (!isPaused && !isHovered && !isLightboxOpen && Photos.Count > 1)
+                if (isDisposed || isPaused || isLightboxOpen || Photos.Count <= 1) return;
+                _ = InvokeAsync(() =>
                 {
+                    if (isDisposed || isPaused || isLightboxOpen || Photos.Count <= 1) return;
                     currentIndex = (currentIndex + 1) % Photos.Count;
-                    await InvokeAsync(StateHasChanged);
-                }
-            }
-        }
-        catch (OperationCanceledException)
-        {
+                    StateHasChanged();
+                });
+            }, null, IntervalMs, IntervalMs);
         }
     }
 
     private void OpenLightbox()
     {
         isLightboxOpen = true;
+        SyncTimer();
     }
 
     private void CloseLightbox()
     {
         isLightboxOpen = false;
+        SyncTimer();
     }
 
     private void Next()
     {
         if (Photos.Count == 0) return;
         currentIndex = (currentIndex + 1) % Photos.Count;
+        SyncTimer();
     }
 
     private void Prev()
     {
         if (Photos.Count == 0) return;
         currentIndex = (currentIndex - 1 + Photos.Count) % Photos.Count;
+        SyncTimer();
     }
 
     private void Select(int idx)
     {
         currentIndex = idx;
+        SyncTimer();
     }
 
     private void TogglePause()
     {
         isPaused = !isPaused;
+        SyncTimer();
     }
 
     public void Dispose()
     {
-        cts?.Cancel();
-        cts?.Dispose();
+        isDisposed = true;
+        autoTimer?.Dispose();
+        autoTimer = null;
     }
 }
