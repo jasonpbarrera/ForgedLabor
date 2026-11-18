@@ -112,7 +112,7 @@
             </div>
         </div>
 
-        <!-- Moving Day In Action (WebP) -->
+        <!-- Moving Day In Action Scrollable Carousel -->
         <div style="margin-top: 4rem;">
             <h2 style="font-size: clamp(2.1rem, 4vw, 3rem); color: var(--brand-accent); text-transform: uppercase; margin-bottom: 0.35rem; font-family: var(--font-heading); letter-spacing: -0.01em;">
                 MOVING DAY IN ACTION
@@ -121,37 +121,7 @@
                 PROTECTED FURNITURE &amp; WALL-TO-WALL LOADS
             </h4>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                <div class="accordion-box" style="padding: 1.25rem;">
-                    <img src="images/gallery/moving-wrapped-sofa-ramp.webp" alt="Forged Labor mover rolling shrink-wrapped sofa down truck ramp" loading="lazy" class="sqsp-clean-img" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top; margin-bottom: 1rem;" />
-                    <h3 style="font-family: var(--font-heading); color: #000000; font-size: 1.1rem; text-transform: uppercase; margin-bottom: 0.35rem;">
-                        SHRINK-WRAPPED &amp; PADDED
-                    </h3>
-                    <p style="color: #222222; font-size: 0.9rem; line-height: 1.55; margin: 0;">
-                        Every upholstered piece is wrapped and dolly-balanced before it ever touches the ramp.
-                    </p>
-                </div>
-
-                <div class="accordion-box" style="padding: 1.25rem;">
-                    <img src="images/gallery/moving-ramp-crew-shirt.webp" alt="Forged Labor crew member on the loading ramp" loading="lazy" class="sqsp-clean-img" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top; margin-bottom: 1rem;" />
-                    <h3 style="font-family: var(--font-heading); color: #000000; font-size: 1.1rem; text-transform: uppercase; margin-bottom: 0.35rem;">
-                        ON THE RAMP, ALL DAY
-                    </h3>
-                    <p style="color: #222222; font-size: 0.9rem; line-height: 1.55; margin: 0;">
-                        Uniformed, attentive movers keeping steady communication between the home and the truck deck.
-                    </p>
-                </div>
-
-                <div class="accordion-box" style="padding: 1.25rem;">
-                    <img src="images/gallery/moving-truck-pack-toolchest.webp" alt="Wall-to-wall truck pack with heavy tool chest secured" loading="lazy" class="sqsp-clean-img" style="width: 100%; aspect-ratio: 4/3; object-fit: cover; margin-bottom: 1rem;" />
-                    <h3 style="font-family: var(--font-heading); color: #000000; font-size: 1.1rem; text-transform: uppercase; margin-bottom: 0.35rem;">
-                        HEAVY SHOP &amp; GARAGE LOADS
-                    </h3>
-                    <p style="color: #222222; font-size: 0.9rem; line-height: 1.55; margin: 0;">
-                        Loaded rolling tool chests, totes, and awkward garage gear locked tight wall-to-wall.
-                    </p>
-                </div>
-            </div>
+            <PhotoCarousel Photos="@movingPhotos" IntervalMs="1800" />
         </div>
     </div>
 </section>
@@ -249,3 +219,14 @@
         </div>
     </div>
 </section>
+
+@code {
+    private readonly List<GalleryPhoto> movingPhotos = new()
+    {
+        new("images/gallery/moving-wrapped-sofa-ramp.webp", "Forged Labor mover rolling shrink-wrapped sofa down truck ramp", "SHRINK-WRAPPED & PADDED", "Every upholstered piece is wrapped and dolly-balanced before it ever touches the ramp.", "center top"),
+        new("images/gallery/moving-ramp-crew-shirt.webp", "Forged Labor crew member on the loading ramp", "ON THE RAMP, ALL DAY", "Uniformed, attentive movers keeping steady communication between the home and the truck deck.", "center top"),
+        new("images/gallery/moving-truck-pack-toolchest.webp", "Wall-to-wall truck pack with heavy tool chest secured", "HEAVY SHOP & GARAGE LOADS", "Loaded rolling tool chests, totes, and awkward garage gear locked tight wall-to-wall."),
+        new("images/local-movers-cleveland-tn.jpg", "Wall-to-wall packed moving truck in Cleveland TN", "THE ART OF THE LOAD", "Blanket-wrapped furniture and uniform box tiers strapped tight with zero dead space."),
+        new("images/team.jpg", "Forged Labor Moving Crew", "PRE-MOVE CREW BRIEFING", "Ben and the crew reviewing entry routes, doorframe clearances, and loading sequences before physical work begins.", "center top")
+    };
+}

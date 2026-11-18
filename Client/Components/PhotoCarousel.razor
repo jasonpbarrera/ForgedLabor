@@ -1,0 +1,133 @@
+@implements IDisposable
+
+@if (Photos.Count > 0)
+{
+    <div class="forged-carousel"
+         @onmouseenter="() => isHovered = true"
+         @onmouseleave="() => isHovered = false">
+
+        <!-- Main Viewport -->
+        <div class="forged-carousel-viewport">
+            <div class="forged-carousel-track" style="transform: translateX(-@(currentIndex * 100)%);">
+                @foreach (var photo in Photos)
+                {
+                    <div class="forged-carousel-slide">
+                        <div class="forged-carousel-img-wrap">
+                            <img src="@photo.Src"
+                                 alt="@photo.Alt"
+                                 loading="lazy"
+                                 style="object-position: @photo.ObjectPosition;" />
+                        </div>
+                        <div class="forged-carousel-caption">
+                            <div class="forged-carousel-title">@photo.Title</div>
+                            <p class="forged-carousel-desc">@photo.Caption</p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Prev / Next Buttons -->
+            @if (Photos.Count > 1)
+            {
+                <button type="button" class="forged-carousel-arrow prev" @onclick="Prev" aria-label="Previous photo">
+                    &#10094;
+                </button>
+                <button type="button" class="forged-carousel-arrow next" @onclick="Next" aria-label="Next photo">
+                    &#10095;
+                </button>
+
+                <!-- Top-Right Counter & Pause/Play -->
+                <div class="forged-carousel-hud">
+                    <span class="forged-carousel-counter">@(currentIndex + 1) / @Photos.Count</span>
+                    <button type="button" class="forged-carousel-toggle" @onclick="TogglePause" title="@(isPaused ? "Resume auto-scroll" : "Pause auto-scroll")">
+                        @(isPaused ? "▶ PLAY" : "❚❚ PAUSE")
+                    </button>
+                </div>
+            }
+        </div>
+
+        <!-- Scrollable Thumbnail Strip -->
+        @if (Photos.Count > 1)
+        {
+            <div class="forged-carousel-thumbs" role="tablist" aria-label="Gallery thumbnails">
+                @for (int i = 0; i < Photos.Count; i++)
+                {
+                    var idx = i;
+                    var thumb = Photos[idx];
+                    <button type="button"
+                            class="forged-carousel-thumb @(idx == currentIndex ? "active" : "")"
+                            @onclick="() => Select(idx)"
+                            aria-label="View @thumb.Title">
+                        <img src="@thumb.Src" alt="@thumb.Alt" loading="lazy" style="object-position: @thumb.ObjectPosition;" />
+                    </button>
+                }
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public List<GalleryPhoto> Photos { get; set; } = new();
+    [Parameter] public int IntervalMs { get; set; } = 2000;
+
+    private int currentIndex = 0;
+    private bool isPaused = false;
+    private bool isHovered = false;
+    private CancellationTokenSource? cts;
+
+    protected override void OnInitialized()
+    {
+        if (Photos.Count > 1 && IntervalMs > 0)
+        {
+            cts = new CancellationTokenSource();
+            _ = RunAutoScrollAsync(cts.Token);
+        }
+    }
+
+    private async Task RunAutoScrollAsync(CancellationToken token)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(IntervalMs));
+        try
+        {
+            while (await timer.WaitForNextTickAsync(token))
+            {
+                if (!isPaused && !isHovered && Photos.Count > 1)
+                {
+                    currentIndex = (currentIndex + 1) % Photos.Count;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private void Next()
+    {
+        if (Photos.Count == 0) return;
+        currentIndex = (currentIndex + 1) % Photos.Count;
+    }
+
+    private void Prev()
+    {
+        if (Photos.Count == 0) return;
+        currentIndex = (currentIndex - 1 + Photos.Count) % Photos.Count;
+    }
+
+    private void Select(int idx)
+    {
+        currentIndex = idx;
+    }
+
+    private void TogglePause()
+    {
+        isPaused = !isPaused;
+    }
+
+    public void Dispose()
+    {
+        cts?.Cancel();
+        cts?.Dispose();
+    }
+}

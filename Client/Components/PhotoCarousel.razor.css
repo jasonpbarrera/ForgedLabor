@@ -1,0 +1,166 @@
+.forged-carousel {
+    width: 100%;
+    border: 2px solid #000000;
+    background: #ffffff;
+    box-shadow: 6px 6px 0 #000000;
+}
+
+.forged-carousel-viewport {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    background: #000000;
+}
+
+.forged-carousel-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.forged-carousel-slide {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+}
+
+.forged-carousel-img-wrap {
+    width: 100%;
+    height: clamp(280px, 52vw, 560px);
+    background: #111111;
+    overflow: hidden;
+}
+
+.forged-carousel-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.forged-carousel-caption {
+    padding: 1.25rem 1.5rem;
+    border-top: 2px solid #000000;
+    background: #ffffff;
+}
+
+.forged-carousel-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: #000000;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+}
+
+.forged-carousel-desc {
+    color: #222222;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.forged-carousel-arrow {
+    position: absolute;
+    top: calc(clamp(280px, 52vw, 560px) / 2);
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.78);
+    color: var(--brand-accent);
+    border: 2px solid var(--brand-accent);
+    width: 44px;
+    height: 44px;
+    font-size: 1.25rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.forged-carousel-arrow:hover {
+    background: var(--brand-accent);
+    color: #000000;
+}
+
+.forged-carousel-arrow.prev {
+    left: 12px;
+}
+
+.forged-carousel-arrow.next {
+    right: 12px;
+}
+
+.forged-carousel-hud {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 4;
+}
+
+.forged-carousel-counter {
+    background: rgba(0, 0, 0, 0.82);
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 800;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.forged-carousel-toggle {
+    background: var(--brand-accent);
+    color: #000000;
+    border: 2px solid #000000;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 900;
+    padding: 0.3rem 0.65rem;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+}
+
+.forged-carousel-thumbs {
+    display: flex;
+    gap: 0.65rem;
+    padding: 0.85rem 1rem;
+    background: #111111;
+    border-top: 2px solid #000000;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+}
+
+.forged-carousel-thumb {
+    flex: 0 0 88px;
+    height: 64px;
+    padding: 0;
+    border: 2px solid #383838;
+    background: #000000;
+    cursor: pointer;
+    overflow: hidden;
+    opacity: 0.65;
+    transition: opacity 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+    scroll-snap-align: start;
+}
+
+.forged-carousel-thumb:hover {
+    opacity: 0.9;
+}
+
+.forged-carousel-thumb.active {
+    opacity: 1;
+    border: 3px solid var(--brand-accent);
+    transform: translateY(-2px);
+}
+
+.forged-carousel-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
