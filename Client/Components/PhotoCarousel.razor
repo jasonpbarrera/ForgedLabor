@@ -12,11 +12,12 @@
                 @foreach (var photo in Photos)
                 {
                     <div class="forged-carousel-slide">
-                        <div class="forged-carousel-img-wrap">
+                        <div class="forged-carousel-img-wrap" @onclick="OpenLightbox" title="Click to view full size">
                             <img src="@photo.Src"
                                  alt="@photo.Alt"
                                  loading="lazy"
                                  style="object-position: @photo.ObjectPosition;" />
+                            <span class="forged-carousel-zoom-hint">&#x26F6; FULL SIZE</span>
                         </div>
                         <div class="forged-carousel-caption">
                             <div class="forged-carousel-title">@photo.Title</div>
@@ -66,6 +67,45 @@
     </div>
 }
 
+<!-- Full-Size Lightbox Modal -->
+@if (isLightboxOpen && Photos.Count > 0)
+{
+    var active = Photos[currentIndex];
+    <div class="forged-lightbox-backdrop" @onclick="CloseLightbox" role="dialog" aria-modal="true" aria-label="@active.Title">
+        <div class="forged-lightbox-shell" @onclick:stopPropagation="true">
+            <button type="button" class="forged-lightbox-close" @onclick="CloseLightbox" aria-label="Close full-size image">
+                &#10005; CLOSE
+            </button>
+
+            <div class="forged-lightbox-media">
+                @if (Photos.Count > 1)
+                {
+                    <button type="button" class="forged-lightbox-arrow prev" @onclick="Prev" aria-label="Previous photo">
+                        &#10094;
+                    </button>
+                }
+
+                <img src="@active.Src" alt="@active.Alt" />
+
+                @if (Photos.Count > 1)
+                {
+                    <button type="button" class="forged-lightbox-arrow next" @onclick="Next" aria-label="Next photo">
+                        &#10095;
+                    </button>
+                }
+            </div>
+
+            <div class="forged-lightbox-footer">
+                <div>
+                    <div class="forged-lightbox-title">@active.Title</div>
+                    <p class="forged-lightbox-desc">@active.Caption</p>
+                </div>
+                <span class="forged-lightbox-count">@(currentIndex + 1) / @Photos.Count</span>
+            </div>
+        </div>
+    </div>
+}
+
 @code {
     [Parameter] public List<GalleryPhoto> Photos { get; set; } = new();
     [Parameter] public int IntervalMs { get; set; } = 3500;
@@ -73,6 +113,7 @@
     private int currentIndex = 0;
     private bool isPaused = false;
     private bool isHovered = false;
+    private bool isLightboxOpen = false;
     private CancellationTokenSource? cts;
 
     protected override void OnInitialized()
@@ -91,7 +132,7 @@
         {
             while (await timer.WaitForNextTickAsync(token))
             {
-                if (!isPaused && !isHovered && Photos.Count > 1)
+                if (!isPaused && !isHovered && !isLightboxOpen && Photos.Count > 1)
                 {
                     currentIndex = (currentIndex + 1) % Photos.Count;
                     await InvokeAsync(StateHasChanged);
@@ -101,6 +142,16 @@
         catch (OperationCanceledException)
         {
         }
+    }
+
+    private void OpenLightbox()
+    {
+        isLightboxOpen = true;
+    }
+
+    private void CloseLightbox()
+    {
+        isLightboxOpen = false;
     }
 
     private void Next()

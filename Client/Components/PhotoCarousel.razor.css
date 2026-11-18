@@ -39,10 +39,12 @@
 }
 
 .forged-carousel-img-wrap {
+    position: relative;
     width: 100%;
     height: clamp(240px, 52vw, 540px);
     background: #111111;
     overflow: hidden;
+    cursor: zoom-in;
 }
 
 .forged-carousel-img-wrap img {
@@ -50,6 +52,21 @@
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.forged-carousel-zoom-hint {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    background: rgba(0, 0, 0, 0.78);
+    color: var(--brand-accent);
+    border: 1px solid var(--brand-accent);
+    font-family: var(--font-heading);
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.25rem 0.55rem;
+    letter-spacing: 0.04em;
+    pointer-events: none;
 }
 
 .forged-carousel-caption {
@@ -181,6 +198,136 @@
     display: block;
 }
 
+/* Full-Size Lightbox Modal */
+.forged-lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    box-sizing: border-box;
+}
+
+.forged-lightbox-shell {
+    position: relative;
+    max-width: 96vw;
+    max-height: 94vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.forged-lightbox-close {
+    align-self: flex-end;
+    background: var(--brand-accent);
+    color: #000000;
+    border: 2px solid #000000;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 900;
+    padding: 0.45rem 0.95rem;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    box-shadow: 3px 3px 0 #000000;
+}
+
+.forged-lightbox-close:hover {
+    background: #ffffff;
+}
+
+.forged-lightbox-media {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 94vw;
+    max-height: 76vh;
+}
+
+.forged-lightbox-media img {
+    max-width: 94vw;
+    max-height: 76vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 2px solid var(--brand-accent);
+    background: #000000;
+    display: block;
+}
+
+.forged-lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: var(--brand-accent);
+    border: 2px solid var(--brand-accent);
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.forged-lightbox-arrow:hover {
+    background: var(--brand-accent);
+    color: #000000;
+}
+
+.forged-lightbox-arrow.prev {
+    left: 10px;
+}
+
+.forged-lightbox-arrow.next {
+    right: 10px;
+}
+
+.forged-lightbox-footer {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    color: #ffffff;
+    padding: 0 0.25rem;
+}
+
+.forged-lightbox-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--brand-accent);
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+}
+
+.forged-lightbox-desc {
+    color: #e4e4e7;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.forged-lightbox-count {
+    flex-shrink: 0;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    background: #18181b;
+    border: 1px solid #3f3f46;
+    padding: 0.3rem 0.65rem;
+}
+
 @media (max-width: 640px) {
     .forged-carousel {
         box-shadow: 4px 4px 0 #000000;
@@ -225,5 +372,19 @@
     .forged-carousel-thumb {
         flex: 0 0 68px;
         height: 50px;
+    }
+
+    .forged-lightbox-backdrop {
+        padding: 0.75rem;
+    }
+
+    .forged-lightbox-media img {
+        max-height: 68vh;
+    }
+
+    .forged-lightbox-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.05rem;
     }
 }
