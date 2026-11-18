@@ -230,7 +230,7 @@ a {
 .sec-hero {
     position: relative;
     padding: clamp(5rem, 9vw, 8rem) 0 clamp(4rem, 8vw, 7rem);
-    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), url('../images/forged-labor-moving-services.jpg') center 15%/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), url('../images/forged-labor-moving-services.webp') center 15%/cover no-repeat;
     background-color: #000000;
     border-bottom: 4px solid var(--brand-accent);
 }
