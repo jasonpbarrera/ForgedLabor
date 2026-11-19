@@ -160,6 +160,25 @@
 </section>
 
 <!-- =========================================
+     SECTION 3B: COMPANY CULTURE [DARK-BOLD #383838 GRAY]
+     ========================================= -->
+<section id="company-culture" class="sec-dark-bold">
+    <div class="container-wide">
+        <h2 style="font-size: clamp(2.1rem, 4vw, 3rem); color: var(--brand-accent); text-transform: uppercase; margin-bottom: 0.35rem; font-family: var(--font-heading); letter-spacing: -0.01em;">
+            COMPANY CULTURE
+        </h2>
+        <h4 style="font-size: 1.05rem; color: #ffffff; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 0.85rem; font-family: var(--font-heading); font-weight: 900;">
+            OFFICE LIFE, CREW CAMARADERIE &amp; BRUNO
+        </h4>
+        <p style="font-size: 1rem; color: #e4e4e7; max-width: 780px; line-height: 1.65; margin-bottom: 2rem;">
+            Behind every smooth move is a tight-knit crew that trains together, laughs together, and takes genuine pride in the Forged Labor name—from our Cleveland office gym and morning roll calls with Ben, Bre, and Bruno to big commercial builds and weekend adventures.
+        </p>
+
+        <PhotoCarousel Photos="@culturePhotos" IntervalMs="3500" />
+    </div>
+</section>
+
+<!-- =========================================
      SECTION 4: CHEVRON DIVIDER [BLACK THEME]
      ========================================= -->
 <section class="sec-move-people">
@@ -275,5 +294,29 @@
         new("images/gallery/mov-bruno-copilot.webp", "Bruno riding shotgun in the moving truck", "CHIEF MORALE OFFICER ON DECK", "Even Bruno Wigglebutt Wiseman checks in on the crew's truck runs.", "center top"),
         new("images/local-movers-cleveland-tn.webp", "Wall-to-wall packed moving truck in Cleveland TN", "THE ART OF THE LOAD", "Blanket-wrapped furniture and uniform box tiers strapped tight with zero dead space."),
         new("images/team.webp", "Forged Labor Moving Crew", "PRE-MOVE CREW BRIEFING", "Ben and the crew reviewing entry routes, doorframe clearances, and loading sequences before physical work begins.", "center top")
+    };
+
+    private readonly List<GalleryPhoto> culturePhotos = new()
+    {
+        new("images/gallery/culture-office-front-lineup.webp", "Forged Labor crew lined up outside the Cleveland office", "CLEVELAND HQ ROLL CALL", "Morning lineup outside the Forged Labor storefront before heading out on the day's routes.", "center top"),
+        new("images/gallery/culture-office-duo.webp", "Two Forged Labor crew members standing beneath the Forged Labor office sign", "REPRESENTING THE BRAND", "Proudly wearing the anvil outside Forged Labor headquarters in Cleveland, TN.", "center top"),
+        new("images/gallery/culture-office-crew-dollies.webp", "Forged Labor crew with hand trucks outside the office", "GEAR CHECKED & READY", "Hand trucks staged and crew locked in outside HQ before a busy moving day.", "center top"),
+        new("images/gallery/culture-office-gym-equipment.webp", "Strength and conditioning gym equipment inside the Forged Labor office", "THE OFFICE GYM", "In-house strength and conditioning equipment so the crew stays sharp, strong, and injury-free."),
+        new("images/gallery/culture-ben-bruno-office.webp", "Ben Wiseman sitting with Bruno in the Forged Labor office", "OFFICE LIFE WITH BRUNO", "Chief Morale Officer Bruno Wigglebutt Wiseman keeping spirits high at the office.", "center top"),
+        new("images/gallery/culture-ben-holding-bruno.webp", "Ben holding Bruno Wigglebutt Wiseman", "CHIEF MORALE OFFICER", "Ben and Bruno taking a quick break between dispatches.", "center top"),
+        new("images/gallery/culture-bre-ben-hardhats.webp", "Bre and Ben Wiseman in hard hats and safety vests on a commercial job site", "OWNERS IN THE FIELD", "Co-owners Bre and Ben suited up in hard hats and high-vis vests on a commercial build.", "center top"),
+        new("images/gallery/culture-bre-ben-crew-selfie.webp", "Bre, Ben, and crew smiling together", "FAMILY-BUILT CULTURE", "Leadership and crew working side by side—no ego, just teamwork and positive energy.", "center top"),
+        new("images/gallery/culture-ben-bre-pumpkin-patch.webp", "Ben and Bre Wiseman together at a fall pumpkin patch", "LIFE OUTSIDE THE TRUCK", "Co-owners Ben and Bre enjoying a crisp Tennessee autumn day off the clock.", "center top"),
+        new("images/gallery/culture-ben-bre-balloon.webp", "Ben and Bre Wiseman smiling outdoors", "HEART BEHIND THE HUSTLE", "Built by family, for families across Cleveland and Chattanooga.", "center top"),
+        new("images/gallery/culture-gym-rig-crew.webp", "Forged Labor crew in safety vests inside a commercial gym rig installation", "COMMERCIAL BUILD CREW", "Full crew standing inside a multi-bay commercial fitness rig installation.", "center top"),
+        new("images/gallery/culture-commercial-vest-crew.webp", "Forged Labor crew in hard hats and safety vests on a commercial job", "SAFETY & PRECISION", "Hard hats, high-vis vests, and coordinated execution on large commercial facilities.", "center top"),
+        new("images/gallery/culture-turf-field-crew.webp", "Forged Labor crew lined up on an indoor turf athletic facility", "ATHLETIC FACILITY INSTALLS", "Outfitting indoor athletic complexes and turf training centers across the region.", "center top"),
+        new("images/gallery/culture-uhaul-fleet-selfie.webp", "Ben and crew member smiling in front of two U-Haul moving trucks", "FLEET READY TO ROLL", "Two trucks staged and ready for multi-truck residential and commercial moves.", "center top"),
+        new("images/gallery/culture-uhaul-residential-crew.webp", "Crew standing by the moving truck on a shaded residential driveway", "NEIGHBORHOOD SERVICE", "Showing up on time and ready to work on residential streets across Southeast Tennessee.", "center top"),
+        new("images/gallery/culture-trailer-teamwork.webp", "Three Forged Labor movers organizing inside a packed moving trailer", "INSIDE THE TRAILER", "Tight teamwork inside the trailer to keep every item padded, strapped, and secure.", "center top"),
+        new("images/gallery/culture-pods-pushups.webp", "Forged Labor crew doing push-ups and having fun beside a PODS container", "IN SHAPE & ON POINT", "Keeping the energy high and staying true to our motto—we show up in shape.", "center top"),
+        new("images/gallery/culture-anvil-shirt-back.webp", "Close-up of the Forged Labor anvil logo on the back of a black crew shirt", "THE ANVIL STANDARD", "Every shirt carries the anvil—a promise of strength, grit, and accountability."),
+        new("images/gallery/culture-crew-mountain-hike.webp", "Forged Labor crew smiling at a scenic Tennessee mountain overlook", "TENNESSEE ROOTS", "When the trucks are parked, you'll find the crew out enjoying the Tennessee mountains together.", "center top"),
+        new("images/gallery/culture-suits-arena-flex.webp", "Ben and crew member flexing in suits in arena bleachers", "WORK HARD, CELEBRATE HARD", "Cleaned up in suits and still bringing the Forged Labor energy.", "center top")
     };
 }
