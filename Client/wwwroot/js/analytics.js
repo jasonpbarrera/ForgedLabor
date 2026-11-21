@@ -4,6 +4,8 @@
     function trackEvent(eventName, params) {
         try {
             var payload = Object.assign({ page_path: window.location.pathname }, params || {});
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push(Object.assign({ event: eventName }, payload));
             if (typeof window.gtag === 'function') {
                 window.gtag('event', eventName, payload);
             }

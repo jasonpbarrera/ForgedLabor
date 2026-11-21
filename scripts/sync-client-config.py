@@ -70,6 +70,7 @@ def main() -> None:
     manifest_path.write_text(json.dumps(manifest_data, indent=2) + "\n", encoding="utf-8")
 
     analytics = config.get("AnalyticsSettings", {})
+    gtm_id = (analytics.get("GtmContainerId") or "").strip()
     ga4_id = (analytics.get("Ga4MeasurementId") or "").strip()
     clarity_id = (analytics.get("ClarityProjectId") or "").strip()
     gsc_verification = (analytics.get("GoogleSiteVerification") or "").strip()
@@ -317,6 +318,21 @@ Sitemap: {domain}/sitemap.xml
     faq_ld_str = json.dumps(faq_ld, indent=8)
 
     gsc_tag = f'    <meta name="google-site-verification" content="{html.escape(gsc_verification, quote=True)}" />\n' if gsc_verification else ""
+    gtm_head_snippet = ""
+    gtm_body_snippet = ""
+    if gtm_id:
+        gtm_esc = html.escape(gtm_id, quote=True)
+        gtm_head_snippet = f"""    <!-- Google Tag Manager -->
+    <script async src="https://www.googletagmanager.com/gtm.js?id={gtm_esc}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({{'gtm.start': new Date().getTime(), event: 'gtm.js'}});
+        function gtag(){{dataLayer.push(arguments);}}
+        gtag('js', new Date());
+    </script>
+"""
+        gtm_body_snippet = f"""    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={gtm_esc}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+"""
     ga4_snippet = ""
     if ga4_id:
         ga4_snippet = f"""    <!-- Google Analytics 4 -->
@@ -397,11 +413,11 @@ Sitemap: {domain}/sitemap.xml
     <script type="application/ld+json">
 {faq_ld_str}
     </script>
-{ga4_snippet}{clarity_snippet}    <script src="js/analytics.js" defer></script>
+{gtm_head_snippet}{ga4_snippet}{clarity_snippet}    <script src="js/analytics.js" defer></script>
 </head>
 
 <body>
-
+{gtm_body_snippet}
     <div id="app">
         <div style="display:flex; justify-content:center; align-items:center; height:100vh; flex-direction:column; font-family:sans-serif;">
             <div class="spinner"></div>
