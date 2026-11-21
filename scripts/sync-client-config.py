@@ -69,6 +69,12 @@ def main() -> None:
     manifest_path = WWWROOT / "manifest.webmanifest"
     manifest_path.write_text(json.dumps(manifest_data, indent=2) + "\n", encoding="utf-8")
 
+    analytics = config.get("AnalyticsSettings", {})
+    ga4_id = (analytics.get("Ga4MeasurementId") or "").strip()
+    clarity_id = (analytics.get("ClarityProjectId") or "").strip()
+    gsc_verification = (analytics.get("GoogleSiteVerification") or "").strip()
+    og_home_url = f"{domain}/images/og-home.png"
+
     # 2. Generate Client/wwwroot/sitemap.xml
     sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -85,12 +91,12 @@ def main() -> None:
   <url>
     <loc>{html.escape(domain)}/commercial</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>{html.escape(domain)}/gallery</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>{html.escape(domain)}/appointments</loc>
@@ -98,9 +104,24 @@ def main() -> None:
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>{html.escape(domain)}/services</loc>
+    <loc>{html.escape(domain)}/movers-chattanooga-tn</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>{html.escape(domain)}/movers-ooltewah-tn</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>{html.escape(domain)}/labor-only-movers-cleveland-tn</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>{html.escape(domain)}/services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>{html.escape(domain)}/contact</loc>
@@ -124,6 +145,7 @@ def main() -> None:
     # 3. Generate Client/wwwroot/robots.txt
     robots_txt = f"""User-agent: *
 Allow: /
+Disallow: /admin/
 
 Sitemap: {domain}/sitemap.xml
 """
@@ -154,7 +176,7 @@ Sitemap: {domain}/sitemap.xml
         "@type": "MovingCompany",
         "name": company_name,
         "legalName": f"{company_name} LLC",
-        "image": full_logo_url,
+        "image": og_home_url,
         "@id": domain,
         "url": domain,
         "telephone": phone,
@@ -252,12 +274,71 @@ Sitemap: {domain}/sitemap.xml
             }
         }
     }
-    json_ld_str = json.dumps(json_ld, indent=10)
-    # Indent closing brace to align with <script> block
-    indented_json_ld = "\n".join(
-        ("        " + line if idx == 0 else line)
-        for idx, line in enumerate(json_ld_str.splitlines())
-    )
+    faq_ld = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is Forged Labor insured for residential and commercial moves?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Every move includes both Commercial General Liability and Cargo insurance coverage protecting your belongings during loading, transport, and unloading."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What areas around Cleveland, TN does Forged Labor serve?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We serve Cleveland, Chattanooga, Ooltewah, Athens, Bradley County, Hamilton County, and all of Southeast Tennessee, plus regional travel for commercial fitness equipment installations."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I hire Forged Labor just to load or unload my U-Haul or PODS container?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Our Labor-Only service provides 2 to 5 strong, insured movers equipped with commercial furniture pads, straps, and dollies to load or unload your rental truck, PODS container, or storage unit."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Forged Labor move gym equipment, pianos, or hot tubs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We specialize in heavy-duty home gym and commercial fitness equipment moving and installation (power racks, treadmills, cable crossovers, collegiate weight rooms). However, we do not move pianos or hot tubs."
+                }
+            }
+        ]
+    }
+
+    json_ld_str = json.dumps(json_ld, indent=8)
+    faq_ld_str = json.dumps(faq_ld, indent=8)
+
+    gsc_tag = f'    <meta name="google-site-verification" content="{html.escape(gsc_verification, quote=True)}" />\n' if gsc_verification else ""
+    ga4_snippet = ""
+    if ga4_id:
+        ga4_snippet = f"""    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={html.escape(ga4_id, quote=True)}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){{dataLayer.push(arguments);}}
+        gtag('js', new Date());
+        gtag('config', '{html.escape(ga4_id, quote=True)}');
+    </script>
+"""
+    clarity_snippet = ""
+    if clarity_id:
+        clarity_snippet = f"""    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){{
+            c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        }})(window, document, "clarity", "script", "{html.escape(clarity_id, quote=True)}");
+    </script>
+"""
 
     page_title = f"{company_name} | {tagline}" if tagline else company_name
     index_html = f"""<!DOCTYPE html>
@@ -269,7 +350,7 @@ Sitemap: {domain}/sitemap.xml
     <title>{html.escape(page_title)}</title>
     <meta name="description" content="{html.escape(seo_description, quote=True)}" />
     <link rel="canonical" href="{html.escape(domain, quote=True)}/" />
-
+{gsc_tag}
     <!-- Developer & Copyright Attribution -->
     <meta name="author" content="Jason Barrera, JB Digital Services" />
     <meta name="creator" content="JB Digital Services" />
@@ -279,17 +360,19 @@ Sitemap: {domain}/sitemap.xml
     <meta name="copyright" content="Copyright © {year} {html.escape(company_name, quote=True)}" />
 
     <!-- Open Graph for Social Sharing -->
-    <meta property="og:title" content="{html.escape(company_name, quote=True)}" />
+    <meta property="og:title" content="{html.escape(company_name, quote=True)} | Cleveland &amp; Chattanooga Movers" />
     <meta property="og:description" content="{html.escape(seo_description, quote=True)}" />
-    <meta property="og:image" content="{html.escape(full_logo_url, quote=True)}" />
-    <meta property="og:url" content="{html.escape(domain, quote=True)}" />
+    <meta property="og:image" content="{html.escape(og_home_url, quote=True)}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="{html.escape(domain, quote=True)}/" />
     <meta property="og:type" content="website" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{html.escape(company_name, quote=True)}" />
+    <meta name="twitter:title" content="{html.escape(company_name, quote=True)} | Cleveland &amp; Chattanooga Movers" />
     <meta name="twitter:description" content="{html.escape(seo_description, quote=True)}" />
-    <meta name="twitter:image" content="{html.escape(full_logo_url, quote=True)}" />
+    <meta name="twitter:image" content="{html.escape(og_home_url, quote=True)}" />
 
     <base href="/" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -299,17 +382,22 @@ Sitemap: {domain}/sitemap.xml
     <link rel="stylesheet" href="css/app.css" />
 
     <!-- Favicon Tags -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" href="favicon.ico?v=2" sizes="any">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=2">
 
     <link href="SmallBusinessSite.Client.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
     <script type="importmap"></script>
 
     <script type="application/ld+json">
-{indented_json_ld}
+{json_ld_str}
     </script>
+    <script type="application/ld+json">
+{faq_ld_str}
+    </script>
+{ga4_snippet}{clarity_snippet}    <script src="js/analytics.js" defer></script>
 </head>
 
 <body>

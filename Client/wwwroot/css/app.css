@@ -1187,3 +1187,57 @@ a {
     text-decoration: underline;
     text-underline-offset: 2px;
 }
+
+/* Sticky Mobile Action Bar (< 768px only) */
+.mobile-sticky-cta {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .mobile-sticky-cta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 950;
+        background: rgba(0, 0, 0, 0.96);
+        border-top: 2px solid var(--brand-accent);
+        padding: 0.6rem 0.75rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.45);
+    }
+
+    .mobile-cta-call,
+    .mobile-cta-book {
+        font-family: var(--font-heading);
+        font-size: 0.85rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+        border-radius: 9999px;
+        letter-spacing: 0.02em;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-cta-call {
+        background: var(--brand-accent);
+        color: #000000 !important;
+    }
+
+    .mobile-cta-book {
+        background: transparent;
+        color: #ffffff !important;
+        border: 2px solid #ffffff;
+    }
+
+    footer.sec-black-bold {
+        padding-bottom: 5.5rem;
+    }
+}
+

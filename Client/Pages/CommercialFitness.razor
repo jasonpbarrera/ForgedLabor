@@ -2,8 +2,13 @@
 @page "/fitness-equipment-installation"
 @inject IOptions<BusinessSettings> BusinessConfig
 @inject HttpClient Http
+@inject IJSRuntime JS
 
-<PageTitle>Commercial Fitness Installation | Forged Labor</PageTitle>
+<PageTitle>Commercial Fitness Equipment Installation &amp; Gym Setups | Forged Labor</PageTitle>
+<HeadContent>
+    <meta name="description" content="Professional commercial fitness equipment receiving, freight unloading, unboxing, assembly, installation, floor protection, leveling, and anchoring across Southeast TN, North GA, and AL." />
+    <link rel="canonical" href="https://forgedlabor.com/commercial" />
+</HeadContent>
 
 <!-- =========================================
      SUBPAGE HERO: CLEAN SOLID BLACK [NO DUPLICATE BACKGROUND IMAGE]
@@ -21,7 +26,7 @@
             </h1>
             <hr style="border: 0; border-top: 2px solid var(--brand-accent); max-width: 680px; margin: 1.5rem 0;" />
             <h4 class="subpage-subheading" style="color: #ffffff; margin-bottom: 0.85rem;">
-                CLEVELAND, CHATTANOOGA &amp;<br />SOUTHEAST TENNESSEE
+                CLEVELAND, CHATTANOOGA &amp;<br />SOUTHEAST TENNESSEE &bull; REGIONAL TRAVEL AVAILABLE
             </h4>
             <p class="subpage-lead">
                 Professional fitness equipment receiving, freight unloading, unboxing, assembly, installation, facility setup, and post-installation cleanup.
@@ -29,6 +34,9 @@
             <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
                 <a href="#commercial-quote" class="sqsp-btn-pill-yellow">
                     REQUEST COMMERCIAL QUOTE
+                </a>
+                <a href="docs/forged-labor-commercial-capability-sheet.pdf" target="_blank" rel="noopener" class="sqsp-btn-outline" style="border-radius: 9999px;">
+                    DOWNLOAD CAPABILITY SHEET (PDF)
                 </a>
                 <a href="tel:@BusinessConfig.Value.PhoneNumber" class="sqsp-btn-outline" style="border-radius: 9999px;">
                     CALL (423) 715-4254
@@ -217,6 +225,68 @@
 </section>
 
 <!-- =========================================
+     SECTION 4B: REGIONAL RADIUS, FACILITIES & COMMERCIAL FAQ [WHITE SECTION]
+     ========================================= -->
+<section class="sec-white">
+    <div class="container-wide">
+        <div class="grid-2col" style="margin-bottom: 3.5rem; align-items: start;">
+            <div>
+                <h2 style="font-size: clamp(2rem, 3.8vw, 2.8rem); color: var(--brand-accent); text-transform: uppercase; margin-bottom: 0.35rem; font-family: var(--font-heading);">
+                    REGIONAL COVERAGE
+                </h2>
+                <h4 style="font-size: 1.05rem; color: #000000; text-transform: uppercase; margin-bottom: 1.25rem; font-family: var(--font-heading); font-weight: 900;">
+                    SOUTHEAST TENNESSEE, NORTH GEORGIA &amp; ALABAMA
+                </h4>
+                <p style="font-size: 1rem; color: #222222; line-height: 1.65; margin-bottom: 1rem;">
+                    Headquartered in <strong>Cleveland, TN</strong> right off I-75, our crew provides daily commercial coverage across Cleveland, Chattanooga, Ooltewah, Athens, and Knoxville—and travels regionally across <strong>Tennessee, North Georgia, Alabama, and the Southeast</strong> for multi-day commercial builds.
+                </p>
+                <p style="font-size: 1rem; color: #222222; line-height: 1.65; margin-bottom: 1.5rem;">
+                    Need a 1-page overview for your project manager or equipment dealer? Download our commercial capability statement with insurance details, crew specs, and direct contact info.
+                </p>
+                <a href="docs/forged-labor-commercial-capability-sheet.pdf" target="_blank" rel="noopener" class="sqsp-btn-primary" style="background: #000000; color: var(--brand-accent); border-color: #000000;">
+                    DOWNLOAD CAPABILITY SHEET (PDF) →
+                </a>
+            </div>
+
+            <div class="accordion-box" style="padding: 1.75rem;">
+                <h3 style="font-family: var(--font-heading); color: #000000; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1rem;">
+                    FACILITIES &amp; EQUIPMENT WE OUTFIT
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 0.75rem; color: #222222; font-size: 0.95rem; font-weight: 600;">
+                    <li>&#9632; Collegiate &amp; High School Weight Rooms</li>
+                    <li>&#9632; Commercial Gyms &amp; Performance Centers</li>
+                    <li>&#9632; CrossFit &amp; Boutique Training Studios</li>
+                    <li>&#9632; Apartment &amp; Multi-Family Fitness Centers</li>
+                    <li>&#9632; Hotel, Corporate &amp; Rehab Gyms</li>
+                    <li>&#9632; Private &amp; Elite Home Gyms</li>
+                </ul>
+                <p style="font-size: 0.9rem; color: #444444; margin: 1.25rem 0 0; line-height: 1.55;">
+                    Experienced with multi-bay power racks, collegiate rigs, platforms, turf-mounted hardware, cable crossovers, Smith machines, plate-loaded strength lines, treadmills, StairMasters, rowers, and air bikes.
+                </p>
+            </div>
+        </div>
+
+        <h2 style="font-size: clamp(1.9rem, 3.5vw, 2.5rem); color: #000000; text-transform: uppercase; margin-bottom: 1.25rem; font-family: var(--font-heading);">
+            COMMERCIAL INSTALLATION FAQ
+        </h2>
+        <div class="accordion-box">
+            <div class="accordion-item">
+                <div class="accordion-title">DO YOU WORK ALONGSIDE BRAND REPS &amp; INSTALLATION LEADS?</div>
+                <p class="accordion-desc">Yes. We regularly work alongside manufacturer reps, project managers, and installation leads—following specs closely, organizing hardware, consolidating dunnage, and keeping multi-day installs on schedule.</p>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">DO YOU CARRY COMMERCIAL INSURANCE &amp; PROVIDE A COI?</div>
+                <p class="accordion-desc">Yes. Every commercial project is backed by Commercial General Liability and Cargo insurance coverage. Certificates of Insurance (COI) are available upon request.</p>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-title">HOW DO YOU PROTECT RUBBER FLOORING, TURF &amp; FINISHED SURFACES?</div>
+                <p class="accordion-desc">We lay plywood over vulnerable or high-traffic areas when appropriate, never drag heavy steel or machines across finished rubber, turf, or tile, and keep packaging and hardware consolidated throughout the build.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================
      SECTION 5: COMMERCIAL INTAKE FORM [DARK-BOLD #383838 GRAY]
      (Matches Section 6 of Home Page Exactly)
      ========================================= -->
@@ -369,6 +439,7 @@
             if (response.IsSuccessStatusCode)
             {
                 isSubmitted = true;
+                try { await JS.InvokeVoidAsync("forgedTrack", "generate_lead", new { form_name = "commercial_quote", project_type = projectType }); } catch { }
             }
             else
             {

@@ -2,8 +2,27 @@
   "platform": {
     "apiRuntime": "dotnet-isolated:8.0"
   },
+  "routes": [
+    {
+      "route": "/review",
+      "redirect": "https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A",
+      "statusCode": 302
+    }
+  ],
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*", "/css/*", "/sitemap.xml", "/robots.txt", "/*.txt", "/*.ico", "/*.png", "/*.webmanifest"]
+    "exclude": [
+      "/images/*",
+      "/css/*",
+      "/js/*",
+      "/docs/*",
+      "/sitemap.xml",
+      "/robots.txt",
+      "/*.txt",
+      "/*.ico",
+      "/*.png",
+      "/*.pdf",
+      "/*.webmanifest"
+    ]
   }
 }

@@ -13,12 +13,12 @@
   <url>
     <loc>https://forgedlabor.com/commercial</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://forgedlabor.com/gallery</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://forgedlabor.com/appointments</loc>
@@ -26,9 +26,24 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://forgedlabor.com/services</loc>
+    <loc>https://forgedlabor.com/movers-chattanooga-tn</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://forgedlabor.com/movers-ooltewah-tn</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://forgedlabor.com/labor-only-movers-cleveland-tn</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://forgedlabor.com/services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://forgedlabor.com/contact</loc>

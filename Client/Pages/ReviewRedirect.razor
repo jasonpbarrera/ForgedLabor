@@ -1,0 +1,24 @@
+@page "/review"
+@inject NavigationManager Navigation
+
+<PageTitle>Leave a Google Review | Forged Labor</PageTitle>
+
+<section class="sec-subpage-header" style="text-align: center; min-height: 55vh; display: flex; align-items: center;">
+    <div class="container-wide" style="max-width: 680px; margin: 0 auto;">
+        <div style="font-size: 2rem; letter-spacing: 0.15em; margin-bottom: 0.75rem;">⭐⭐⭐⭐⭐</div>
+        <h1 class="subpage-heading" style="margin-bottom: 1rem;">THANK YOU FOR MOVING WITH <span class="text-gold">FORGED LABOR</span></h1>
+        <p class="subpage-lead" style="margin: 0 auto 2rem;">
+            Redirecting you to our Google Reviews page now. If it doesn’t open automatically, tap the button below.
+        </p>
+        <a href="https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A" class="sqsp-btn-pill-yellow">
+            LEAVE A GOOGLE REVIEW →
+        </a>
+    </div>
+</section>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Navigation.NavigateTo("https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A", forceLoad: true);
+    }
+}
