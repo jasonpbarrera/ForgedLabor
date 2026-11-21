@@ -346,13 +346,16 @@ Sitemap: {domain}/sitemap.xml
 """
     clarity_snippet = ""
     if clarity_id:
-        clarity_snippet = f"""    <!-- Microsoft Clarity -->
+        clarity_snippet = f"""    <!-- Microsoft Clarity (blocked on booking, contact, and admin routes; form/confirmation DOM also masked via data-clarity-mask) -->
     <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){{
-            c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        }})(window, document, "clarity", "script", "{html.escape(clarity_id, quote=True)}");
+        (function(){{
+            if (/^\\/(admin|appointments|contact)(\\/|$)/i.test(window.location.pathname)) return;
+            (function(c,l,a,r,i,t,y){{
+                c[a]=c[a]||function(){{(c[a].q=c[a].q||[]).push(arguments)}};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            }})(window, document, "clarity", "script", "{html.escape(clarity_id, quote=True)}");
+        }})();
     </script>
 """
 
