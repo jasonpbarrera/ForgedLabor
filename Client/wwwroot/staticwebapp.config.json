@@ -5,7 +5,7 @@
   "routes": [
     {
       "route": "/review",
-      "redirect": "https://maps.app.goo.gl/FkAPVz7Y3y5YTgL2A",
+      "redirect": "https://search.google.com/local/writereview?placeid=ChIJG2FRVtx8xUcRL3nsJqFVIc8",
       "statusCode": 302
     }
   ],
